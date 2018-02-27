@@ -1,0 +1,41 @@
+@media only screen and (max-width: 768px) {
+	#optionbar, #navbar-searchbar {
+		display: none;
+	}
+
+	#navbar-content {
+		width: 100%;
+		text-align: center;
+	}
+
+	#navbar-title {
+		margin: 0;
+	}
+
+	#navbar-menu {
+		display: initial !important;
+	}
+
+	#navbar-userinfo-name-container {
+		display: none !important;
+	}
+
+	#content {
+		padding: calc(var(--navbar-height) + var(--content-padding)) 0 0 0;
+	}
+
+	.content-panel {
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+
+		width: 100vw !important;
+
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		border-radius: 0;
+	}
+
+	#content-example { /* TEMP */
+		flex-flow: column nowrap !important;
+	}
+}

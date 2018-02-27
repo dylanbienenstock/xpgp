@@ -1,0 +1,153 @@
+html, body {
+    background-color: var(--navbar-background-color);
+}
+
+#logreg-vignette {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+   
+    background: -moz-radial-gradient(center, ellipse cover, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 14%, rgba(0,0,0,0.3) 100%);
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 14%,rgba(0,0,0,0.3) 100%);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 14%,rgba(0,0,0,0.3) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#4d000000',GradientType=1 );
+}
+
+#logreg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    min-width: 300px;
+    text-align: center;
+}
+
+#logreg-inner {
+    display: inline-block;
+}
+
+#logreg-inner > a {
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+#logreg-title {
+    font-family: 'Roboto Mono', sans-serif;
+    font-weight: lighter;
+    letter-spacing: -1px;
+    text-align: left;
+}
+
+#logreg-form-container {
+    margin: 35px 0;
+    width: 400px;
+    text-align: left;
+    background-color: var(--content-background-color);
+    color: white;
+
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+
+    -webkit-box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.5);
+}
+
+#logreg-title {
+    font-family: 'Mukta Vaani', sans-serif;
+    font-size: 32px;
+    font-weight: lighter;
+    text-align: center;
+}
+
+#logreg-form {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 16px;    
+}
+
+#logreg-submit-container {
+    display: flex;
+    flex-flow: row nowrap;
+    height: 40px;
+    line-height: 40px;
+}
+
+#logreg-submit {
+    cursor: pointer;
+
+    outline: none;
+    border: none;
+    padding: 10px;
+
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    background-color: var(--navbar-background-color);    
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#logreg-submit-text {
+    display: inline-block;
+    flex: 1;
+    font-style: italic;
+    opacity: 0.5;
+}
+
+#logreg-submit:hover {
+    background-color:  #a50c09;
+}
+
+.logreg-input {
+    width: 100%;
+    margin-bottom: 16px;
+    border: 2px solid #474747;
+	outline: none;
+
+	padding: 14px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 20px;
+	color: white;
+    background-color: transparent;
+    
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+    border-radius: 5px;
+    
+    box-sizing: border-box;
+
+    -webkit-transition: all 400ms ease-out;
+    -moz-transition: all 400ms ease-out;
+    -ms-transition: all 400ms ease-out;
+    -o-transition: all 400ms ease-out;
+    transition: all 400ms ease-out;
+}
+
+.logreg-input:focus {
+    border: 2px solid var(--navbar-background-color);
+}
+
+@media only screen and (max-width: 768px) {
+    #logreg {
+        height: initial;
+    }
+
+    #logreg-inner {
+        display: initial;
+    }
+
+    #logreg-form-container {
+        width: 100%;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+    }
+}
