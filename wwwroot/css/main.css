@@ -30,6 +30,7 @@ html, body {
 	color: white;
 	background-color: var(--content-background-color);
 
+	overflow-x: hidden;
 }
 
 div {
@@ -161,6 +162,10 @@ p, h1, h2, h3, h4 {
 
 #navbar-menu-icon {
 	height: 28px;
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 #navbar-userinfo-icon {
