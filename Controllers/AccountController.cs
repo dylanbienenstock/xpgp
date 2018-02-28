@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using xpgp.Models;
+using xpgp.ViewModels;
 
 namespace xpgp
 {
@@ -19,10 +20,10 @@ namespace xpgp
             UserManager.SetDatabaseContext(_context);
         }
 
-        // public bool UniqueEmailAddress(RegisterViewModel model)
-        // {
-        //     return _context.Users.SingleOrDefault(u => u.EmailAddress == model.EmailAddress) == null;
-        // }
+        public bool UniqueEmailAddress(RegisterViewModel model)
+        {
+            return _context.Users.SingleOrDefault(u => u.EmailAddress == model.EmailAddress) == null;
+        }
 
         [HttpGet]
         [Route("Account/Register")]
@@ -31,27 +32,27 @@ namespace xpgp
             return View();
         }
 
-        // [HttpPost]
-        // [Route("Account/Register/Submit")]
-        // public IActionResult RegisterSubmit(RegisterViewModel model)
-        // {
-        //     if (!UniqueEmailAddress(model))
-        //     {
-        //         ModelState.AddModelError("EmailAddress", "Email address already in use.");
-        //     }
+        [HttpPost]
+        [Route("Account/Register/Submit")]
+        public IActionResult RegisterSubmit(RegisterViewModel model)
+        {
+            if (!UniqueEmailAddress(model))
+            {
+                ModelState.AddModelError("EmailAddress", "Email address already in use.");
+            }
 
-        //     if (ModelState.IsValid)
-        //     {
-        //         // Successful registration
-        //         UserManager.CreateAccount(model);
-        //         UserManager.Login(model.EmailAddress, model.Password, HttpContext.Session);
+            if (ModelState.IsValid)
+            {
+                // Successful registration
+                UserManager.CreateAccount(model);
+                UserManager.Login(model.EmailAddress, model.Password, HttpContext.Session);
 
-        //         return RedirectToAction("Index", "${ctrl_name}");
-        //     }
+                return RedirectToAction("Index", "${ctrl_name}");
+            }
 
-        //     // Error
-        //     return View("Register", model);
-        // }
+            // Error
+            return View("Register", model);
+        }
 
         [HttpGet]
         [Route("Account/Login")]
@@ -67,21 +68,21 @@ namespace xpgp
             return View();
         }
 
-        // [HttpPost]
-        // [Route("Account/Login/Submit")]
-        // public IActionResult LoginSubmit(LoginViewModel model)
-        // {
-        //     if (UserManager.Login(model.EmailAddress, model.Password, HttpContext.Session))
-        //     {
-        //         // Successful login
-        //         return RedirectToAction("Index", "${ctrl_name}");
-        //     }
+        [HttpPost]
+        [Route("Account/Login/Submit")]
+        public IActionResult LoginSubmit(LoginViewModel model)
+        {
+            if (UserManager.Login(model.EmailAddress, model.Password, HttpContext.Session))
+            {
+                // Successful login
+                return RedirectToAction("Index", "${ctrl_name}");
+            }
 
-        //     ViewBag.LoginError = "* Incorrect login details.";
+            ViewBag.LoginError = "* Incorrect login details.";
 
-        //     // Error
-        //     return View("Login", model);
-        // }
+            // Error
+            return View("Login", model);
+        }
 
         [HttpGet]
         [Route("Account/LogOut")]
@@ -96,7 +97,7 @@ namespace xpgp
         [Route("Account/AccessDenied")]
         public IActionResult AccessDenied()
         {
-            return RedirectToAction("Index", "${ctrl_name}");
+            return RedirectToAction("Index", "Main");
         }
     }
 }

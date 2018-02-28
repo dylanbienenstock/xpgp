@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using xpgp.Models;
+using xpgp.ViewModels;
 
 namespace xpgp
 {
@@ -24,25 +25,25 @@ namespace xpgp
         private static DatabaseContext _context;
 
         public static void SetDatabaseContext(DatabaseContext context)
-        {
+        { 
             _context = context;
         }
 
-        // public static void CreateAccount(RegisterViewModel model)
-        // {
-        //     User user = new User
-        //     {
-        //         FirstName = model.FirstName,
-        //         LastName = model.LastName,
-        //         EmailAddress = model.EmailAddress,
-        //         PasswordHash = SecurePasswordHasher.Hash(model.Password),
-        //         CreatedAt = DateTime.Now,
-        //         UpdatedAt = DateTime.Now
-        //     };
+        public static void CreateAccount(RegisterViewModel model)
+        {
+            User user = new User
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                EmailAddress = model.EmailAddress,
+                PasswordHash = SecurePasswordHasher.Hash(model.Password),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
 
-        //     _context.Add(user);
-        //     _context.SaveChanges();
-        // }
+            _context.Add(user);
+            _context.SaveChanges();
+        }
 
         public static void CreateLoginToken(User user)
         {

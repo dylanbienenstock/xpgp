@@ -5,11 +5,12 @@
         <h1 id="logreg-title">Log in to <span style="font-family: 'Roboto', sans-serif; font-weight: bold;letter-spacing: -2px;">xpgp</span></h1>
 
         <div id="logreg-form-container">
-            <form>
+            @model xpgp.ViewModels.LoginViewModel
+            <form asp-controller="Account" asp-action="LoginSubmit">
                 <div id="logreg-form">
                     <div id="logreg-form-content">
-                        <input type="text" class="logreg-input" placeholder="Email address">
-                        <input type="text" class="logreg-input" placeholder="Password">
+                        <input asp-for="EmailAddress" class="logreg-input" placeholder="Email address">
+                        <input asp-for="Password" class="logreg-input" placeholder="Password">
                     </div>
 
                     <div id="logreg-submit-container">
