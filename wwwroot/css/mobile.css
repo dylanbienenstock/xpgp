@@ -39,3 +39,10 @@
 		flex-flow: column nowrap !important;
 	}
 }
+
+@media only screen and (max-width: 1160px) and (min-width: 768px) {
+	#navbar-userinfo {
+		position: absolute;
+		right: calc(var(--content-padding) * 1.5);
+	}
+}
