@@ -2,10 +2,17 @@
     ViewData["LogRegTitle"] = "Register for"; // xpgp
 }
 
-<!-- <div asp-validation-summary="All"></div> -->
-
 @model xpgp.ViewModels.RegisterViewModel
 <form asp-controller="Account" asp-action="RegisterSubmit">
+    <div id="register-errors">
+        <div id="register-errors-title-container">
+            <h2 id="register-errors-title">Error</h2>
+            <span id="register-errors-close" class="noselect">&times;</span>
+        </div>
+
+        <div asp-validation-summary="All"></div>
+    </div>
+
     <div id="logreg-form">
         <div id="logreg-form-content">
             <div style="display: flex; flex-flow: row nowrap">

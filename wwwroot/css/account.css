@@ -1,3 +1,7 @@
+:root {
+    --logreg-form-padding: 16px;
+}
+
 html, body {
     background-color: var(--navbar-background-color);
 }
@@ -25,6 +29,10 @@ a:hover {
 a:active {
     color: white;
     text-decoration: underline;
+}
+
+li {
+    line-height: 1.75;
 }
 
 #logreg-vignette {
@@ -93,7 +101,7 @@ a:active {
 #logreg-form {
     display: flex;
     flex-flow: column nowrap;
-    padding: 16px;    
+    padding: var(--logreg-form-padding);    
 }
 
 #logreg-submit-container {
@@ -132,7 +140,7 @@ a:active {
 
 .logreg-input {
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: var(--logreg-form-padding);
     border: 2px solid #474747;
 	outline: none;
 
@@ -165,11 +173,11 @@ a:active {
 }
 
 .register-first-name {
-    margin-right: 8px;
+    margin-right: calc(var(--logreg-form-padding) / 2);
 }
 
 .register-last-name {
-    margin-left: 8px;
+    margin-left: calc(var(--logreg-form-padding) / 2);
 }
 
 #login-message {
@@ -182,10 +190,6 @@ a:active {
 }
 
 @media only screen and (max-width: 768px) {
-    #logreg {
-        height: initial;
-    }
-
     #logreg-inner {
         display: initial;
     }
@@ -196,4 +200,48 @@ a:active {
         -moz-border-radius: 0;
         border-radius: 0;
     }
+}
+
+#register-errors {
+    position: absolute;
+    margin: calc(var(--logreg-form-padding) / 2);
+    padding: calc(var(--logreg-form-padding) / 2);
+    width: calc(400px - var(--logreg-form-padding));
+    height: calc(360px - var(--logreg-form-padding));
+
+    background-color: var(--content-background-color);
+}
+
+#register-errors-title-container {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+#register-errors-title {
+    flex: 1;
+}
+
+/* TODO: Make this using an svg */
+#register-errors-close {
+    cursor: pointer;
+
+    position: relative;
+    left: 4px;
+    top: -4px;
+    padding: 1px 8px 0px 8px;
+
+    color: red;
+    font-size: 22px;
+    font-weight: bold;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#register-errors-close:hover {
+    /* background-color: rgba(255, 255, 255, 0.125); */
+
+    background-color: var(--navbar-background-color);
+    color: var(--content-background-color);
 }
