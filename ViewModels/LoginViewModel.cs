@@ -4,12 +4,12 @@ namespace xpgp.ViewModels
 {
 	public class LoginViewModel : BaseViewModel
     {
-        [Required(ErrorMessage = "* Required")]
+        [Required]
         [EmailAddress]
         [Display(Name = "Email Address")]
         public string EmailAddress { get; set; }
 
-        [Required(ErrorMessage = "* Required")]
+        [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

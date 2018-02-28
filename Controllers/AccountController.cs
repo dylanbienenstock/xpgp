@@ -47,7 +47,7 @@ namespace xpgp
                 UserManager.CreateAccount(model);
                 UserManager.Login(model.EmailAddress, model.Password, HttpContext.Session);
 
-                return RedirectToAction("Index", "${ctrl_name}");
+                return RedirectToAction("Index", "Main");
             }
 
             // Error
@@ -75,7 +75,7 @@ namespace xpgp
             if (UserManager.Login(model.EmailAddress, model.Password, HttpContext.Session))
             {
                 // Successful login
-                return RedirectToAction("Index", "${ctrl_name}");
+                return RedirectToAction("Index", "Main");
             }
 
             ViewBag.LoginError = "* Incorrect login details.";

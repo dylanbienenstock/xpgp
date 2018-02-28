@@ -2,6 +2,31 @@ html, body {
     background-color: var(--navbar-background-color);
 }
 
+/* Disallow Chrome to change background color
+with it auto-fills form data */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+a:active {
+    color: white;
+    text-decoration: underline;
+}
+
 #logreg-vignette {
     position: absolute;
     left: 0;
@@ -133,6 +158,19 @@ html, body {
 
 .logreg-input:focus {
     border: 2px solid var(--navbar-background-color);
+}
+
+#register-name-container {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.register-first-name {
+    margin-right: 8px;
+}
+
+.register-last-name {
+    margin-left: 8px;
 }
 
 @media only screen and (max-width: 768px) {

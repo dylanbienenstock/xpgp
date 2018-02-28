@@ -1,0 +1,30 @@
+@{
+    ViewData["LogRegTitle"] = "Register for"; // xpgp
+}
+
+<!-- <div asp-validation-summary="All"></div> -->
+
+@model xpgp.ViewModels.RegisterViewModel
+<form asp-controller="Account" asp-action="RegisterSubmit">
+    <div id="logreg-form">
+        <div id="logreg-form-content">
+            <div style="display: flex; flex-flow: row nowrap">
+                <input asp-for="FirstName" class="logreg-input register-first-name" placeholder="First Name">            
+                <input asp-for="LastName" class="logreg-input register-last-name" placeholder="Last Name">           
+            </div> 
+            <input asp-for="EmailAddress" class="logreg-input" placeholder="Email address">
+            <input asp-for="Password" class="logreg-input" placeholder="Password">
+            <input asp-for="PasswordConfirmation" class="logreg-input" placeholder="Confirm Password">
+        </div>
+
+        <div id="logreg-submit-container">
+            <div id="logreg-submit-text">&#10004; No cookies will be saved.</div>
+            <input type="submit" id="logreg-submit" value="Register">                    
+        </div>
+    </div>
+</form>
+
+@section links {
+    <a asp-controller="Account" asp-action="Login">Already have an account?&nbsp;(Log in)</a><br>
+    <a>What is PGP encryption?</a>
+}
