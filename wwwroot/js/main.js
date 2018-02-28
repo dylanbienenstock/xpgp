@@ -8,8 +8,8 @@ $(function () {
 });
 
 function centerNavbarElements() {
-    $("#navbar-searchbar-container").centerVertical();
-    $("#navbar-searchbar-button-icon").centerVertical();
-    $("#navbar-menu-icon").centerVertical();
-    $("#navbar-userinfo-icon").centerVertical();
+    // $("#navbar-searchbar-container").centerVertical();
+    // $("#navbar-searchbar-button-icon").centerVertical();
+    // $("#navbar-menu-icon").centerVertical();
+    // $("#navbar-userinfo-icon").centerVertical();
 }

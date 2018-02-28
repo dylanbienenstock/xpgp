@@ -78,7 +78,7 @@ namespace xpgp
                 return RedirectToAction("Index", "Main");
             }
 
-            ViewBag.LoginError = "* Incorrect login details.";
+            ViewBag.LoginError = "Incorrect login details.";
 
             // Error
             return View("Login", model);
