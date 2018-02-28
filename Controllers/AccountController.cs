@@ -33,6 +33,7 @@ namespace xpgp
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("Account/Register/Submit")]
         public IActionResult RegisterSubmit(RegisterViewModel model)
         {
@@ -69,6 +70,7 @@ namespace xpgp
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("Account/Login/Submit")]
         public IActionResult LoginSubmit(LoginViewModel model)
         {

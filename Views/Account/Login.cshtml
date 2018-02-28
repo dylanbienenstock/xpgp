@@ -14,11 +14,11 @@
             <div id="logreg-submit-text">
                 @if (ViewBag.LoginError == null)
                 {
-                    @:&#10004; No cookies will be saved.
+                    @:<span id="login-message">&#10004; No cookies will be saved.</span>
                 }
                     else
                 {
-                    @:&times; @ViewBag.LoginError
+                    @:<span id="login-error">&times; @ViewBag.LoginError</span>
                 }
             </div>
 
