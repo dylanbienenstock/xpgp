@@ -11,7 +11,17 @@
         </div>
 
         <div id="logreg-submit-container">
-            <div id="logreg-submit-text">&#10004; No cookies will be saved.</div>
+            <div id="logreg-submit-text">
+                @if (ViewBag.LoginError == null)
+                {
+                    @:&#10004; No cookies will be saved.
+                }
+                    else
+                {
+                    @:&times; @ViewBag.LoginError
+                }
+            </div>
+
             <input type="submit" id="logreg-submit" value="Log in">                    
         </div>
     </div>
