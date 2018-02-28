@@ -124,7 +124,6 @@ a:active {
     display: inline-block;
     flex: 1;
     font-style: italic;
-    opacity: 0.5;
 }
 
 #logreg-submit:hover {
@@ -171,6 +170,15 @@ a:active {
 
 .register-last-name {
     margin-left: 8px;
+}
+
+#login-message {
+    opacity: 0.5;
+}
+
+#login-error {
+    color: red;
+    font-weight: bold;
 }
 
 @media only screen and (max-width: 768px) {
