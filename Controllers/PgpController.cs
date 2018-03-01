@@ -113,7 +113,7 @@ namespace xpgp
                 return Json(new
                 {
                     Success = true,
-                    Url = "http://localhost:5000/ViewKeyPair/" + identity.UserId + "/" + keyPair.KeypairId + "/"
+                    Url = "http://localhost:5000/ViewKeyPair/" + identity.UserId + "/" + keyPair.KeyPairId + "/"
                 });
             }
 

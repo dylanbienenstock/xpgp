@@ -8,7 +8,7 @@ namespace xpgp.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int KeypairId { get; set; }
+        public int KeyPairId { get; set; }
 
         public string Name { get; set; }
 

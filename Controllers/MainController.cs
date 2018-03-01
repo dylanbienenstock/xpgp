@@ -44,7 +44,7 @@ namespace xpgp
 
             if (user != null)
             {
-                return _context.KeyPairs.SingleOrDefault(kp => kp.KeypairId == KeyPairId
+                return _context.KeyPairs.SingleOrDefault(kp => kp.KeyPairId == KeyPairId
                                                         && kp.UserId == UserId);
             }
 
@@ -75,8 +75,13 @@ namespace xpgp
             List<KeyPair> keyPairs = _context.KeyPairs
             .Where(kp => kp.UserId == identity.UserId).ToList();
 
+            if (keyPairs.Count() == 0)
+            {
+                return RedirectToAction("NewKeyPair");
+            }
+
             Dictionary<int, string> expirationTimes = keyPairs.ToDictionary(
-                kp => kp.KeypairId, 
+                kp => kp.KeyPairId, 
                 kp => FormatTimeSpan(kp.Expiration - DateTime.Now)
             );
 
