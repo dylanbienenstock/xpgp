@@ -20,22 +20,50 @@ namespace xpgp
             UserManager.SetDatabaseContext(_context);
         }
 
+        // public string FormatTimeSpan(TimeSpan span)
+        // {
+        //     if (span == TimeSpan.Zero) return "0 minutes";
+
+        //     var sb = new StringBuilder();
+
+        //     if (span.Days > 0)
+        //         sb.AppendFormat("{0} day{1}, ", span.Days, span.Days > 1 ? "s" : String.Empty);
+        //     if (span.Hours > 0)
+        //         sb.AppendFormat("{0} hour{1}, ", span.Hours, span.Hours > 1 ? "s" : String.Empty);
+        //     if (span.Minutes > 0)
+        //         sb.AppendFormat("{0} minute{1}, ", span.Minutes, span.Minutes > 1 ? "s" : String.Empty);
+
+        //     string formatted = sb.ToString();
+
+        //     return formatted.TrimEnd(new char[] { ',', ' ' });
+        // }
+
         public string FormatTimeSpan(TimeSpan span)
         {
-            if (span == TimeSpan.Zero) return "0 minutes";
-
-            var sb = new StringBuilder();
+            if (span.TotalMinutes <= 1) return "< 1 minute";
+            
+            int number = (int)Math.Round(span.TotalMinutes);
+            string units = "minute";
 
             if (span.Days > 0)
-                sb.AppendFormat("{0} day{1}, ", span.Days, span.Days > 1 ? "s" : String.Empty);
-            if (span.Hours > 0)
-                sb.AppendFormat("{0} hour{1}, ", span.Hours, span.Hours > 1 ? "s" : String.Empty);
-            if (span.Minutes > 0)
-                sb.AppendFormat("{0} minute{1}, ", span.Minutes, span.Minutes > 1 ? "s" : String.Empty);
-            
-            string formatted = sb.ToString();
+            {
+                if (span.TotalDays > 30) {
+                    number = (int)Math.Round(span.TotalDays / 30.0f);
+                    units = "month";
+                }
+                else
+                {
+                    number = (int)Math.Round(span.TotalDays);
+                    units = "day";
+                }
+            }
+            else if (span.Hours > 0)
+            {
+                number = (int)Math.Round(span.TotalHours);
+                units = "hour";
+            }
 
-            return formatted.TrimEnd(new char[] { ',', ' ' });
+            return number.ToString() + " " + units + (number > 1 ? "s" : "");
         }
 
         public KeyPair FindKeyPair(int UserId, int KeyPairId)
@@ -54,7 +82,7 @@ namespace xpgp
         public void RemoveExpiredKeyPairs(Identity identity)
         {
             _context.KeyPairs.RemoveRange(_context.KeyPairs
-            .Where(kp => kp.UserId == identity.UserId && kp.Expiration < DateTime.Now));
+            .Where(kp => kp.UserId == identity.UserId && kp.Expiration <= DateTime.Now));
 
             _context.SaveChanges();
         }
