@@ -19,14 +19,14 @@
                         data-name="@KeyPair.Name"
                         data-owner="@KeyPair.User.FirstName @KeyPair.User.LastName"
                         data-expiretime="@ViewBag.ExpirationTimes[KeyPair.KeyPairId]"
-                        >
+                        data-viewurl="@ViewBag.ViewUrls[KeyPair.KeyPairId]"
+                        data-downloadurl="@ViewBag.DownloadUrls[KeyPair.KeyPairId]">
                             <h3>
                                 <img src="~/img/view-new.svg">
                                 <span class="keypair-view-button-title">@KeyPair.Name</span>
                             </h3>
-                            <p>
-                                Expires in @ViewBag.ExpirationTimes[KeyPair.KeyPairId]
-                            </p>
+
+                            <p>Expires in @ViewBag.ExpirationTimes[KeyPair.KeyPairId]</p>
                         </div>
                     }
                 </div>

@@ -22,9 +22,7 @@ $(function () {
         $("#content-panel-qrcode").empty().qrcode({
             width: 180,
             height: 180,
-            text: document.location.origin + 
-                  $(this).attr("data-userid") + "/" +
-                  $(this).attr("data-keypairid") + "/"
+            text: $(this).attr("data-viewurl")
         });
 
         $("#keypair-display-name").text($(this).attr("data-name"));

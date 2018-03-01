@@ -119,12 +119,32 @@ namespace xpgp
             }
 
             Dictionary<int, string> expirationTimes = keyPairs.ToDictionary(
-                kp => kp.KeyPairId, 
+                kp => kp.KeyPairId,
                 kp => FormatTimeSpan(kp.Expiration - DateTime.Now)
+            );
+
+            Dictionary<int, string> viewUrls = keyPairs.ToDictionary(
+                kp => kp.KeyPairId,
+                kp => this.Url.Action("ViewKey", "Main", new
+                {
+                    UserId = identity.UserId,
+                    KeyPairId = kp.KeyPairId
+                })
+            );
+
+            Dictionary<int, string> downloadUrls = keyPairs.ToDictionary(
+                kp => kp.KeyPairId,
+                kp => this.Url.Action("DownloadKey", "Main", new
+                {
+                    UserId = identity.UserId,
+                    KeyPairId = kp.KeyPairId
+                })
             );
 
             ViewBag.KeyPairs = keyPairs;
             ViewBag.ExpirationTimes = expirationTimes;
+            ViewBag.ViewUrls = viewUrls;
+            ViewBag.DownloadUrls = downloadUrls;
             
             return View();
         }
