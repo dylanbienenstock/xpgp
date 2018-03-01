@@ -84,6 +84,7 @@ function generateKeyPair() {
 
             $("#content-panel-newkeypair-button-share").click(function (e) {
                 copyToClipboard(document.location.origin + response.viewUrl);
+                alert("Link copied to clipboard.")
             });
 
             $form.find("input").prop("disabled", true);
