@@ -416,6 +416,12 @@ input:-webkit-autofill:active {
 	margin-bottom: 0;
 }
 
+@-moz-document url-prefix() { 
+	#content-panel-newkeypair-form-expiration {
+		width: 216px; /* Because firefox */
+	}
+}
+
 #content-panel-newkeypair-form-expiration-units {
 	outline: none;
 	border: none;
