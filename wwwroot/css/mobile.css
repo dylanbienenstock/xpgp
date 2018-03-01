@@ -39,12 +39,16 @@
 		flex-flow: column nowrap !important;
 	}
 
-	#content-panel-list {
+	#content-panel-list, #keypair-display-inner {
 		width: 100vw;
 	}
 
 	#content-panel-viewkeypairs {
 		width: 200% !important;
+	}
+
+	.keypair-view-button-selected {
+		border: 2px solid transparent !important;
 	}
 }
 

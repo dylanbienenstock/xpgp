@@ -6,7 +6,11 @@ function copyToClipboard(text) {
     $temp.remove();
 }
 
+var firstClick = true; // First key view button click is simulated;
+
 $(function () {
+    $("html, body").scrollLeft(0);
+
     $("#content-panel-newkeypair-button-generate").click(() => {
         generateKeyPair();
     });
@@ -25,9 +29,29 @@ $(function () {
 
         $("#keypair-display-name").text($(this).attr("data-name"));
         $("#keypair-display-owner").text("Owned by " + $(this).attr("data-owner"));
+
+        if (!firstClick && $(document.body).width() <= 768) {
+            $('html, body').animate({
+                scrollLeft: $(document.body).width()
+            }, () => {
+                $("#content-panel-header-back").fadeIn();
+            });
+
+            $(this).blur();
+        }
+
+        firstClick = false;
     });
 
     $(".keypair-view-button").first().click();
+
+    $("#content-panel-header-back").click(function() {
+        $(this).fadeOut(() => {
+            $('html, body').animate({
+                scrollLeft: 0
+            });
+        });
+    });
 });
 
 function generateKeyPair() {

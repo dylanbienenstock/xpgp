@@ -570,3 +570,10 @@ input:-webkit-autofill:active {
 #keypair-display-owner {
 	margin-top: 8px;
 }
+
+#content-panel-header-back {
+	display: none;
+	position: absolute;
+	top: 100px;
+    left: var(--navbar-padding);
+}
