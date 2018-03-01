@@ -99,6 +99,7 @@ namespace xpgp
                 return false; // Not found
             }
 
+            LogOut(session);
             CreateLoginToken(user);
 
             session.SetInt32("User:Id", user.UserId);
@@ -127,6 +128,7 @@ namespace xpgp
                 identity.FirstName = session.GetString("User:FirstName");
                 identity.LastName = session.GetString("User:LastName");
                 identity.EmailAddress = session.GetString("User:EmailAddress");
+                string token = session.GetString("User:LoginToken");
 
                 _context.Users.Single(u =>
                     u.UserId == identity.UserId &&
@@ -140,9 +142,9 @@ namespace xpgp
 
                 identity.Valid = true;
             }
-            catch
+            catch (Exception ex)
             {
-                // Invalid
+                string test = ex.Message;
             }
 
             return identity;

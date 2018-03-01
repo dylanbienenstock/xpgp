@@ -6,7 +6,7 @@ namespace xpgp
 	public class DatabaseContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<User> KeyPairs { get; set; }
+        public DbSet<KeyPair> KeyPairs { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
@@ -14,7 +14,8 @@ namespace xpgp
         {
             modelBuilder.Entity<KeyPair>()
                 .HasOne(kp => kp.User)
-                .WithMany(u => u.KeyPairs);
+                .WithMany(u => u.KeyPairs)
+                .HasForeignKey(kp => kp.UserId);
         }
     }
 }

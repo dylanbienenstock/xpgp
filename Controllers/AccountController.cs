@@ -51,6 +51,8 @@ namespace xpgp
                 return RedirectToAction("Index", "Main");
             }
 
+            ViewBag.HasErrors = true;
+
             // Error
             return View("Register", model);
         }

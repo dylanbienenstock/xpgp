@@ -2,12 +2,44 @@
 
 <div id="content">
     <div id="content-inner">
-        <div class="content-panel" style="height: 666px;">
+        <div class="content-panel" id="content-panel-viewkeypairs" style="height: 666px;">
             <div class="content-panel-header">Your Keypairs</div>
 
             <div class="content-panel-content">
-                <div id="content-panel-viewkeypairs-list">
-                    &nbsp;
+                <div id="content-panel-list" style="height: 609px">
+                    @foreach (var KeyPair in ViewBag.KeyPairs)
+                    {
+                        <div class="keypair-view-button"
+                        data-userid="@KeyPair.UserId"
+                        data-keypairid="@KeyPair.KeypairId"
+                        data-name="@KeyPair.Name"
+                        data-owner="@KeyPair.User.FirstName @KeyPair.User.LastName"
+                        data-expiretime="@ViewBag.ExpirationTimes[KeyPair.KeypairId]"
+                        >
+                            <h3>
+                                <img src="~/img/view-new.svg">
+                                <span class="keypair-view-button-title">@KeyPair.Name</span>
+                            </h3>
+                            <p>
+                                Expires in @ViewBag.ExpirationTimes[KeyPair.KeypairId]
+                            </p>
+                        </div>
+                    }
+                </div>
+
+                <div id="keypair-display">
+                    <div id="keypair-display-inner" class="center">
+                        <h1 id="keypair-display-name-container">
+                            <img src="~/img/view-new.svg" id="keypair-display-icon">
+                            <span id="keypair-display-name">
+                        </h1>
+
+                        <div id="content-panel-qrcode-container">
+                            <div id="content-panel-qrcode"></div>
+                        </div>
+
+                        <h3 id="keypair-display-owner"></h3>
+                    </div>
                 </div>
             </div>
         </div>

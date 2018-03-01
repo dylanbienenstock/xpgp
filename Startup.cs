@@ -24,12 +24,15 @@ namespace xpgp
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            AES.Password = Configuration["EncryptionKey"];
+            AES.Salt = Configuration["EncryptionSalt"];
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(Configuration["DBInfo:ConnectionString"]));
-
+            
             services.AddSession();
             services.AddMvc();
         }

@@ -6,16 +6,6 @@ html, body {
     background-color: var(--navbar-background-color);
 }
 
-/* Disallow Chrome to change background color
-with it auto-fills form data */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
-    -webkit-transition-delay: 9999s;
-}
-
 a {
     color: white;
     text-decoration: none;
@@ -203,6 +193,8 @@ li {
 }
 
 #register-errors {
+    z-index: 2;
+
     position: absolute;
     margin: calc(var(--logreg-form-padding) / 2);
     padding: calc(var(--logreg-form-padding) / 2);

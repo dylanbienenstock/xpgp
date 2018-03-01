@@ -1,0 +1,50 @@
+@Html.Partial("Navbar")
+
+<div id="content">
+    <div id="content-inner">
+        <div class="content-panel" style="height: 745px;">
+            <div class="content-panel-header">Create a New Keypair</div>
+
+            <div class="content-panel-content center">
+                <div id="content-panel-newkeypair">
+                    <div id="content-panel-qrcode-container">
+                        <div id="content-panel-qrcode"></div>
+
+                        <div id="content-panel-qrcode-loading" class="center">
+                            <img src="~/img/loading.svg" width="64">
+                        </div>
+                    </div>
+
+                    <!-- <div style="display: inline-block"> -->
+                        @model xpgp.ViewModels.KeyPairViewModel
+                        <form asp-controller="Pgp" asp-action="NewKeyPair" id="content-panel-newkeypair-form">
+                            <input asp-for="Name" class="content-input" placeholder="Keypair Name">
+                            <input asp-for="EmailAddress" class="content-input" placeholder="Email Address">
+                            <input asp-for="Password" class="content-input" placeholder="Password">
+
+                            <div id="content-panel-newkeypair-form-expiration-container">
+                                <input asp-for="Expiration" type="number" id="content-panel-newkeypair-form-expiration" class="content-input" placeholder="Expires in...">
+
+                                <select asp-for="ExpirationUnits" id="content-panel-newkeypair-form-expiration-units">
+                                    <option>minutes</option>
+                                    <option>hours</option>
+                                    <option>days</option>
+                                    <option>months</option>
+                                    <option>years</option>
+                                </select>
+                            </div>
+                        </form>
+                        
+                        <div id="content-panel-newkeypair-button-container">
+                            <button id="content-panel-newkeypair-button-generate" class="content-panel-button content-panel-button-highlighted">Generate</button>
+                            <button id="content-panel-newkeypair-button-download" disabled class="content-panel-button content-panel-button-disabled">Download</button>
+                            <button id="content-panel-newkeypair-button-share" disabled class="content-panel-button content-panel-button-disabled">Share</button>
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("Footer")

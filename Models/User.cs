@@ -6,6 +6,11 @@ namespace xpgp.Models
 {
 	public class User : BaseModel
     {
+        public User()
+        {
+            KeyPairs = new List<KeyPair>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }

@@ -4,14 +4,17 @@
 
 @model xpgp.ViewModels.RegisterViewModel
 <form asp-controller="Account" asp-action="RegisterSubmit">
-    <div id="register-errors">
-        <div id="register-errors-title-container">
-            <h2 id="register-errors-title">Error</h2>
-            <span id="register-errors-close" class="noselect">&times;</span>
-        </div>
+    @if (ViewBag.HasErrors != null && ViewBag.HasErrors)
+    {
+        <div id="register-errors">
+            <div id="register-errors-title-container">
+                <h2 id="register-errors-title">Error</h2>
+                <span id="register-errors-close" class="noselect">&times;</span>
+            </div>
 
-        <div asp-validation-summary="All"></div>
-    </div>
+            <div asp-validation-summary="All"></div>
+        </div>
+    }
 
     <div id="logreg-form">
         <div id="logreg-form-content">
@@ -25,7 +28,10 @@
         </div>
 
         <div id="logreg-submit-container">
-            <div id="logreg-submit-text">&#10004; No cookies will be saved.</div>
+            <div id="logreg-submit-text">
+                <span id="login-message">&#10004; No cookies will be saved.</span>
+            </div>
+            
             <input type="submit" id="logreg-submit" value="Register">                    
         </div>
     </div>
