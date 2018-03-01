@@ -12,6 +12,7 @@
     
     <div id="navbar-account-menu-inner">
         <a class="optionbar-option" asp-controller="Account" asp-action="LogOut" style="display: block;">
+            <img class="optionbar-option-icon noselect" src="~/img/logout.svg">                        
             Log Out
         </a>
     </div>
@@ -19,12 +20,12 @@
 
 <div id="navbar">
     <div id="navbar-menu">
-        <img id="navbar-menu-icon" src="~/img/menu.svg">
+        <img id="navbar-menu-icon" src="~/img/menu.svg" class="noselect">
     </div>
 
     <div id="navbar-content">
         <div>
-            <h1 id="navbar-title" class="logo">xpgp</h1>
+            <h1 id="navbar-title" class="logo noselect">xpgp</h1>
         </div>
 
         <div id="navbar-searchbar-container">
@@ -32,16 +33,18 @@
                 <input type="text" id="navbar-searchbar-input" placeholder="Find people...">
 
                 <div id="navbar-searchbar-button">
-                    <img id="navbar-searchbar-button-icon" src="~/img/search.svg">
+                    <img id="navbar-searchbar-button-icon" src="~/img/search.svg" class="noselect">
                 </div>
             </div>
         </div>
 
         <div id="navbar-userinfo">
-            <img src="~/img/profile.svg" id="navbar-userinfo-icon">
+            <img src="~/img/profile.svg" id="navbar-userinfo-icon" class="noselect">
 
             <div id="navbar-userinfo-name-container">
-                <p id="navbar-userinfo-name">Dylan Bienenstock</p>
+                <p id="navbar-userinfo-name" class="noselect">
+                    @ViewBag.UserFirstName @ViewBag.UserLastName
+                </p>
             </div>
         </div>
     </div>
@@ -50,27 +53,27 @@
 <div id="optionbar">
     <div id="optionbar-inner">
         <a class="optionbar-option" asp-controller="Main" asp-action="Index">
-            <img class="optionbar-option-icon" src="~/img/view-new.svg">            
+            <img class="optionbar-option-icon noselect" src="~/img/view-new.svg">            
             View Keypairs
         </a>
 
         <a class="optionbar-option" asp-controller="Main" asp-action="NewKeyPair">
-            <img class="optionbar-option-icon" src="~/img/new.svg">            
+            <img class="optionbar-option-icon noselect" src="~/img/new.svg">            
             New Keypair
         </a>
 
         <a class="optionbar-option" asp-controller="Main" asp-action="Index">
-            <img class="optionbar-option-icon" src="~/img/encrypt.svg">            
+            <img class="optionbar-option-icon noselect" src="~/img/encrypt.svg">            
             Encrypt
         </a>
 
         <a class="optionbar-option" asp-controller="Main" asp-action="Index">
-            <img class="optionbar-option-icon" src="~/img/decrypt.svg">            
+            <img class="optionbar-option-icon noselect" src="~/img/decrypt.svg">            
             Decrypt
         </a>
 
         <a class="optionbar-option" asp-controller="Main" asp-action="Index">
-            <img class="optionbar-option-icon" src="~/img/share.svg">            
+            <img class="optionbar-option-icon noselect" src="~/img/share.svg">            
             Share
         </a>
     </div>
