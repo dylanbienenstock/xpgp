@@ -1,3 +1,11 @@
+function copyToClipboard(text) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(text).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
+
 $(function () {
     $("#content-panel-newkeypair-button-generate").click(() => {
         generateKeyPair();
@@ -10,7 +18,7 @@ $(function () {
         $("#content-panel-qrcode").empty().qrcode({
             width: 180,
             height: 180,
-            text: "http://localhost:5050/" + 
+            text: document.location.origin + 
                   $(this).attr("data-userid") + "/" +
                   $(this).attr("data-keypairid") + "/"
         });
@@ -34,13 +42,24 @@ function generateKeyPair() {
     var $form = $("#content-panel-newkeypair-form");
 
     $form.ajaxSubmit(function(response) {
+        console.log(response);
+        
         $("#content-panel-qrcode-loading").hide();     
 
         if (response.success) {
             $("#content-panel-qrcode").qrcode({
                 width: 180,
                 height: 180,
-                text: response.url
+                text: response.viewUrl
+            });
+
+            $("#content-panel-newkeypair-button-download").click(function (e) {
+                e.preventDefault();
+                window.location.href = response.downloadUrl;
+            });
+
+            $("#content-panel-newkeypair-button-share").click(function (e) {
+                copyToClipboard(document.location.origin + response.viewUrl);
             });
 
             $form.find("input").prop("disabled", true);

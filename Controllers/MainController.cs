@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -47,9 +50,16 @@ namespace xpgp
 
             if (span.Days > 0)
             {
-                if (span.TotalDays > 30) {
+                if (span.TotalDays > 30)
+                {
                     number = (int)Math.Round(span.TotalDays / 30.0f);
                     units = "month";
+
+                    if (number >= 12)
+                    {
+                        number = (int)Math.Round(number / 12.0f);
+                        units = "year";
+                    }
                 }
                 else
                 {
@@ -134,8 +144,8 @@ namespace xpgp
         }
 
         [HttpGet]
-        [Route("ViewKeyPair/{UserId}/{KeyPairId}")]
-        public IActionResult ViewKeyPair(int UserId, int KeyPairId)
+        [Route("ViewKey/{UserId}/{KeyPairId}")]
+        public IActionResult ViewKey(int UserId, int KeyPairId)
         {
             // Identity identity = UserManager.Validate(HttpContext.Session);
 
@@ -155,5 +165,96 @@ namespace xpgp
 
             return Content("Not found.");
         }
+
+        [HttpGet]
+        [Route("DownloadKey/{UserId}/{KeyPairId}")]
+        public IActionResult DownloadKey(int UserId, int KeyPairId)
+        {
+            try
+            {
+                AES aes = new AES();
+
+                KeyPair keyPair = _context.KeyPairs.Single(kp => kp.UserId == UserId && 
+                                                           kp.KeyPairId == KeyPairId);
+
+                string publicKey = aes.DecryptString(keyPair.PublicKey, AES.Password, keyPair.Salt);
+                byte[] publicKeyBytes = Encoding.UTF8.GetBytes(publicKey);
+                string fileName = keyPair.Name + "_public.asc";
+
+                foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+                {
+                    fileName = fileName.Replace(c.ToString(), string.Empty);
+                }
+
+                fileName = fileName.Replace(' ', '_');
+                fileName = fileName.Replace("\'", string.Empty);
+                fileName = fileName.Replace("\"", string.Empty);
+
+                return File(publicKeyBytes, MediaTypeNames.Text.Plain, fileName);
+            }
+            catch
+            {
+                // Oops.
+            }
+
+            return Content("Could not download file.");
+        }
+
+        // Jesus christ, what a nightmare. Let's save that for another time.
+
+        // https://stackoverflow.com/questions/17232414/creating-a-zip-archive-in-memory-using-system-io-compression
+        // https://stackoverflow.com/questions/620605/how-to-make-a-valid-windows-filename-from-an-arbitrary-string
+        // https://stackoverflow.com/questions/2456842/asp-net-create-zip-file-for-download-the-compressed-zipped-folder-is-invalid-or
+        // https://stackoverflow.com/questions/10934585/memorystream-cannot-access-a-closed-stream
+        // https://stackoverflow.com/questions/27098306/c-sharp-create-zip-archive-with-multiple-files
+        // [HttpGet]
+        // [Route("DownloadKeyPair/{UserId}/{KeyPairId}")]
+        // public IActionResult DownloadKeyPair(int UserId, int KeyPairId)
+        // {
+        //     // try
+        //     // {
+        //         AES aes = new AES();
+
+        //         KeyPair keyPair = _context.KeyPairs.Single(kp => kp.UserId == UserId && 
+        //                                                    kp.KeyPairId == KeyPairId);
+
+        //         string publicKey = aes.DecryptString(keyPair.PublicKey, AES.Password, keyPair.Salt);
+        //         string privateKey = aes.DecryptString(keyPair.PrivateKey, AES.Password, keyPair.Salt);
+        //         byte[] publicKeyBytes = Encoding.UTF8.GetBytes(publicKey);
+        //         byte[] privateKeyBytes = Encoding.UTF8.GetBytes(privateKey);
+        //         string fileName = keyPair.Name;
+
+        //         foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+        //         {
+        //             fileName = fileName.Replace(c, '_');
+        //         }
+
+        //         fileName = fileName.Replace(' ', '_');
+        //         fileName = fileName.Replace('\'', '_');
+        //         fileName = fileName.Replace('\"', '_');
+
+        //         var memoryStream = new MemoryStream();
+        //         // using (var memoryStream = new MemoryStream())
+        //         // {
+        //             using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, false))
+        //             {
+        //                 var publicKeyEntry = archive.CreateEntry(fileName + "_public.asc");
+        //                 using (var entryStream = publicKeyEntry.Open()) entryStream.Write(publicKeyBytes, 0, publicKeyBytes.Length);
+
+        //                 var privateKeyEntry = archive.CreateEntry(fileName + "_private.asc");
+        //                 using (var entryStream = privateKeyEntry.Open()) entryStream.Write(privateKeyBytes, 0, privateKeyBytes.Length); 
+        //             }
+
+        //             byte[] shit = memoryStream.ToArray();
+        //             return File(shit, MediaTypeNames.Application.Zip, fileName + ".zip");
+        //         // }
+        //     // }
+        //     // catch
+        //     // {
+        //     //     // Oops.
+        //     // }
+
+        //     // return Content("Could not download file.");
+        // }
     }
 }

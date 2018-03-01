@@ -112,8 +112,16 @@ namespace xpgp
 
                 return Json(new
                 {
-                    Success = true,
-                    Url = "http://localhost:5000/ViewKeyPair/" + identity.UserId + "/" + keyPair.KeyPairId + "/"
+                    success = true,
+                    publicKey = (new AES()).DecryptString(keyPair.PublicKey, AES.Password, keyPair.Salt),
+                    viewUrl = this.Url.Action("ViewKey", "Main", new {
+                        UserId = identity.UserId,
+                        KeyPairId = keyPair.KeyPairId 
+                    }),
+                    downloadUrl = this.Url.Action("DownloadKey", "Main", new {
+                        UserId = identity.UserId,
+                        KeyPairId = keyPair.KeyPairId
+                    })
                 });
             }
 
@@ -129,8 +137,8 @@ namespace xpgp
 
             return Json(new
             {
-                Success = false,
-                Errors = errors
+                success = false,
+                errors = errors
             });
         }
 
