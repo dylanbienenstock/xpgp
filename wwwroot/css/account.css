@@ -125,7 +125,7 @@ li {
 }
 
 #logreg-submit:hover {
-    background-color:  #a50c09;
+    background-color: var(--navbar-background-color-dark);
 }
 
 .logreg-input {

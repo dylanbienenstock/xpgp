@@ -6,7 +6,10 @@
 
 	--navbar-height: 70px;
 	--navbar-padding: calc(var(--navbar-height) / 2.25);
-	--navbar-background-color: #C50907;
+	/* --navbar-background-color: #C50907;
+	--navbar-background-color-dark: #920705; */
+	--navbar-background-color: rgb(191, 7, 197);
+	--navbar-background-color-dark: rgb(150, 8, 155);
 
 	--navbar-title-font-size: 26px;
 	--navbar-title-transform: translateY(calc(var(--navbar-title-font-size) * -0.1));
@@ -92,6 +95,11 @@ input:-webkit-autofill:active {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
 								  supported by Chrome and Opera */
+	-webkit-user-drag: none;
+	-khtml-user-drag: none;
+	-moz-user-drag: none;
+	-o-user-drag: none;
+	user-drag: none;
 }
 
 .center {
@@ -498,7 +506,7 @@ input:-webkit-autofill:active {
 }
 
 .content-panel-button-highlighted:hover {
-    background-color: #a50c09 !important;
+    background-color: var(--navbar-background-color-dark) !important;
 }
 
 #content-panel-qrcode-loading {
@@ -603,7 +611,7 @@ input:-webkit-autofill:active {
 	height: 0;
 	border-left: 15px solid transparent;
 	border-right: 15px solid transparent;
-	border-bottom: 20px solid #940000;
+	border-bottom: 20px solid var(--navbar-background-color-dark);
 }
 
 #navbar-account-menu-inner 
@@ -611,7 +619,7 @@ input:-webkit-autofill:active {
 	pointer-events: initial;
 	padding: 16px;
 
-	background-color: #940000;
+	background-color: var(--navbar-background-color-dark);
 
 	-webkit-border-radius: var(--navbar-searchbar-border-radius);
 	-moz-border-radius: var(--navbar-searchbar-border-radius);
