@@ -582,3 +582,42 @@ input:-webkit-autofill:active {
 	top: 100px;
     left: var(--navbar-padding);
 }
+
+#navbar-account-menu {
+	pointer-events: none;
+
+	display: none;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	left: 0;
+	width: 202px;
+	z-index: 3;
+}
+
+#navbar-account-menu-pointer {
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 0;
+	height: 0;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 20px solid #940000;
+}
+
+#navbar-account-menu-inner 
+{
+	pointer-events: initial;
+	padding: 16px;
+
+	background-color: #940000;
+
+	-webkit-border-radius: var(--navbar-searchbar-border-radius);
+	-moz-border-radius: var(--navbar-searchbar-border-radius);
+	border-radius: var(--navbar-searchbar-border-radius);
+
+	-webkit-box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
+}

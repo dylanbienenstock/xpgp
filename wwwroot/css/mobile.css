@@ -50,6 +50,11 @@
 	.keypair-view-button-selected {
 		border: 2px solid transparent !important;
 	}
+
+	#navbar-account-menu-pointer {
+		left: 100%;
+		transform: translateX(-157%);
+	}
 }
 
 @media only screen and (max-width: 1160px) and (min-width: 768px) {
