@@ -108,6 +108,8 @@ namespace xpgp
                 return RedirectToAction("Login", "Account");
             }
 
+            UserManager.BagUp(identity, ViewBag);
+
             RemoveExpiredKeyPairs(identity);
 
             List<KeyPair> keyPairs = _context.KeyPairs
@@ -159,6 +161,8 @@ namespace xpgp
             {
                 return RedirectToAction("Login", "Account");
             }
+
+            UserManager.BagUp(identity, ViewBag);
 
             return View();
         }
