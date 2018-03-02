@@ -23,4 +23,9 @@ $(() => {
             }
         });
     });
+
+    $("#keypair-display-button-copy").click(function() {
+        copyToClipboard($("#decrypt-input").val());
+        alert("Copied.");
+    });
 });
