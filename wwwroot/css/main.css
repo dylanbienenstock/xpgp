@@ -59,6 +59,10 @@ p, h1, h2, h3, h4 {
 	margin: 0;
 }
 
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
 /* Disallow Chrome to change background color
 with it auto-fills form data */
 input:-webkit-autofill,
@@ -639,19 +643,25 @@ textarea {
     left: var(--navbar-padding);
 }
 
-#navbar-account-menu {
+#navbar-account-menu, #navbar-mobile-menu {
 	pointer-events: none;
 
 	display: none;
 	position: absolute;
-	text-align: center;
 	top: 0;
 	left: 0;
-	width: 202px;
 	z-index: 3;
 }
 
-#navbar-account-menu-pointer {
+#navbar-mobile-menu {
+	top: calc(var(--navbar-height) - 20px);
+}
+
+#navbar-account-menu {
+	text-align: center;
+}
+
+#navbar-account-menu-pointer, #navbar-mobile-menu-pointer {
 	position: relative;
 	left: 50%;
 	transform: translateX(-50%);
@@ -662,20 +672,25 @@ textarea {
 	border-bottom: 20px solid var(--navbar-background-color-dark);
 }
 
-#navbar-account-menu-inner 
+#navbar-mobile-menu-pointer {
+	left: 45px;
+}
+
+#navbar-account-menu-inner, #navbar-mobile-menu-inner 
 {
 	pointer-events: initial;
 	padding: 16px;
 
 	background-color: var(--navbar-background-color-dark);
 
-	-webkit-border-radius: var(--navbar-searchbar-border-radius);
-	-moz-border-radius: var(--navbar-searchbar-border-radius);
-	border-radius: var(--navbar-searchbar-border-radius);
-
 	-webkit-box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
 	box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
+}
+
+#navbar-mobile-menu-inner {
+	display: flex;
+	flex-flow: column nowrap;	
 }
 
 #keypair-display-publickey {
@@ -699,6 +714,7 @@ textarea {
 
 #encrypt-input, #decrypt-input {
 	flex: 1;
+	background-color: var(--content-border-color);
 }
 
 #encrypt-buttons, #decrypt-buttons {

@@ -5,6 +5,39 @@
     <script src="~/js/main.js"></script>
 } 
 
+<div id="navbar-mobile-menu">    
+    <div id="navbar-mobile-menu-pointer">
+
+    </div>
+
+    <div id="navbar-mobile-menu-inner">
+        <a class="optionbar-option" asp-controller="Main" asp-action="Index">
+            <img class="optionbar-option-icon noselect" src="~/img/view-new.svg">            
+            View Keypairs
+        </a>
+
+        <a class="optionbar-option" asp-controller="Main" asp-action="NewKeyPair">
+            <img class="optionbar-option-icon noselect" src="~/img/new.svg">            
+            New Keypair
+        </a>
+
+        <a class="optionbar-option" asp-controller="Main" asp-action="Encrypt">
+            <img class="optionbar-option-icon noselect" src="~/img/encrypt.svg">            
+            Encrypt
+        </a>
+
+        <a class="optionbar-option" asp-controller="Main" asp-action="Decrypt">
+            <img class="optionbar-option-icon noselect" src="~/img/decrypt.svg">            
+            Decrypt
+        </a>
+
+        <a class="optionbar-option" asp-controller="Main" asp-action="Index">
+            <img class="optionbar-option-icon noselect" src="~/img/share.svg">            
+            Share
+        </a>
+    </div>
+</div>
+
 <div id="navbar-account-menu">
     <div id="navbar-account-menu-pointer">
 
