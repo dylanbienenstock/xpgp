@@ -82,6 +82,10 @@ input:-webkit-autofill:active {
 				border 400ms ease-out;
 }
 
+textarea {
+    resize: none;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
@@ -684,4 +688,19 @@ input:-webkit-autofill:active {
 
 #keypair-display-loading {
 	height: 100%;
+}
+
+#keypair-display-container-encrypt {
+	display: flex;
+	flex-flow: column nowrap;
+	height: 100%;
+	padding: var(--content-padding);
+}
+
+#encrypt-input, #decrypt-input {
+	flex: 1;
+}
+
+#encrypt-buttons, #decrypt-buttons {
+	text-align: right;
 }

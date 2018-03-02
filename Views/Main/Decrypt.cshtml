@@ -1,10 +1,10 @@
 @section scripts 
 {
     <script src="~/js/keypair-display.js"></script>
-    <script src="~/js/keypair-display-encrypt.js"></script>
+    <script src="~/js/keypair-display-decrypt.js"></script>
 
     <script>
-        window.encryptUrl = document.location.origin + "@(ViewBag.EncryptUrl)";
+        window.decryptUrl = document.location.origin + "@(ViewBag.DecryptUrl)";
     </script>
 }
 
@@ -24,11 +24,10 @@
 
                 <div id="keypair-display">
                     <div id="keypair-display-container-encrypt">
-                        <textarea class="content-input" id="encrypt-input" placeholder="Type your message..."></textarea>
+                        <textarea class="content-input" id="decrypt-input" placeholder="Type your message..."></textarea>
 
-                        <div id="encrypt-buttons">
-                            <button id="keypair-display-button-encrypt" class="content-panel-button content-panel-button-highlighted">Encrypt (No signature)</button>
-                            <button id="keypair-display-button-encryptandsign" class="content-panel-button content-panel-button-highlighted">Encrypt & Sign</button>
+                        <div id="decrypt-buttons">
+                            <button id="keypair-display-button-decrypt" class="content-panel-button content-panel-button-highlighted">Decrypt</button>
                             <button id="keypair-display-button-copy" class="content-panel-button content-panel-button-highlighted">Copy to Clipboard</button>
                         </div>
                     </div>

@@ -204,6 +204,36 @@ namespace xpgp
 
             BagUpKeyPairs(keyPairs, ViewBag);
 
+            ViewBag.EncryptUrl = this.Url.Action("EncryptString", "PGP");
+
+            return View();
+        }
+
+        [HttpGet]
+        [Route("Decrypt")]
+        public IActionResult Decrypt()
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (!identity.Valid)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            UserManager.BagUp(identity, ViewBag);
+
+            List<KeyPair> keyPairs = _context.KeyPairs
+                .Where(kp => kp.UserId == identity.UserId).ToList();
+
+            if (keyPairs.Count() == 0)
+            {
+                return RedirectToAction("NewKeyPair");
+            }
+
+            BagUpKeyPairs(keyPairs, ViewBag);
+
+            ViewBag.DecryptUrl = this.Url.Action("DecryptString", "PGP");
+
             return View();
         }
 

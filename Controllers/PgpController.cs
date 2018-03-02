@@ -142,15 +142,83 @@ namespace xpgp
             });
         }
 
-        [HttpGet]
-        [Route("PGP/EncryptString/{text}")]
-        public IActionResult EncryptString(string text)
+        public KeyPair FindKeyPair(int UserId, int KeyPairId)
         {
-            AES aes = new AES();
+            User user = _context.Users.SingleOrDefault(u => u.UserId == UserId);
 
-            ViewBag.Text = aes.EncryptString(text, AES.Password, AES.Salt);
+            if (user != null)
+            {
+                return _context.KeyPairs.SingleOrDefault(kp => kp.KeyPairId == KeyPairId
+                                                        && kp.UserId == UserId);
+            }
 
-            return View("Text");
+            return null;
+        }
+
+        // https://stackoverflow.com/questions/1879395/how-do-i-generate-a-stream-from-a-string
+        public static Stream StringToStream(string s)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
+        }
+
+        [HttpPost]
+        [Route("PGP/EncryptString/")]
+        public IActionResult EncryptString(int userId, int keyPairId, string text)
+        {
+            KeyPair keyPair = FindKeyPair(userId, keyPairId);
+
+            if (keyPair == null) return Content("Key not found");
+
+            string publicKey = (new AES()).DecryptString(keyPair.PublicKey, AES.Password, keyPair.Salt);
+            string encrypted = null;
+
+            using (var textStream = StringToStream(text))
+            using (var publicKeyStream = StringToStream(publicKey))
+            using (var outputStream = new MemoryStream())
+            {
+                (new PGP()).EncryptStream(textStream, outputStream, publicKeyStream);
+                encrypted = Encoding.UTF8.GetString(outputStream.ToArray());
+            }
+
+            return Content(encrypted);
+        }
+
+        [HttpPost]
+        [Route("PGP/DecryptString/")]
+        public IActionResult DecryptString(int userId, int keyPairId, string text)
+        {
+            try
+            {
+                KeyPair keyPair = FindKeyPair(userId, keyPairId);
+                AES aes = new AES();
+
+                if (keyPair == null) return Content("Key not found");
+
+                string privateKey = aes.DecryptString(keyPair.PrivateKey, AES.Password, keyPair.Salt);
+                string password = aes.DecryptString(keyPair.Password, AES.Password, keyPair.Salt);
+                string encrypted = null;
+
+                using (var textStream = StringToStream(text))
+                using (var privateKeyStream = StringToStream(privateKey))
+                using (var outputStream = new MemoryStream())
+                {
+                    (new PGP()).DecryptStream(textStream, outputStream, privateKeyStream, password);
+                    encrypted = Encoding.UTF8.GetString(outputStream.ToArray());
+                }
+
+                return Content(encrypted);
+            }
+            catch
+            {
+
+            }
+
+            return Content("----- ERROR -----");
         }
 
         [HttpGet]
