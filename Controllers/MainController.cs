@@ -148,6 +148,40 @@ namespace xpgp
         }
 
         [HttpGet]
+        [Route("Profile/{UserId}")]
+        public IActionResult Profile(int UserId)
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (!identity.Valid)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            UserManager.BagUp(identity, ViewBag);
+
+            User profileOwner = _context.Users.SingleOrDefault(u => u.UserId == UserId);
+            ViewBag.ProfileOwner = profileOwner;
+
+            if (profileOwner == null) return Content("User not found.");
+
+            List<KeyPair> keyPairs = _context.KeyPairs
+            .Where(kp => kp.UserId == UserId).ToList();
+
+            if (keyPairs.Count() == 0)
+            {
+                ViewBag.ProfileOwnerHasNoKeys = true;
+            }
+            else
+            {
+                BagUpKeyPairs(keyPairs, ViewBag);
+                ViewBag.PinnedKeyPair = keyPairs.First();
+            }
+
+            return View();
+        }
+
+        [HttpGet]
         [Route("NewKeyPair")]
         public IActionResult NewKeyPair()
         {

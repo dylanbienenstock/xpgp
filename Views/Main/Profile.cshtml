@@ -1,0 +1,81 @@
+@section scripts 
+{
+    <link rel="stylesheet" href="~/css/profile.css">
+    
+    <script src="~/js/keypair-display.js"></script>
+    <script src="~/js/keypair-display-main.js"></script>
+}
+
+@Html.Partial("Navbar")
+
+<div id="content">
+    <div id="content-inner">
+        <div class="content-panel" id="content-panel-bio">
+            <img src="~/img/profile.svg" id="profile-pic">
+
+            <div id="profile-info" class="center">
+                <div>
+                    <h1 id="profile-full-name">Dylan Bienenstock</h1>
+
+                    <p id="profile-bio-text">
+                        bio bio bio bio bio bio bio bio
+                        bio bio bio bio bio bio bio bio
+                        bio bio bio bio bio bio bio bio
+                        bio bio bio bio bio bio bio bio
+                        bio bio bio bio bio bio bio bio
+                    </p>
+                </div>
+            </div>
+
+            <div id="profile-pinned">
+                <h3 id="profile-pinned-title">Pinned Key</h3>
+
+                <div class="keypair-view-button"
+                data-userid="@ViewBag.PinnedKeyPair.UserId"
+                data-keypairid="@ViewBag.PinnedKeyPair.KeyPairId"
+                data-name="@ViewBag.PinnedKeyPair.Name"
+                data-owner="@ViewBag.PinnedKeyPair.User.FirstName @ViewBag.PinnedKeyPair.User.LastName"
+                data-expiretime="@ViewBag.ExpirationTimes[ViewBag.PinnedKeyPair.KeyPairId]"
+                data-deleteurl="@ViewBag.DeleteUrls[ViewBag.PinnedKeyPair.KeyPairId]"
+                data-viewurl="@ViewBag.ViewUrls[ViewBag.PinnedKeyPair.KeyPairId]"
+                data-downloadurl="@ViewBag.DownloadUrls[ViewBag.PinnedKeyPair.KeyPairId]">
+                    <div class="keypair-view-button-content">
+                        <h3>
+                            <img src="~/img/view-new.svg">
+                            <span class="keypair-view-button-title">@ViewBag.PinnedKeyPair.Name</span>
+                        </h3>
+
+                        <p class="keypair-view-button-subtext">Expires in @ViewBag.ExpirationTimes[ViewBag.PinnedKeyPair.KeyPairId]</p>
+                    </div>
+
+                    <div class="keypair-view-button-icon-container"
+                    data-ownertext="@if (ViewBag.PinnedKeyPair.UserId == ViewBag.UserId)
+                                {
+        @:You
+                                }
+                                else
+                                {
+        @ViewBag.PinnedKeyPair.User.FirstName @ViewBag.PinnedKeyPair.User.LastName
+                                }
+        ">@*        I'm sorry.         *@
+                        <div class="center" style="height: 100%">
+                            <img class="keypair-view-button-icon" src="~/img/profile.svg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-panel" id="content-panel-viewkeypairs" style="height: 666px;">
+            <div class="content-panel-header">
+                Viewing: @(ViewBag.ProfileOwner.FirstName)'s Keys
+
+                <img id="content-panel-header-back" src="~/img/back.svg">
+            </div>
+
+            @Html.Partial("KeyViewer")
+        </div>
+    </div>
+</div>
+
+@Html.Partial("Footer")

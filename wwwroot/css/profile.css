@@ -1,0 +1,30 @@
+#content-panel-bio {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: var(--content-padding);
+    margin-bottom: var(--content-padding);
+    text-align: left;
+}
+
+#profile-pic {
+    width: 128px;
+    margin-right: calc(var(--content-padding) * 2);    
+}
+
+#profile-info {
+    flex: 1;
+}
+
+#profile-bio-text {
+    width: 75%;
+    margin-top: 8px;
+}
+
+#profile-pinned {
+    width: 350px;
+}
+
+#profile-pinned-title {
+    text-align: center; 
+    margin-bottom: var(--content-padding);    
+}
