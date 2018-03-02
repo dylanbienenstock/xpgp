@@ -1,0 +1,38 @@
+<div id="content-panel-list" style="height: 609px">
+    @foreach (var KeyPair in ViewBag.KeyPairs)
+    {
+        <div class="keypair-view-button"
+        data-userid="@KeyPair.UserId"
+        data-keypairid="@KeyPair.KeyPairId"
+        data-name="@KeyPair.Name"
+        data-owner="@KeyPair.User.FirstName @KeyPair.User.LastName"
+        data-expiretime="@ViewBag.ExpirationTimes[KeyPair.KeyPairId]"
+        data-deleteurl="@ViewBag.DeleteUrls[KeyPair.KeyPairId]"
+        data-viewurl="@ViewBag.ViewUrls[KeyPair.KeyPairId]"
+        data-downloadurl="@ViewBag.DownloadUrls[KeyPair.KeyPairId]">
+            <div class="keypair-view-button-content">
+                <h3>
+                    <img src="~/img/view-new.svg">
+                    <span class="keypair-view-button-title">@KeyPair.Name</span>
+                </h3>
+
+                <p class="keypair-view-button-subtext">Expires in @ViewBag.ExpirationTimes[KeyPair.KeyPairId]</p>
+            </div>
+
+            <div class="keypair-view-button-icon-container"
+            data-ownertext="@if (KeyPair.UserId == ViewBag.UserId)
+                        {
+@:You
+                        }
+                        else
+                        {
+@KeyPair.User.FirstName @KeyPair.User.LastName
+                        }
+">@*        I'm sorry.         *@
+                <div class="center" style="height: 100%">
+                    <img class="keypair-view-button-icon" src="~/img/profile.svg">
+                </div>
+            </div>
+        </div>
+    }
+</div>

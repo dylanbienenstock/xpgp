@@ -6,20 +6,28 @@
 
 	--navbar-height: 70px;
 	--navbar-padding: calc(var(--navbar-height) / 2.25);
+
+	/* Bad green */
+	/* --navbar-background-color: hsla(123, 96%, 36%, 1);
+	--navbar-background-color-dark: hsla(123, 96%, 27%, 1); */
+
+	--navbar-background-color: hsla(123, 70%, 35%, 1);
+	--navbar-background-color-dark: hsla(123, 70%, 26%, 1);
+
 	/* Red */
 	/* --navbar-background-color: #C50907;
 	--navbar-background-color-dark: #920705; */
 
 	/* Purple */
-	--navbar-background-color: hsla(293, 100%, 30%, 1);
-	--navbar-background-color-dark: hsla(293, 100%, 22%, 1);
+	/* --navbar-background-color: hsla(275, 70%, 45%, 1);
+	--navbar-background-color-dark: hsla(275, 70%, 36%, 1); */
 
 	/* Blue */
 	/* --navbar-background-color: rgb(0, 155, 194);
 	--navbar-background-color-dark: rgb(0, 132, 165); */
 
 	--navbar-title-font-size: 26px;
-	--navbar-title-transform: translateY(calc(var(--navbar-title-font-size) * -0.1));
+	--navbar-title-transform: translate(20px, calc(var(--navbar-title-font-size) * -0.1));
 	--navbar-title-letter-spacing: calc(var(--navbar-title-font-size) * -0.085);
 
 	--navbar-searchbar-width: 256px;
@@ -299,8 +307,9 @@ input:-webkit-autofill:active {
 
 #content {
 	padding: calc(var(--navbar-height) * 2 + var(--content-padding)) var(--content-padding) 0 var(--content-padding);
-	min-height: 100vh;
+	min-height: calc(100vh - var(--navbar-height));
 	text-align: center;
+	overflow: hidden;
 }
 
 #content-inner {
@@ -500,16 +509,12 @@ input:-webkit-autofill:active {
 	pointer-events: none;
 }
 
-/* .content-panel-button-unhighlighted {
-    background-color: #4B4B4B;    
-} */
+.content-panel-button-danger:hover {
+	background-color: #880000;
+}
 
 .content-panel-button-highlighted {
     background-color: var(--navbar-background-color);    
-}
-
-.content-panel-button-unhighlighted:hover {
-    background-color: var(--content-border-color);
 }
 
 .content-panel-button-highlighted:hover {
@@ -524,10 +529,12 @@ input:-webkit-autofill:active {
 /***********************************************/
 
 .keypair-view-button {
+	display: flex;
+	flex-flow: row nowrap;
 	cursor: pointer;
 
 	width: 100%;
-	padding: 32px;
+	padding: 16px;
 	margin-bottom: var(--content-padding);
 
 	background-color: rgba(255, 255, 255, 0.1);
@@ -556,12 +563,41 @@ input:-webkit-autofill:active {
 	border: 2px solid var(--navbar-background-color);
 }
 
+.keypair-view-button-content {
+	display: inline-block;
+	padding: 16px;	
+	flex: 1;
+}
+
+.keypair-view-button-icon-container {
+	padding-right: 12px;
+}
+
+.keypair-view-button-icon {
+	width: 50px;
+	cursor: pointer;
+
+	-webkit-transition: all 400ms ease-out;
+    -moz-transition: all 400ms ease-out;
+    -ms-transition: all 400ms ease-out;
+    -o-transition: all 400ms ease-out;
+    transition: all 400ms ease-out;
+}
+
+.keypair-view-button-icon:hover {
+	transform: scale(1.2);
+}
+
 .keypair-view-button-title {
 	position: relative;
 	left: 2px;
 	top: -2px;
 	
 	margin-bottom: 4px;
+}
+
+.keypair-view-button-subtext {
+	margin-top: 4px;
 }
 
 #keypair-display {
@@ -589,6 +625,7 @@ input:-webkit-autofill:active {
 
 #keypair-display-owner {
 	margin-top: 8px;
+	margin-bottom: 16px;
 }
 
 #content-panel-header-back {
@@ -635,4 +672,16 @@ input:-webkit-autofill:active {
 	-webkit-box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
 	box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
+}
+
+#keypair-display-publickey {
+	margin-top: 16px;
+	font-size: 11px;
+	text-align: center;
+	max-height: 220px;
+	overflow: hidden;
+}
+
+#keypair-display-loading {
+	height: 100%;
 }

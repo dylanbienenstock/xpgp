@@ -14,42 +14,6 @@ $(function () {
     $("#content-panel-newkeypair-button-generate").click(() => {
         generateKeyPair();
     });
-
-    $(".keypair-view-button").click(function() {
-        $(".keypair-view-button").not(this).removeClass("keypair-view-button-selected");
-        $(this).addClass("keypair-view-button-selected");
-
-        $("#content-panel-qrcode").empty().qrcode({
-            width: 180,
-            height: 180,
-            text: $(this).attr("data-viewurl")
-        });
-
-        $("#keypair-display-name").text($(this).attr("data-name"));
-        $("#keypair-display-owner").text("Owned by " + $(this).attr("data-owner"));
-
-        if (!firstClick && $(document.body).width() <= 768) {
-            $('html, body').animate({
-                scrollLeft: $(document.body).width()
-            }, () => {
-                $("#content-panel-header-back").fadeIn();
-            });
-
-            $(this).blur();
-        }
-
-        firstClick = false;
-    });
-
-    $(".keypair-view-button").first().click();
-
-    $("#content-panel-header-back").click(function() {
-        $(this).fadeOut(() => {
-            $('html, body').animate({
-                scrollLeft: 0
-            });
-        });
-    });
 });
 
 function generateKeyPair() {
@@ -72,7 +36,7 @@ function generateKeyPair() {
             $("#content-panel-qrcode").qrcode({
                 width: 180,
                 height: 180,
-                text: response.viewUrl
+                text: document.location.origin + response.viewUrl
             });
 
             $("#content-panel-newkeypair-button-download").click(function (e) {

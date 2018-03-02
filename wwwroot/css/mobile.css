@@ -16,12 +16,18 @@
 		display: initial !important;
 	}
 
+	#navbar-userinfo {
+		padding: 0;
+		background-color: transparent !important;
+	}
+
 	#navbar-userinfo-name-container {
 		display: none !important;
 	}
 
 	#content {
 		padding: calc(var(--navbar-height) + var(--content-padding)) 0 0 0;
+		/* overflow: auto; */
 	}
 
 	.content-panel {
@@ -54,6 +60,10 @@
 	#navbar-account-menu-pointer {
 		left: 100%;
 		transform: translateX(-157%);
+	}
+
+	#keypair-display-publickey {
+		width: 80%;
 	}
 }
 
