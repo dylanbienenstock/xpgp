@@ -47,7 +47,7 @@ function positionAccountMenu() {
         $accountMenu.css({ width: "auto" });
 
         $accountMenu.offset({
-            left: $userInfo.offset().left - $accountMenu.width() + $userInfo.outerWidth(),
+            left: $userInfo.offset().left - $accountMenu.width() + $userInfo.outerWidth() + 16,
             top: $userInfo.height() - 20
         });
     }
