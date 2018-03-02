@@ -1,0 +1,34 @@
+@section scripts 
+{
+    <script src="~/js/keypair-display.js"></script>
+    <script src="~/js/keypair-display-encrypt.js"></script>
+}
+
+
+@Html.Partial("Navbar")
+
+<div id="content">
+    <div id="content-inner">
+        <div class="content-panel" id="content-panel-viewkeypairs" style="height: 666px;">
+            <div class="content-panel-header">
+                Encrypt
+
+                <img id="content-panel-header-back" src="~/img/back.svg">
+            </div>
+
+            <div class="content-panel-content">
+                @Html.Partial("KeyPairList")
+
+                <div id="keypair-display">
+                    <div id="keypair-display-inner" class="center">
+                        <form>
+                            <textarea rows="20" cols="87"></textarea>
+                        </form>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("Footer")
