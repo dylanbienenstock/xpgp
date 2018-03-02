@@ -97,6 +97,46 @@ namespace xpgp
             _context.SaveChanges();
         }
 
+        public void BagUpKeyPairs(List<KeyPair> keyPairs, dynamic ViewBag) {
+            Dictionary<int, string> expirationTimes = keyPairs.ToDictionary(
+                kp => kp.KeyPairId,
+                kp => FormatTimeSpan(kp.Expiration - DateTime.Now)
+            );
+
+            Dictionary<int, string> deleteUrls = keyPairs.ToDictionary(
+                kp => kp.KeyPairId,
+                kp => this.Url.Action("DeleteKey", "Main", new
+                {
+                    UserId = kp.UserId,
+                    KeyPairId = kp.KeyPairId
+                })
+            );
+
+            Dictionary<int, string> viewUrls = keyPairs.ToDictionary(
+                kp => kp.KeyPairId,
+                kp => this.Url.Action("ViewKey", "Main", new
+                {
+                    UserId = kp.UserId,
+                    KeyPairId = kp.KeyPairId
+                })
+            );
+
+            Dictionary<int, string> downloadUrls = keyPairs.ToDictionary(
+                kp => kp.KeyPairId,
+                kp => this.Url.Action("DownloadKey", "Main", new
+                {
+                    UserId = kp.UserId,
+                    KeyPairId = kp.KeyPairId
+                })
+            );
+
+            ViewBag.KeyPairs = keyPairs;
+            ViewBag.ExpirationTimes = expirationTimes;
+            ViewBag.DeleteUrls = deleteUrls;
+            ViewBag.ViewUrls = viewUrls;
+            ViewBag.DownloadUrls = downloadUrls;
+        }
+
         [HttpGet]
         [Route("")]
         public IActionResult Index()
@@ -120,33 +160,7 @@ namespace xpgp
                 return RedirectToAction("NewKeyPair");
             }
 
-            Dictionary<int, string> expirationTimes = keyPairs.ToDictionary(
-                kp => kp.KeyPairId,
-                kp => FormatTimeSpan(kp.Expiration - DateTime.Now)
-            );
-
-            Dictionary<int, string> viewUrls = keyPairs.ToDictionary(
-                kp => kp.KeyPairId,
-                kp => this.Url.Action("ViewKey", "Main", new
-                {
-                    UserId = identity.UserId,
-                    KeyPairId = kp.KeyPairId
-                })
-            );
-
-            Dictionary<int, string> downloadUrls = keyPairs.ToDictionary(
-                kp => kp.KeyPairId,
-                kp => this.Url.Action("DownloadKey", "Main", new
-                {
-                    UserId = identity.UserId,
-                    KeyPairId = kp.KeyPairId
-                })
-            );
-
-            ViewBag.KeyPairs = keyPairs;
-            ViewBag.ExpirationTimes = expirationTimes;
-            ViewBag.ViewUrls = viewUrls;
-            ViewBag.DownloadUrls = downloadUrls;
+            BagUpKeyPairs(keyPairs, ViewBag);
             
             return View();
         }
@@ -163,6 +177,32 @@ namespace xpgp
             }
 
             UserManager.BagUp(identity, ViewBag);
+
+            return View();
+        }
+
+        [HttpGet]
+        [Route("Encrypt")]
+        public IActionResult Encrypt()
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (!identity.Valid)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            UserManager.BagUp(identity, ViewBag);
+
+            List<KeyPair> keyPairs = _context.KeyPairs
+                .Where(kp => kp.UserId == identity.UserId).ToList();
+
+            if (keyPairs.Count() == 0)
+            {
+                return RedirectToAction("NewKeyPair");
+            }
+
+            BagUpKeyPairs(keyPairs, ViewBag);
 
             return View();
         }
@@ -191,6 +231,29 @@ namespace xpgp
         }
 
         [HttpGet]
+        [Route("DeleteKey/{UserId}/{KeyPairId}")]
+        public IActionResult DeleteKey(int UserId, int KeyPairId)
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (identity.Valid && UserId == identity.UserId) // Make sure the user owns it
+            {
+                KeyPair keyPair = FindKeyPair(UserId, KeyPairId);
+
+                if (keyPair != null) {
+                    _context.KeyPairs.Remove(keyPair);
+                    _context.SaveChanges();
+
+                    return RedirectToAction("Index", "Main");
+                }
+
+                return Content("Not found.");
+            }
+
+            return Content("No permission.");
+        }
+
+        [HttpGet]
         [Route("DownloadKey/{UserId}/{KeyPairId}")]
         public IActionResult DownloadKey(int UserId, int KeyPairId)
         {
@@ -198,7 +261,8 @@ namespace xpgp
             {
                 AES aes = new AES();
 
-                KeyPair keyPair = _context.KeyPairs.Single(kp => kp.UserId == UserId && 
+                // Throw exception if not found
+                KeyPair keyPair = _context.KeyPairs.Single(kp => kp.UserId == UserId &&
                                                            kp.KeyPairId == KeyPairId);
 
                 string publicKey = aes.DecryptString(keyPair.PublicKey, AES.Password, keyPair.Salt);
