@@ -13,6 +13,27 @@ $(() => {
 
     $(".keypair-view-button").click(function(e) {
         e.preventDefault();
+
+        if (e.target.className.startsWith("keypair-view-button-icon")) {
+            e.target.displayingOwner = !e.target.displayingOwner;
+
+            e.stopPropagation();
+
+            console.log(e.target);
+
+            if (!e.target.displayingOwner) {
+                $(this)
+                    .find(".keypair-view-button-title")
+                    .text("Owner: " + $(e.target).parent().parent().attr("data-ownertext"));
+            } else {
+                $(this)
+                    .find(".keypair-view-button-title")
+                    .text($(this).attr("data-name"));
+            }
+
+            return;
+        }
+
         selectedKeyPair = this;
         
         if (window.hideKeyPairDisplay) $("#keypair-display-inner").hide();
