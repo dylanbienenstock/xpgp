@@ -1,0 +1,30 @@
+<div class="content-panel-content">
+    @Html.Partial("KeyPairList")
+
+    <div id="keypair-display">
+        <div id="keypair-display-inner" style="display: none;" class="center">
+            <h1 id="keypair-display-name-container">
+                <img src="~/img/view-new.svg" id="keypair-display-icon">
+                <span id="keypair-display-name">
+            </h1>
+
+            <div id="content-panel-qrcode-container">
+                <div id="content-panel-qrcode"></div>
+            </div>
+
+            <h3 id="keypair-display-owner"></h3>
+
+            <div>
+                <button id="keypair-display-button-delete" class="content-panel-button content-panel-button-danger">Delete</button>
+                <button id="keypair-display-button-download" class="content-panel-button content-panel-button-highlighted">Download</button>
+                <button id="keypair-display-button-share" class="content-panel-button content-panel-button-highlighted">Share</button>
+            </div>
+
+            <pre id="keypair-display-publickey"></pre>                
+        </div>
+
+        <div id="keypair-display-loading" class="center">
+            <img src="~/img/loading.svg" width="64">
+        </div>
+    </div>
+</div>
