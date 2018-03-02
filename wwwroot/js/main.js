@@ -27,9 +27,7 @@ function generateKeyPair() {
 
     var $form = $("#content-panel-newkeypair-form");
 
-    $form.ajaxSubmit(function(response) {
-        console.log(response);
-        
+    $form.ajaxSubmit(function(response) {        
         $("#content-panel-qrcode-loading").hide();     
 
         if (response.success) {
@@ -56,6 +54,11 @@ function generateKeyPair() {
                 .removeClass("content-panel-button-disabled")
                 .addClass("content-panel-button-highlighted")
                 .prop("disabled", false);
+        }
+        else
+        {
+            alert(response.errors.join("\n"));
+            location.reload();
         }
     });
 }
