@@ -582,7 +582,7 @@ textarea {
 	flex: 1;
 }
 
-.keypair-view-button-icon-container {
+.keypair-view-button-icon-container, .pinned-save-button-container {
 	padding-right: 12px;
 }
 

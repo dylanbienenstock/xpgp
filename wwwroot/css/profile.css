@@ -57,3 +57,31 @@
     text-align: center; 
     margin-bottom: var(--content-padding);    
 }
+
+.pinned-save-button {
+    cursor: pointer;
+
+    width: 50px;
+    height: 50px;
+    outline: none;
+    border: none;
+
+	color: white;
+    font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	background-color: var(--navbar-background-color);
+
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+	border-radius: 50%;
+	
+	-webkit-transition: all 250ms ease-out;
+    -moz-transition: all 250ms ease-out;
+    -ms-transition: all 250ms ease-out;
+    -o-transition: all 250ms ease-out;
+    transition: all 250ms ease-out;
+}
+
+.pinned-save-button:hover {
+    transform: scale(1.2);
+}
