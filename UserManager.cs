@@ -85,6 +85,8 @@ namespace xpgp
 
         public static bool Login(string emailAddress, string password, ISession session)
         {
+            if (_context.Users.Count() == 0) return false;
+
             User user;
 
             try

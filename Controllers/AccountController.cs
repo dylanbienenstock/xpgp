@@ -22,6 +22,8 @@ namespace xpgp
 
         public bool UniqueEmailAddress(RegisterViewModel model)
         {
+            if (_context.Users.Count() == 0) return true;
+
             return _context.Users.SingleOrDefault(u => u.EmailAddress == model.EmailAddress) == null;
         }
 
