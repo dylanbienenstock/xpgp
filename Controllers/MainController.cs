@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using xpgp.Models;
 using xpgp.ViewModels;
+using SixLabors.ImageSharp;
 
 namespace xpgp
 {
@@ -244,12 +245,20 @@ namespace xpgp
                     using (var memoryStream = new MemoryStream())
                     {
                         model.ProfilePicture.CopyTo(memoryStream);
-                        user.ProfilePicture = memoryStream.ToArray();
-                        user.ProfilePictureContentType = model.ProfilePicture.ContentType;
+
+                        Image<Rgba32> image = Image.Load(memoryStream.ToArray());
+                        image.Mutate(x => x
+                            .Resize(128, 128)
+                        );
+
+                        using (var memoryStream2 = new MemoryStream())
+                        {
+                            image.SaveAsPng(memoryStream2);
+                            user.ProfilePicture = memoryStream2.ToArray();
+                        }
                     }
 
                     _context.Entry(user).Property(u => u.ProfilePicture).IsModified = true;
-                    _context.Entry(user).Property(u => u.ProfilePictureContentType).IsModified = true;
                 }
 
                 _context.SaveChanges();
@@ -266,15 +275,15 @@ namespace xpgp
         {
             User user = _context.Users.SingleOrDefault(u => u.UserId == UserId);
 
-            if (user != null)
+            if (user != null && user.ProfilePicture != null)
             {
-                if (user.ProfilePicture != null && user.ProfilePictureContentType != null)
-                {
-                    return File(user.ProfilePicture, user.ProfilePictureContentType);
-                }
+                return File(user.ProfilePicture, "image/png");
             }
 
-            return Content("Picture not found.");
+            var file = Path.Combine(Directory.GetCurrentDirectory(),
+                           "wwwroot", "img", "view-new.svg");
+
+            return PhysicalFile(file, "image/svg+xml");
         }
 
         [HttpGet]

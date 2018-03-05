@@ -32,8 +32,6 @@ namespace xpgp.Models
 
         public byte[] ProfilePicture { get; set; }
 
-        public string ProfilePictureContentType { get; set; }
-
         public string PasswordHash { get; set; }
 
         public string LoginToken { get; set; }
