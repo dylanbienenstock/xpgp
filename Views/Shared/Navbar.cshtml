@@ -44,6 +44,16 @@
     </div>
     
     <div id="navbar-account-menu-inner">
+        <a class="optionbar-option" asp-controller="Main" asp-action="Profile" asp-route-UserId="@ViewBag.UserId" style="display: block;">
+            <img class="optionbar-option-icon noselect" src="~/img/profile-icon.svg">                        
+            Profile
+        </a>
+
+        <a class="optionbar-option" asp-controller="Main" asp-action="ProfileSettings" asp-route-UserId="@ViewBag.UserId" style="display: block;">
+            <!-- <img class="optionbar-option-icon noselect" src="~/img/profile-icon.svg">                         -->
+            Settings
+        </a>
+
         <a class="optionbar-option" asp-controller="Account" asp-action="LogOut" style="display: block;">
             <img class="optionbar-option-icon noselect" src="~/img/logout.svg">                        
             Log Out
@@ -72,7 +82,9 @@
         </div>
 
         <div id="navbar-userinfo">
-            <img src="~/img/profile.svg" id="navbar-userinfo-icon" class="noselect">
+            <img src='@(
+                Url.Action("ProfileImage", "Main", new { UserId = ViewBag.UserId })
+            )' id="navbar-userinfo-icon" class="noselect">
 
             <div id="navbar-userinfo-name-container">
                 <p id="navbar-userinfo-name" class="noselect">

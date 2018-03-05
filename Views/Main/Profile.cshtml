@@ -2,8 +2,11 @@
 {
     <link rel="stylesheet" href="~/css/profile.css">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.1/velocity.min.js" integrity="sha256-5Go41ifI+EFXy6IiyZH+HebUCkGwr78biW2nrVJIXqQ=" crossorigin="anonymous"></script>
+    
     <script src="~/js/keypair-display.js"></script>
     <script src="~/js/keypair-display-main.js"></script>
+    <script src="~/js/keypair-display-profile.js"></script>
 }
 
 @Html.Partial("Navbar")
@@ -11,19 +14,37 @@
 <div id="content">
     <div id="content-inner">
         <div class="content-panel" id="content-panel-bio">
-            <img src="~/img/profile.svg" id="profile-pic">
+            <div class="center">
+                <img src='@(
+                    Url.Action("ProfileImage", "Main", new { UserId = ViewBag.ProfileOwner.UserId })
+                )' id="profile-pic">
+            </div>
 
-            <div id="profile-info" class="center">
-                <div>
+            <div id="profile-info">
+                <div id="profile-info-inner">
                     <h1 id="profile-full-name">@ViewBag.ProfileOwner.FirstName @ViewBag.ProfileOwner.LastName</h1>
+                   
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.ProfileOwner.PublicEmailAddress))
+                    {
+                        <h3 id="profile-emailaddress">
+                        
+                        @{
+                            Random random = new Random();
 
-                    <p id="profile-bio-text">
-                        bio bio bio bio bio bio bio bio
-                        bio bio bio bio bio bio bio bio
-                        bio bio bio bio bio bio bio bio
-                        bio bio bio bio bio bio bio bio
-                        bio bio bio bio bio bio bio bio
-                    </p>
+                            foreach (char c in ViewBag.ProfileOwner.PublicEmailAddress.ToCharArray())
+                            {
+                                <span class="email-obfuscate-@(random.Next(1024))">@c</span>
+                            }
+                        }
+
+                        </h3>
+                    }
+                    else
+                    {
+                        <h3 id="profile-emailaddress">No public email address given</h3>
+                    }
+                   
+                    <p id="profile-bio-text">@ViewBag.ProfileOwner.Bio</p>
                 </div>
             </div>
 
@@ -59,7 +80,9 @@
                                 }
         ">@*        I'm sorry.         *@
                         <div class="center" style="height: 100%">
-                            <img class="keypair-view-button-icon" src="~/img/profile.svg">
+                            <img class="keypair-view-button-icon" src='@(
+                                Url.Action("ProfileImage", "Main", new { UserId = ViewBag.PinnedKeyPair.User.UserId })
+                            )'>
                         </div>
                     </div>
                 </div>
@@ -68,9 +91,9 @@
 
         <div class="content-panel" id="content-panel-viewkeypairs" style="height: 666px;">
             <div class="content-panel-header">
-                Viewing: @(ViewBag.ProfileOwner.FirstName)'s Keys
-
                 <img id="content-panel-header-back" src="~/img/back.svg">
+
+                Viewing: @(ViewBag.ProfileOwner.FirstName)'s Keys
             </div>
 
             @Html.Partial("KeyViewer")

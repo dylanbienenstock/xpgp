@@ -30,7 +30,9 @@
                         }
 ">@*        I'm sorry.         *@
                 <div class="center" style="height: 100%">
-                    <img class="keypair-view-button-icon" src="~/img/profile.svg">
+                    <img class="keypair-view-button-icon" src='@(
+                        Url.Action("ProfileImage", "Main", new { UserId = KeyPair.User.UserId })
+                    )'>
                 </div>
             </div>
         </div>

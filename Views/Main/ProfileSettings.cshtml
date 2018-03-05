@@ -1,0 +1,58 @@
+@section scripts {
+    <link rel="stylesheet" href="~/css/settings.css">
+    <link rel="stylesheet" href="~/css/profile.css">
+
+    <script src="~/js/profile-settings.js"></script>
+}
+
+@Html.Partial("Navbar")
+
+<div id="content">
+    <div id="content-inner">
+        <div class="content-panel" style="height: 745px;">
+            <div class="content-panel-header">Profile Settings</div>
+
+            <div class="content-panel-content center">                
+                <div id="content-panel-newkeypair">
+
+                    <img src='@(
+                        Url.Action("ProfileImage", "Main", new { UserId = ViewBag.UserId })
+                    )' id="profile-pic">
+
+                    <div id="profile-pic-hover">
+                        <div id="profile-pic-hover-inner" class="center">
+                            Click to change
+                        </div>
+                    </div>
+
+                    @model xpgp.ViewModels.SettingsViewModel
+                    <form id="content-panel-settings-form" asp-action="ProfileSettingsSubmit" asp-controller="Main" enctype="multipart/form-data">
+                        <div class="content-panel-settings-column">
+                            <div id="content-panel-settings-bio-container">
+                                <textarea asp-for="Bio" class="content-input" id="content-panel-settings-bio" maxlength="196" placeholder="Profile Bio"></textarea>
+                                <button id="content-panel-settings-button-discard" class="content-panel-button content-panel-button-danger" onclick="document.location.href='/'">Discard Changes</button>                                
+                            </div>
+                        </div>
+
+                        <div class="content-panel-settings-column">    
+                            <input asp-for="PublicEmailAddress" class="content-input" placeholder="Public Email Address">                                                
+                            <input asp-for="CurrentPassword" class="content-input" placeholder="Current Password">
+                            <input asp-for="NewPassword" class="content-input" placeholder="New Password">    
+                            <input asp-for="NewPasswordConfirmation" class="content-input" placeholder="Confirm New Password">                                            
+                            <input type="submit" id="content-panel-settings-button-save" class="content-panel-button content-panel-button-highlighted" val="Save Changes"                  
+                        </div>
+
+                        <input asp-for="ProfilePicture" id="profile-pic-input" type="file" accept="image/*" size="2000000" style="display: none;">
+                    </form>
+                    
+                    <!-- <div id="content-panel-settings-button-container">
+                        <button id="content-panel-settings-button-discard" class="content-panel-button content-panel-button-unhighlighted">Discard Changes</button>
+                        <button id="content-panel-settings-button-generate" class="content-panel-button content-panel-button-highlighted">Save Changes</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("Footer")

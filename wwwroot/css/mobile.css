@@ -1,4 +1,9 @@
 @media only screen and (max-width: 768px) {
+	::-webkit-scrollbar {
+		width: 0px;
+	}
+
+
 	#optionbar, #navbar-searchbar {
 		display: none;
 	}
@@ -94,6 +99,35 @@
 
 	#content-panel-newkeypair-form {
 		width: auto;
+	}
+
+	#content-panel-bio {
+		flex-flow: column nowrap !important;
+		text-align: center;
+	}
+
+	#profile-pic {
+		width: 100% !important;
+		height: 128px;
+		margin-bottom: var(--content-padding);
+	}
+
+	#profile-info {
+		text-align: center;
+		margin-bottom: calc(var(--content-padding) * 2);		
+	}
+
+	#profile-bio-text {
+		width: 80%;
+		display: inline-block;
+	}
+
+	#profile-pinned {
+		width: 100% !important;
+	}
+
+	#keypair-display-loading {
+		width: 100vw;
 	}
 }
 

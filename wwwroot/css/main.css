@@ -27,7 +27,7 @@
 	--navbar-background-color-dark: rgb(0, 132, 165); */
 
 	--navbar-title-font-size: 26px;
-	--navbar-title-transform: translate(20px, calc(var(--navbar-title-font-size) * -0.1));
+	--navbar-title-transform: translate(2px, calc(var(--navbar-title-font-size) * -0.1));
 	--navbar-title-letter-spacing: calc(var(--navbar-title-font-size) * -0.085);
 
 	--navbar-searchbar-width: 256px;
@@ -260,10 +260,15 @@ textarea {
 
 #navbar-userinfo-icon {
 	width: 32px;
+	height: 32px;
 
     position: relative;
     top: 50%;
-    transform: translateY(60%);
+	transform: translateY(60%);
+
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
 }
 
 #optionbar {
@@ -582,14 +587,19 @@ textarea {
 }
 
 .keypair-view-button-icon {
-	width: 50px;
+	width: 50px !important;
+	height: 50px !important;
 	cursor: pointer;
 
 	-webkit-transition: all 400ms ease-out;
     -moz-transition: all 400ms ease-out;
     -ms-transition: all 400ms ease-out;
     -o-transition: all 400ms ease-out;
-    transition: all 400ms ease-out;
+	transition: all 400ms ease-out;
+	
+	-webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
 }
 
 .keypair-view-button-icon:hover {
@@ -639,8 +649,8 @@ textarea {
 #content-panel-header-back {
 	display: none;
 	position: absolute;
-	top: 100px;
-    left: var(--navbar-padding);
+	transform: translateY(32%);
+	left: calc(100vw + var(--navbar-padding));
 }
 
 #navbar-account-menu, #navbar-mobile-menu {

@@ -5,10 +5,12 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net.Mime;
 using System.Text;
+using System.Drawing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 using xpgp.Models;
+using xpgp.ViewModels;
 
 namespace xpgp
 {
@@ -179,6 +181,100 @@ namespace xpgp
             }
 
             return View();
+        }
+
+        [HttpGet]
+        [Route("Profile/Settings")]
+        public IActionResult ProfileSettings()
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (!identity.Valid)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            UserManager.BagUp(identity, ViewBag);
+
+            User user = _context.Users.SingleOrDefault(u => u.UserId == identity.UserId);
+
+            SettingsViewModel model = new SettingsViewModel
+            {
+                Bio = user.Bio,
+                PublicEmailAddress = user.PublicEmailAddress
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("Profile/Settings/Submit")]
+        [ValidateAntiForgeryToken]
+        public IActionResult ProfileSettingsSubmit(SettingsViewModel model)
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (!identity.Valid)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            UserManager.BagUp(identity, ViewBag);
+
+            if (ModelState.IsValid)
+            {
+                User user = _context.Users.SingleOrDefault(u => u.UserId == identity.UserId);
+
+                if (!string.IsNullOrWhiteSpace(model.Bio))
+                {
+                    user.Bio = model.Bio.Substring(0, Math.Min(model.Bio.Length, 196));
+                    _context.Entry(user).Property(u => u.Bio).IsModified = true;
+                }
+
+                if (!string.IsNullOrWhiteSpace(model.PublicEmailAddress))
+                {
+                    user.PublicEmailAddress = model.PublicEmailAddress;
+                    _context.Entry(user).Property(u => u.PublicEmailAddress).IsModified = true;
+                }
+
+                if (model.ProfilePicture != null &&
+                   (model.ProfilePicture.ContentType == "image/png" ||
+                    model.ProfilePicture.ContentType == "image/jpeg"))
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        model.ProfilePicture.CopyTo(memoryStream);
+                        user.ProfilePicture = memoryStream.ToArray();
+                        user.ProfilePictureContentType = model.ProfilePicture.ContentType;
+                    }
+
+                    _context.Entry(user).Property(u => u.ProfilePicture).IsModified = true;
+                    _context.Entry(user).Property(u => u.ProfilePictureContentType).IsModified = true;
+                }
+
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        [Route("ProfileImage/{UserId}")]
+        public IActionResult ProfileImage(int UserId)
+        {
+            User user = _context.Users.SingleOrDefault(u => u.UserId == UserId);
+
+            if (user != null)
+            {
+                if (user.ProfilePicture != null && user.ProfilePictureContentType != null)
+                {
+                    return File(user.ProfilePicture, user.ProfilePictureContentType);
+                }
+            }
+
+            return Content("Picture not found.");
         }
 
         [HttpGet]

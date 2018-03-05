@@ -1,0 +1,62 @@
+#content-panel-settings-form {
+   display: flex;
+   flex-flow: row nowrap;
+}
+
+#content-panel-settings-bio-container {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+}
+
+#content-panel-settings-bio {
+    flex: 1;
+}
+
+.content-panel-settings-column {
+    display: inline-block;
+    width: 350px;
+    vertical-align: bottom;
+    margin: calc(var(--content-padding) / 2);    
+}
+
+#content-panel-settings-button-container {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+#content-panel-settings-button-discard, #content-panel-settings-button-save {
+    flex: unset !important;
+    width: 100%;
+}
+
+#profile-pic {
+    margin-right: 0 !important;
+    margin-bottom: calc(var(--content-padding) * 2);
+}
+
+#profile-pic-hover {
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+    transform: translateX(-100%);
+    width: 128px;
+    height: 128px;
+    color: transparent;
+    font-size: 16px;
+
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+#profile-pic-hover:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;    
+}
+
+#profile-pic-hover-inner {
+    height: 100%;
+}
