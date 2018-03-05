@@ -16,7 +16,27 @@
 
             <div>
                 <button id="keypair-display-button-delete" class="content-panel-button content-panel-button-danger">Delete</button>
+
+                <button id="keypair-display-button-pin" class="content-panel-button content-panel-button-highlighted">
+                    Pin
+
+                    <form id="keypair-display-button-pin-form" asp-action="PinKeyPair" asp-controller="Main" style="display: none;">
+                        <input type="hidden" name="KeyPairId">
+                    </form>
+                </button>
+
+                <button id="keypair-display-button-unpin" class="content-panel-button content-panel-button-danger">
+                    Unpin
+
+                    <form id="keypair-display-button-unpin-form" asp-action="UnPinKeyPair" asp-controller="Main" style="display: none;">
+                        <input type="hidden" name="KeyPairId">
+                    </form>
+                </button>
+
+                <button id="keypair-display-button-save" class="content-panel-button content-panel-button-highlighted">Save</button>
+
                 <button id="keypair-display-button-download" class="content-panel-button content-panel-button-highlighted">Download</button>
+
                 <button id="keypair-display-button-share" class="content-panel-button content-panel-button-highlighted">Share</button>
             </div>
 

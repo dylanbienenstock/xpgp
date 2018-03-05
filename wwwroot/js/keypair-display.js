@@ -4,11 +4,13 @@ $(() => {
     $(".keypair-view-button-icon-container").hover(function() {
         $(this).parent()
             .find(".keypair-view-button-title")
-            .text("Owner: " + $(this).attr("data-ownertext").trim());
+            .text($(this).attr("data-ownertext").trim())
+            .css({ fontStyle: "italic" });
     }, function() {
         $(this).parent()
             .find(".keypair-view-button-title")
-            .text($(this).parent().attr("data-name"));
+            .text($(this).parent().attr("data-name"))
+            .css({ fontStyle: "unset" });            
     });
 
     $(".keypair-view-button").click(function(e) {
@@ -19,16 +21,16 @@ $(() => {
 
             e.stopPropagation();
 
-            console.log(e.target);
-
             if (!e.target.displayingOwner) {
                 $(this)
                     .find(".keypair-view-button-title")
-                    .text("Owner: " + $(e.target).parent().parent().attr("data-ownertext"));
+                    .text($(e.target).parent().parent().attr("data-ownertext"))
+                    .css({ fontStyle: "italic" });                    
             } else {
                 $(this)
                     .find(".keypair-view-button-title")
-                    .text($(this).attr("data-name"));
+                    .text($(this).attr("data-name"))
+                    .css({ fontStyle: "unset" })                    
             }
 
             return;
@@ -41,6 +43,24 @@ $(() => {
         $("#keypair-display-loading").css({ display: "flex" });
         $(".keypair-view-button").not(selectedKeyPair).removeClass("keypair-view-button-selected");
         $(selectedKeyPair).addClass("keypair-view-button-selected");
+
+        if ($(this).attr("data-ismine") == "True") {
+            $("#keypair-display-button-delete").show();
+            $("#keypair-display-button-save").hide();
+
+            if ($(selectedKeyPair).attr("data-ispinned") == "False") {
+                $("#keypair-display-button-pin").show();
+                $("#keypair-display-button-unpin").hide();
+            } else {
+                $("#keypair-display-button-pin").hide();
+                $("#keypair-display-button-unpin").show();
+            }
+        } else {
+            $("#keypair-display-button-delete").hide();
+            $("#keypair-display-button-pin").hide();
+            $("#keypair-display-button-unpin").hide();
+            $("#keypair-display-button-save").show();
+        }
 
         if (!firstClick && $(document.body).width() <= 768) {
             if (typeof(keyPairViewScrollRight) == Function) {
@@ -82,6 +102,26 @@ $(() => {
         } else {
             alert("Keypair not deleted.");
         }
+    });
+
+    $("#keypair-display-button-pin").click((e) => {
+        e.preventDefault();
+
+        $("#keypair-display-button-pin-form")
+            .children()
+            .val($(selectedKeyPair).attr("data-keypairid"));
+        
+        $("#keypair-display-button-pin-form").submit();
+    });
+
+    $("#keypair-display-button-unpin").click((e) => {
+        e.preventDefault();
+
+        $("#keypair-display-button-unpin-form")
+            .children()
+            .val($(selectedKeyPair).attr("data-keypairid"));
+
+        $("#keypair-display-button-unpin-form").submit();
     });
 
     $("#keypair-display-button-download").click((e) => {

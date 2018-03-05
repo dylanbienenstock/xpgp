@@ -4,6 +4,8 @@
         <div class="keypair-view-button"
         data-userid="@KeyPair.UserId"
         data-keypairid="@KeyPair.KeyPairId"
+        data-ismine="@(KeyPair.UserId == ViewBag.UserId)"
+        data-ispinned="@(KeyPair.User.PinnedKeyPair != null && KeyPair.User.PinnedKeyPair.KeyPairId == KeyPair.KeyPairId)"
         data-name="@KeyPair.Name"
         data-owner="@KeyPair.User.FirstName @KeyPair.User.LastName"
         data-expiretime="@ViewBag.ExpirationTimes[KeyPair.KeyPairId]"

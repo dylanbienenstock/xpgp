@@ -1,6 +1,8 @@
 @model xpgp.Models.User
-<div class="content-panel content-panel-bio">
-    <div class="center">
+<div class="content-panel content-panel-bio" data-profileurl='
+    @Url.Action("Profile", "Main", new { UserId = @Model.UserId })
+'>
+    <div class="profile-pic-container center">
         <img src='@(
             Url.Action("ProfileImage", "Main", new { UserId = @Model.UserId })
         )' class="profile-pic">
@@ -34,32 +36,37 @@
         </div>
     </div>
 
-    <div class="profile-pinned">
-        <h3 class="profile-pinned-title">Pinned Key</h3>
+    @if (Model.PinnedKeyPair != null)
+    {
+        <div class="profile-pinned">
+            <h3 class="profile-pinned-title">Pinned Key</h3>
 
-        <div class="keypair-view-button"
-        data-userid="@Model.UserId"
-        data-keypairid="@Model.PinnedKeyPair.KeyPairId"
-        data-name="@Model.PinnedKeyPair.Name"
-        data-owner="@Model.PinnedKeyPair.User.FirstName @Model.PinnedKeyPair.User.LastName"
-        data-expiretime="@ViewBag.ExpirationTimes[Model.PinnedKeyPair.KeyPairId]"
-        data-deleteurl="@ViewBag.DeleteUrls[Model.PinnedKeyPair.KeyPairId]"
-        data-viewurl="@ViewBag.ViewUrls[Model.PinnedKeyPair.KeyPairId]"
-        data-downloadurl="@ViewBag.DownloadUrls[Model.PinnedKeyPair.KeyPairId]">
-            <div class="keypair-view-button-content">
-                <h3>
-                    <img src="~/img/view-new.svg">
-                    <span class="keypair-view-button-title">@Model.PinnedKeyPair.Name</span>
-                </h3>
+            <div class="keypair-view-button"
+            data-userid="@Model.UserId"
+            data-keypairid="@Model.PinnedKeyPair.KeyPairId"
+            data-ismine="@(Model.UserId == ViewBag.UserId)"
+            data-ispinned="True"
+            data-name="@Model.PinnedKeyPair.Name"
+            data-owner="@Model.PinnedKeyPair.User.FirstName @Model.PinnedKeyPair.User.LastName"
+            data-expiretime="@ViewBag.ExpirationTimes[Model.PinnedKeyPair.KeyPairId]"
+            data-deleteurl="@ViewBag.DeleteUrls[Model.PinnedKeyPair.KeyPairId]"
+            data-viewurl="@ViewBag.ViewUrls[Model.PinnedKeyPair.KeyPairId]"
+            data-downloadurl="@ViewBag.DownloadUrls[Model.PinnedKeyPair.KeyPairId]">
+                <div class="keypair-view-button-content">
+                    <h3>
+                        <img src="~/img/view-new.svg">
+                        <span class="keypair-view-button-title">@Model.PinnedKeyPair.Name</span>
+                    </h3>
 
-                <p class="keypair-view-button-subtext">Expires in @ViewBag.ExpirationTimes[Model.PinnedKeyPair.KeyPairId]</p>
-            </div>
+                    <p class="keypair-view-button-subtext">Expires in @ViewBag.ExpirationTimes[Model.PinnedKeyPair.KeyPairId]</p>
+                </div>
 
-            <div class="pinned-save-button-container">
-                <div class="center" style="height: 100%">
-                    <button class="pinned-save-button">Save</button>
+                <div class="pinned-save-button-container">
+                    <div class="center" style="height: 100%">
+                        <button class="pinned-save-button">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 </div>

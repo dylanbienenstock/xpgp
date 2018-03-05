@@ -134,11 +134,22 @@ namespace xpgp
             }
 
             UserManager.BagUp(identity, ViewBag);
-
             RemoveExpiredKeyPairs(identity);
 
+            User user = _context.Users.SingleOrDefault(u => u.UserId == identity.UserId);
+
             List<KeyPair> keyPairs = _context.KeyPairs
-            .Where(kp => kp.UserId == identity.UserId).ToList();
+            .Where(kp => kp.UserId == identity.UserId)
+            .ToList();
+
+            keyPairs.Sort((a, b) => 
+            {
+                if (user.PinnedKeyPair != null && a.KeyPairId == user.PinnedKeyPair.KeyPairId) return 1;
+
+                return 0;
+            });
+
+            keyPairs.Reverse(); // Why do I need to do this?
 
             if (keyPairs.Count() == 0)
             {
@@ -303,13 +314,68 @@ namespace xpgp
                 EF.Functions.Like((u.FirstName + " " + u.LastName).ToLower(), "%" + query.ToLower() + "%")
             ).Include(u => u.PinnedKeyPair);
 
-            BagUpKeyPairs(results.Select(u => u.PinnedKeyPair).ToList(), ViewBag);
+            BagUpKeyPairs(results
+                .Select(u => u.PinnedKeyPair)
+                .Where(kp => kp != null)
+                .ToList(), ViewBag);
 
             ViewBag.HasResults = results.Count() > 0;
             ViewBag.SearchResults = results;
             ViewBag.Query = query;
 
             return View();
+        }
+
+        [HttpPost]
+        [Route("PinKeyPair")]
+        public IActionResult PinKeyPair(int KeyPairId)
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (!identity.Valid)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            KeyPair keyPair = _context.KeyPairs.SingleOrDefault(kp => kp.KeyPairId == KeyPairId);
+
+            if (keyPair != null && keyPair.UserId == identity.UserId) // Ensure that they own it
+            {
+                User user = _context.Users.SingleOrDefault(u => u.UserId == identity.UserId);
+
+                user.PinnedKeyPair = keyPair;
+                _context.Entry(user).Reference(u => u.PinnedKeyPair).IsModified = true;
+                _context.SaveChanges();
+            }
+
+            // return RedirectToAction("Profile", new { UserId = identity.UserId });
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        [HttpPost]
+        [Route("UnPinKeyPair")]
+        public IActionResult UnPinKeyPair(int KeyPairId)
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (!identity.Valid)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            KeyPair keyPair = _context.KeyPairs.SingleOrDefault(kp => kp.KeyPairId == KeyPairId);
+
+            if (keyPair != null && keyPair.UserId == identity.UserId) // Ensure that they own it
+            {
+                User user = _context.Users.SingleOrDefault(u => u.UserId == identity.UserId);
+
+                user.PinnedKeyPair = null;
+                _context.Entry(user).Reference(u => u.PinnedKeyPair).IsModified = true;
+                _context.SaveChanges();
+            }
+
+            // return RedirectToAction("Profile", new { UserId = identity.UserId });
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         [HttpGet]
@@ -421,7 +487,8 @@ namespace xpgp
                     _context.KeyPairs.Remove(keyPair);
                     _context.SaveChanges();
 
-                    return RedirectToAction("Index", "Main");
+                    // return RedirectToAction("Index", "Main");
+                    return Redirect(Request.Headers["Referer"].ToString());
                 }
 
                 return Content("Not found.");
