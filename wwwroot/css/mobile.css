@@ -101,33 +101,44 @@
 		width: auto;
 	}
 
-	#content-panel-bio {
+	.content-panel-bio {
 		flex-flow: column nowrap !important;
 		text-align: center;
 	}
 
-	#profile-pic {
-		width: 100% !important;
+	.profile-pic {
+		width: 128px;
 		height: 128px;
 		margin-bottom: var(--content-padding);
+		margin-right: 0 !important;
 	}
 
-	#profile-info {
-		text-align: center;
+	.profile-info {
+		text-align: center !important;
 		margin-bottom: calc(var(--content-padding) * 2);		
 	}
 
-	#profile-bio-text {
+	.profile-info-inner {
+		position: unset !important;
+		top: unset !important;
+		transform: unset !important;
+	}
+
+	.profile-bio-text {
 		width: 80%;
 		display: inline-block;
 	}
 
-	#profile-pinned {
+	.profile-pinned {
 		width: 100% !important;
 	}
 
 	#keypair-display-loading {
 		width: 100vw;
+	}
+
+	#content-panel-settings {
+		width: 95%;
 	}
 }
 

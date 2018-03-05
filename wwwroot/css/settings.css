@@ -1,3 +1,9 @@
+#content-panel-settings {
+    display: inline-block;
+    text-align: center;
+    font-size: 0;
+}
+
 #content-panel-settings-form {
    display: flex;
    flex-flow: row nowrap;
@@ -32,7 +38,7 @@
     width: 100%;
 }
 
-#profile-pic {
+.profile-pic {
     margin-right: 0 !important;
     margin-bottom: calc(var(--content-padding) * 2);
 }

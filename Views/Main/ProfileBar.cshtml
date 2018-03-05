@@ -1,0 +1,76 @@
+@model xpgp.Models.User
+<div class="content-panel content-panel-bio">
+    <div class="center">
+        <img src='@(
+            Url.Action("ProfileImage", "Main", new { UserId = @Model.UserId })
+        )' class="profile-pic">
+    </div>
+
+    <div class="profile-info">
+        <div class="profile-info-inner">
+            <h1 class="profile-full-name">@Model.FirstName @Model.LastName</h1>
+            
+            @if (!string.IsNullOrWhiteSpace(@Model.PublicEmailAddress))
+            {
+                <h3 class="profile-emailaddress">
+                
+                @{
+                    Random random = new Random();
+
+                    foreach (char c in @Model.PublicEmailAddress.ToCharArray())
+                    {
+                        <span class="email-obfuscate-@(random.Next(1024))">@c</span>
+                    }
+                }
+
+                </h3>
+            }
+            else
+            {
+                <h3 class="profile-emailaddress"><span>No public email address given</span></h3>
+            }
+            
+            <p class="profile-bio-text">@Model.Bio</p>
+        </div>
+    </div>
+
+    <div class="profile-pinned">
+        <h3 class="profile-pinned-title">Pinned Key</h3>
+
+        <div class="keypair-view-button"
+        data-userid="@Model.UserId"
+        data-keypairid="@Model.PinnedKeyPair.KeyPairId"
+        data-name="@Model.PinnedKeyPair.Name"
+        data-owner="@Model.PinnedKeyPair.User.FirstName @Model.PinnedKeyPair.User.LastName"
+        data-expiretime="@ViewBag.ExpirationTimes[Model.PinnedKeyPair.KeyPairId]"
+        data-deleteurl="@ViewBag.DeleteUrls[Model.PinnedKeyPair.KeyPairId]"
+        data-viewurl="@ViewBag.ViewUrls[Model.PinnedKeyPair.KeyPairId]"
+        data-downloadurl="@ViewBag.DownloadUrls[Model.PinnedKeyPair.KeyPairId]">
+            <div class="keypair-view-button-content">
+                <h3>
+                    <img src="~/img/view-new.svg">
+                    <span class="keypair-view-button-title">@Model.PinnedKeyPair.Name</span>
+                </h3>
+
+                <p class="keypair-view-button-subtext">Expires in @ViewBag.ExpirationTimes[Model.PinnedKeyPair.KeyPairId]</p>
+            </div>
+
+            <div class="keypair-view-button-icon-container"
+            data-ownertext="@if (Model.UserId == ViewBag.UserId)
+                        {
+@:You
+                        }
+                        else
+                        {
+@Model.FirstName @Model.LastName
+                        }
+">
+                <div class="center" style="height: 100%">
+                    <img class="keypair-view-button-icon" src='@(
+                        Url.Action("ProfileImage", "Main", new { UserId = Model.PinnedKeyPair.User.UserId })
+                    )'>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

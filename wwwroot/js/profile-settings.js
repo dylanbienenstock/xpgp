@@ -9,7 +9,7 @@ $(() => {
             var reader = new FileReader();
 
             reader.onload = function(e) {
-                $("#profile-pic")
+                $(".profile-pic")
                     .attr('src', e.target.result)
                     .width(128)
                     .height(128);

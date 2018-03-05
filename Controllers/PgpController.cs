@@ -110,6 +110,16 @@ namespace xpgp
                     model.ExpirationUnits
                 );
 
+                User user = _context.Users.SingleOrDefault(u => u.UserId == identity.UserId);
+
+                if (user.PinnedKeyPair == null)
+                {
+                    user.PinnedKeyPair = keyPair;
+
+                    _context.Entry(user).Reference(u => u.PinnedKeyPair).IsModified = true;
+                    _context.SaveChanges();
+                }
+
                 return Json(new
                 {
                     success = true,

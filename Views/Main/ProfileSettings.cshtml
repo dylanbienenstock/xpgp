@@ -13,13 +13,12 @@
             <div class="content-panel-header">Profile Settings</div>
 
             <div class="content-panel-content center">                
-                <div id="content-panel-newkeypair">
-
+                <div id="content-panel-settings">
                     <img src='@(
                         Url.Action("ProfileImage", "Main", new { UserId = ViewBag.UserId })
-                    )' id="profile-pic">
+                    )' class="profile-pic">
 
-                    <div id="profile-pic-hover">
+                    <div id="profile-pic-hover" class="noselect">
                         <div id="profile-pic-hover-inner" class="center">
                             Click to change
                         </div>

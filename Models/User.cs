@@ -37,5 +37,9 @@ namespace xpgp.Models
         public string LoginToken { get; set; }
 
         public List<KeyPair> KeyPairs { get; set; }
+
+        public KeyPair PinnedKeyPair { get; set; }
+
+        public int? PinnedKeyPairId { get; set; }
     }
 }

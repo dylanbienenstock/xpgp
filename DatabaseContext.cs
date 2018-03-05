@@ -16,6 +16,9 @@ namespace xpgp
                 .HasOne(kp => kp.User)
                 .WithMany(u => u.KeyPairs)
                 .HasForeignKey(kp => kp.UserId);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.PinnedKeyPair);
         }
     }
 }
