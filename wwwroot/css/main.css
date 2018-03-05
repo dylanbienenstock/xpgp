@@ -27,7 +27,7 @@
 	--navbar-background-color-dark: rgb(0, 132, 165); */
 
 	--navbar-title-font-size: 26px;
-	--navbar-title-transform: translate(2px, calc(var(--navbar-title-font-size) * -0.1));
+	--navbar-title-transform: translate(19px, calc(var(--navbar-title-font-size) * -0.1));
 	--navbar-title-letter-spacing: calc(var(--navbar-title-font-size) * -0.085);
 
 	--navbar-searchbar-width: 256px;
@@ -729,4 +729,8 @@ textarea {
 
 #encrypt-buttons, #decrypt-buttons {
 	text-align: right;
+}
+
+#search-query {
+	margin-bottom: var(--content-padding);
 }

@@ -87,19 +87,12 @@ namespace xpgp
         {
             if (_context.Users.Count() == 0) return false;
 
-            User user;
+            User user = _context.Users.SingleOrDefault(u =>
+                u.EmailAddress == emailAddress &&
+                SecurePasswordHasher.Verify(password, u.PasswordHash)
+            );
 
-            try
-            {
-                user = _context.Users.Single(u =>
-                    u.EmailAddress == emailAddress &&
-                    SecurePasswordHasher.Verify(password, u.PasswordHash)
-                );
-            }
-            catch
-            {
-                return false; // Not found
-            }
+            if (user == null) return false;
 
             LogOut(session);
             CreateLoginToken(user);

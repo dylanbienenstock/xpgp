@@ -1,0 +1,32 @@
+@section scripts 
+{
+    <link rel="stylesheet" href="~/css/profile.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.1/velocity.min.js" integrity="sha256-5Go41ifI+EFXy6IiyZH+HebUCkGwr78biW2nrVJIXqQ=" crossorigin="anonymous"></script>
+    
+    <script src="~/js/keypair-display.js"></script>
+    <script src="~/js/keypair-display-main.js"></script>
+    <script src="~/js/keypair-display-profile.js"></script>
+}
+
+@Html.Partial("Navbar")
+
+<div id="content">
+    @if (ViewBag.HasResults)
+    {
+        <h1 id="search-query">Search results for "@(ViewBag.Query)"</h1>
+
+        <div id="content-inner">
+            @foreach (var User in ViewBag.SearchResults)
+            {
+                @Html.Partial("ProfileBar", (User)User)
+            }
+        </div>
+    }
+    else
+    {
+        <h1 id="search-query">No results for "@(ViewBag.Query)"</h1>        
+    }
+</div>
+
+@Html.Partial("Footer")

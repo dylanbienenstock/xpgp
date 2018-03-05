@@ -72,13 +72,14 @@
         </div>
 
         <div id="navbar-searchbar-container">
-            <div id="navbar-searchbar">
-                <input type="text" id="navbar-searchbar-input" placeholder="Find people...">
+            <form id="navbar-searchbar" method="GET" asp-action="Search" asp-controller="Main">
+                <input type="text" name="query" id="navbar-searchbar-input" placeholder="Find people...">
+                <input type="submit" style="display: none;">
 
                 <div id="navbar-searchbar-button">
                     <img id="navbar-searchbar-button-icon" src="~/img/search.svg" class="noselect">
                 </div>
-            </div>
+            </form>
         </div>
 
         <div id="navbar-userinfo">

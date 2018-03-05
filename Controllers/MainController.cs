@@ -281,9 +281,35 @@ namespace xpgp
             }
 
             var file = Path.Combine(Directory.GetCurrentDirectory(),
-                           "wwwroot", "img", "view-new.svg");
+                           "wwwroot", "img", "profile.svg");
 
             return PhysicalFile(file, "image/svg+xml");
+        }
+
+        [HttpGet]
+        [Route("Search")]
+        public IActionResult Search(string query)
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (!identity.Valid)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            UserManager.BagUp(identity, ViewBag);
+
+            var results = _context.Users.Where(u => 
+                EF.Functions.Like((u.FirstName + " " + u.LastName).ToLower(), "%" + query.ToLower() + "%")
+            ).Include(u => u.PinnedKeyPair);
+
+            BagUpKeyPairs(results.Select(u => u.PinnedKeyPair).ToList(), ViewBag);
+
+            ViewBag.HasResults = results.Count() > 0;
+            ViewBag.SearchResults = results;
+            ViewBag.Query = query;
+
+            return View();
         }
 
         [HttpGet]
