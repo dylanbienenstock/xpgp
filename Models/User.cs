@@ -15,14 +15,24 @@ namespace xpgp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
 
-        [StringLength(64)]
+        [MaxLength(64)]
         public string FirstName { get; set; }
 
-        [StringLength(64)]
+        [MaxLength(64)]
         public string LastName { get; set; }
 
         [EmailAddress]
         public string EmailAddress { get; set; }
+
+        [EmailAddress]
+        public string PublicEmailAddress { get; set; }
+
+        [MaxLength(196)]
+        public string Bio { get; set; }
+
+        public byte[] ProfilePicture { get; set; }
+
+        public string ProfilePictureContentType { get; set; }
 
         public string PasswordHash { get; set; }
 
