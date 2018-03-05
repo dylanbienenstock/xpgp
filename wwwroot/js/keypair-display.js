@@ -43,10 +43,17 @@ $(() => {
         $(selectedKeyPair).addClass("keypair-view-button-selected");
 
         if (!firstClick && $(document.body).width() <= 768) {
-            $("#content").animate({
-                scrollLeft: $(document.body).width()
-            }, () => {
-                $("#content-panel-header-back").fadeIn();
+            if (typeof(keyPairViewScrollRight) == Function) {
+                keyPairViewScrollRight();
+            }
+
+            $("#content-panel-viewkeypairs").velocity({
+                transform: "translateX(-100vw)"
+            }, {
+                duration: 400,
+                complete: () => {
+                    $("#content-panel-header-back").fadeIn();
+                }
             });
 
             $(selectedKeyPair).blur();
@@ -89,8 +96,14 @@ $(() => {
 
     $("#content-panel-header-back").click(function () {
         $(this).fadeOut(() => {
-            $("#content").animate({
-                scrollLeft: 0
+            if (typeof(keyPairViewScrollLeft) == Function) {
+                keyPairViewScrollLeft();
+            }
+
+            $("#content-panel-viewkeypairs").velocity({
+                transform: "translateX(0)"
+            }, {
+                duration: 400
             });
         });
     });

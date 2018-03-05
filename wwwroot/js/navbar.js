@@ -1,5 +1,5 @@
-var mobileMenuOpen = false;
 var accountMenuOpen = false;
+var mobileMenuOpen = false;
 
 $(() => {
     $("html, body").resize(() => {
