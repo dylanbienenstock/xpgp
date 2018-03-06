@@ -29,5 +29,17 @@ namespace xpgp.Models
         public User User { get; set; }
 
         public int UserId { get; set; }
+
+        [NotMapped]
+        public bool IsSaved { get; set; }
+
+        [NotMapped]
+        public bool IsPinned
+        { 
+            get
+            {
+                return User.PinnedKeyPair != null && User.PinnedKeyPair.KeyPairId == KeyPairId;
+            }
+        }
     }
 }

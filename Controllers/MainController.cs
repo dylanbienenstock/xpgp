@@ -139,8 +139,27 @@ namespace xpgp
             User user = _context.Users.SingleOrDefault(u => u.UserId == identity.UserId);
 
             List<KeyPair> keyPairs = _context.KeyPairs
-            .Where(kp => kp.UserId == identity.UserId)
-            .ToList();
+                .Where(kp => kp.UserId == identity.UserId)
+                .Include(kp => kp.User)
+                .ToList();
+
+            List<SavedKeyPair> savedKeyPairs = _context.SavedKeyPairs
+                .Where(skp => skp.UserId == identity.UserId)
+                .Include(skp => skp.KeyPair)
+                .ThenInclude(kp => kp.User)
+                .ToList();
+
+            foreach (SavedKeyPair savedKeyPair in savedKeyPairs)
+            {
+                KeyPair keyPair = _context.KeyPairs
+                    .SingleOrDefault(kp => kp.KeyPairId == savedKeyPair.KeyPairId);
+
+                if (keyPair != null) 
+                {
+                    keyPair.IsSaved = true;
+                    keyPairs.Add(keyPair);
+                }
+            }
 
             keyPairs.Sort((a, b) => 
             {
@@ -179,9 +198,21 @@ namespace xpgp
 
             if (profileOwner == null) return Content("User not found.");
 
-            List<KeyPair> keyPairs = _context.KeyPairs
-            .Where(kp => kp.UserId == UserId).ToList();
+            List<SavedKeyPair> savedKeyPairs = _context.SavedKeyPairs
+                .Where(skp => skp.UserId == identity.UserId)
+                .ToList();
 
+            List<KeyPair> keyPairs = _context.KeyPairs
+                .Where(kp => kp.UserId == UserId)
+                .ToList();
+
+            foreach (KeyPair keyPair in keyPairs)
+            {
+                keyPair.IsSaved = savedKeyPairs
+                    .Select(skp => skp.KeyPairId)
+                    .Contains(keyPair.KeyPairId);
+            }
+            
             if (keyPairs.Count() == 0)
             {
                 ViewBag.ProfileOwnerHasNoKeys = true;
@@ -313,6 +344,20 @@ namespace xpgp
             var results = _context.Users.Where(u => 
                 EF.Functions.Like((u.FirstName + " " + u.LastName).ToLower(), "%" + query.ToLower() + "%")
             ).Include(u => u.PinnedKeyPair);
+
+            List<SavedKeyPair> savedKeyPairs = _context.SavedKeyPairs
+                .Where(skp => skp.UserId == identity.UserId)
+                .ToList();
+
+            foreach (KeyPair keyPair in results.Select(u => u.PinnedKeyPair))
+            {
+                if (keyPair != null)
+                {
+                    keyPair.IsSaved = savedKeyPairs
+                        .Select(skp => skp.KeyPairId)
+                        .Contains(keyPair.KeyPairId);                    
+                }
+            }
 
             BagUpKeyPairs(results
                 .Select(u => u.PinnedKeyPair)
@@ -450,6 +495,71 @@ namespace xpgp
             return View();
         }
 
+        [HttpPost]
+        [Route("SaveKeyPair")]
+        public IActionResult SaveKeyPair(int UserId, int KeyPairId)
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (identity.Valid && UserId != identity.UserId) // Make sure the user DOESN'T own it
+            {
+                SavedKeyPair existingSavedKeyPair = _context.SavedKeyPairs
+                    .SingleOrDefault(skp => 
+                        skp.UserId == identity.UserId &&
+                        skp.KeyPairId == KeyPairId
+                    );
+
+                if (existingSavedKeyPair == null)
+                {
+                    KeyPair keyPair = FindKeyPair(UserId, KeyPairId);
+
+                    if (keyPair != null)
+                    {
+                        SavedKeyPair savedKeyPair = new SavedKeyPair
+                        {
+                            UserId = identity.UserId,
+                            KeyPairId = KeyPairId
+                        };
+
+                        _context.SavedKeyPairs.Add(savedKeyPair);
+                        _context.SaveChanges();
+
+                        return Content("KeyPair saved.");
+                    }
+                }
+
+                return Content("KeyPair already saved.");
+            }
+
+            return Content("No permission.");
+        }
+
+        [HttpPost]
+        [Route("UnSaveKeyPair")]
+        public IActionResult UnSaveKeyPair(int UserId, int KeyPairId)
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (identity.Valid)
+            {
+                SavedKeyPair existingSavedKeyPair = _context.SavedKeyPairs
+                    .SingleOrDefault(skp => 
+                        skp.UserId == identity.UserId &&
+                        skp.KeyPairId == KeyPairId
+                    );
+
+                if (existingSavedKeyPair != null)
+                {
+                    _context.SavedKeyPairs.Remove(existingSavedKeyPair);
+                    _context.SaveChanges();
+                }
+
+                return Content("KeyPair unsaved.");
+            }
+
+            return Content("No permission.");
+        }
+
         [HttpGet]
         [Route("ViewKey/{UserId}/{KeyPairId}")]
         public IActionResult ViewKey(int UserId, int KeyPairId)
@@ -472,7 +582,7 @@ namespace xpgp
 
             return Content("Not found.");
         }
-
+        
         [HttpGet]
         [Route("DeleteKey/{UserId}/{KeyPairId}")]
         public IActionResult DeleteKey(int UserId, int KeyPairId)

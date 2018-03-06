@@ -46,6 +46,7 @@
             data-keypairid="@Model.PinnedKeyPair.KeyPairId"
             data-ismine="@(Model.UserId == ViewBag.UserId)"
             data-ispinned="True"
+            data-issaved="@Model.PinnedKeyPair.IsSaved"
             data-name="@Model.PinnedKeyPair.Name"
             data-owner="@Model.PinnedKeyPair.User.FirstName @Model.PinnedKeyPair.User.LastName"
             data-expiretime="@ViewBag.ExpirationTimes[Model.PinnedKeyPair.KeyPairId]"
@@ -63,7 +64,23 @@
 
                 <div class="pinned-save-button-container">
                     <div class="center" style="height: 100%">
-                        <button class="pinned-save-button">Save</button>
+                        @if (Model.UserId == ViewBag.UserId)
+                        {
+                            <img class="keypair-view-button-icon" src='@(
+                                Url.Action("ProfileImage", "Main", new { UserId = ViewBag.UserId })
+                            )'>
+                        }
+                        else
+                        {
+                            @if (!Model.PinnedKeyPair.IsSaved)
+                            {
+                                <button class="pinned-save-button">&times;</button>
+                            }
+                            else
+                            {
+                                <button class="pinned-save-button pinned-save-button-remove">&times;</button>
+                            }
+                        }
                     </div>
                 </div>
             </div>

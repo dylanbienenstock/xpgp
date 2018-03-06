@@ -68,20 +68,36 @@
 
 	color: white;
     font-family: 'Roboto', sans-serif;
-	font-size: 16px;
+	font-size: 26px;
 	background-color: var(--navbar-background-color);
 
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
-	border-radius: 50%;
+    border-radius: 50%;
+    
+    transform: rotate(-45deg) scale(1.0);    
 	
-	-webkit-transition: all 250ms ease-out;
-    -moz-transition: all 250ms ease-out;
-    -ms-transition: all 250ms ease-out;
-    -o-transition: all 250ms ease-out;
-    transition: all 250ms ease-out;
+    -webkit-transition: transform 250ms ease-out,
+                        background-color 200ms ease;
+    -moz-transition: transform 250ms ease-out,
+                        background-color 200ms ease;
+    -ms-transition: transform 250ms ease-out,
+                        background-color 200ms ease;
+    -o-transition: transform 250ms ease-out,
+                        background-color 200ms ease;
+    transition: transform 250ms ease-out,
+                        background-color 200ms ease;
 }
 
 .pinned-save-button:hover {
-    transform: scale(1.2);
+    transform: rotate(-45deg) scale(1.2);
+}
+
+.pinned-save-button-remove {
+    transform: rotate(0) scale(1);    
+    background-color: #880000;
+}
+
+.pinned-save-button-remove:hover {
+    transform: rotate(0) scale(1.2);
 }

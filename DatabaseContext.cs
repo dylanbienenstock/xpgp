@@ -7,6 +7,7 @@ namespace xpgp
     {
         public DbSet<User> Users { get; set; }
         public DbSet<KeyPair> KeyPairs { get; set; }
+        public DbSet<SavedKeyPair> SavedKeyPairs { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
@@ -19,6 +20,12 @@ namespace xpgp
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.PinnedKeyPair);
+
+            modelBuilder.Entity<SavedKeyPair>()
+                .HasOne(skp => skp.User);
+
+            modelBuilder.Entity<SavedKeyPair>()
+                .HasOne(skp => skp.KeyPair);
         }
     }
 }

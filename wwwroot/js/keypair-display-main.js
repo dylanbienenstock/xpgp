@@ -3,8 +3,6 @@ window.hideKeyPairDisplay = true;
 function keyPairClicked(selectedKeyPair) {
     var publicKeyUrl = document.location.origin + $(selectedKeyPair).attr("data-viewurl");
 
-    console.log(publicKeyUrl);
-
     $.ajax({
         type: "GET", url: publicKeyUrl, success: function(response) {
             $("#content-panel-qrcode").empty().qrcode({

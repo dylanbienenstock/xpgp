@@ -1,6 +1,7 @@
 var selectedKeyPair;
 
 $(() => {
+    // Show keypair owner on hover over bubble
     $(".keypair-view-button-icon-container").hover(function() {
         $(this).parent()
             .find(".keypair-view-button-title")
@@ -17,26 +18,18 @@ $(() => {
         e.preventDefault();
 
         if (e.target.className.startsWith("keypair-view-button-icon")) {
-            e.target.displayingOwner = !e.target.displayingOwner;
-
-            e.stopPropagation();
-
-            if (!e.target.displayingOwner) {
-                $(this)
-                    .find(".keypair-view-button-title")
-                    .text($(e.target).parent().parent().attr("data-ownertext"))
-                    .css({ fontStyle: "italic" });                    
-            } else {
-                $(this)
-                    .find(".keypair-view-button-title")
-                    .text($(this).attr("data-name"))
-                    .css({ fontStyle: "unset" })                    
-            }
+            clickOwnerIcon(e);
 
             return;
         }
 
         selectedKeyPair = this;
+
+        if (e.target.className.startsWith("pinned-save-button")) {
+            toggleKeyPairSaved(selectedKeyPair);
+
+            return;
+        }
         
         if (window.hideKeyPairDisplay) $("#keypair-display-inner").hide();
         
@@ -61,6 +54,8 @@ $(() => {
             $("#keypair-display-button-unpin").hide();
             $("#keypair-display-button-save").show();
         }
+
+        correctSaveButton(selectedKeyPair);
 
         if (!firstClick && $(document.body).width() <= 768) {
             if (typeof(keyPairViewScrollRight) == Function) {
@@ -102,6 +97,10 @@ $(() => {
         } else {
             alert("Keypair not deleted.");
         }
+    });
+
+    $("#keypair-display-button-save").click((e) => {
+        toggleKeyPairSaved(selectedKeyPair);
     });
 
     $("#keypair-display-button-pin").click((e) => {
@@ -148,3 +147,21 @@ $(() => {
         });
     });
 });
+
+function clickOwnerIcon(e) {
+    e.target.displayingOwner = !e.target.displayingOwner;
+
+    e.stopPropagation();
+
+    if (!e.target.displayingOwner) {
+        $(this)
+            .find(".keypair-view-button-title")
+            .text($(e.target).parent().parent().attr("data-ownertext"))
+            .css({ fontStyle: "italic" });
+    } else {
+        $(this)
+            .find(".keypair-view-button-title")
+            .text($(this).attr("data-name"))
+            .css({ fontStyle: "unset" })
+    }
+}
