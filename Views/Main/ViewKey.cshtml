@@ -1,14 +1,27 @@
 @model xpgp.Models.KeyPair
 
+@{
+    ViewBag.Title = "View key";
+}
+
 @section scripts {
     <script>
         window.viewOnProfileUrl = document.location.origin + 
-            "@Url.Action("Profile", "Main", new
+            '@Url.Action("Profile", "Main", new 
             { 
                 UserId = Model.User.UserId,
                 SelectedKeyPairId = Model.KeyPairId
-            })"
+            })'
+
+        window.downloadUrl = document.location.origin + 
+            '@Url.Action("DownloadKey", "Main", new 
+            { 
+                UserId = Model.User.UserId,
+                KeyPairId = Model.KeyPairId
+            })'
     </script>
+
+    <script src="~/js/viewkey.js"></script>
 }
 
 <div class="anonymous-header">
@@ -44,7 +57,7 @@
 
             <div class="anonymous-buttons">
                 <button id="keypair-display-button-viewprofile" class="content-panel-button content-panel-button-highlighted"
-                onclick="document.location.href=window.viewOnProfileUrl">
+                onclick="document.location.href = window.viewOnProfileUrl">
                     View on @(Model.User.FirstName)'s Profile
                 </button>
 
