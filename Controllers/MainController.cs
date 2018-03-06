@@ -122,20 +122,8 @@ namespace xpgp
             ViewBag.DownloadUrls = downloadUrls;
         }
 
-        [HttpGet]
-        [Route("")]
-        public IActionResult Index()
+        public List<KeyPair> GetUsableKeyPairs(Identity identity)
         {
-            Identity identity = UserManager.Validate(HttpContext.Session);
-
-            if (!identity.Valid)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            UserManager.BagUp(identity, ViewBag);
-            RemoveExpiredKeyPairs(identity);
-
             User user = _context.Users.SingleOrDefault(u => u.UserId == identity.UserId);
 
             List<KeyPair> keyPairs = _context.KeyPairs
@@ -154,21 +142,44 @@ namespace xpgp
                 KeyPair keyPair = _context.KeyPairs
                     .SingleOrDefault(kp => kp.KeyPairId == savedKeyPair.KeyPairId);
 
-                if (keyPair != null) 
+                if (keyPair != null)
                 {
+                    keyPair.SavedAt = savedKeyPair.CreatedAt;
                     keyPair.IsSaved = true;
+
                     keyPairs.Add(keyPair);
                 }
             }
 
-            keyPairs.Sort((a, b) => 
+            keyPairs.Sort((a, b) =>
             {
                 if (user.PinnedKeyPair != null && a.KeyPairId == user.PinnedKeyPair.KeyPairId) return 1;
 
-                return 0;
+                if ((a.SavedAt ?? a.CreatedAt) > (b.SavedAt ?? b.CreatedAt)) return 1;
+
+                return -1;
             });
 
-            keyPairs.Reverse(); // Why do I need to do this?
+            keyPairs.Reverse();
+
+            return keyPairs;
+        }
+
+        [HttpGet]
+        [Route("")]
+        public IActionResult Index()
+        {
+            Identity identity = UserManager.Validate(HttpContext.Session);
+
+            if (!identity.Valid)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            UserManager.BagUp(identity, ViewBag);
+            RemoveExpiredKeyPairs(identity);
+
+            List<KeyPair> keyPairs = GetUsableKeyPairs(identity);
 
             if (keyPairs.Count() == 0)
             {
@@ -452,8 +463,7 @@ namespace xpgp
 
             UserManager.BagUp(identity, ViewBag);
 
-            List<KeyPair> keyPairs = _context.KeyPairs
-                .Where(kp => kp.UserId == identity.UserId).ToList();
+            List<KeyPair> keyPairs = GetUsableKeyPairs(identity);
 
             if (keyPairs.Count() == 0)
             {

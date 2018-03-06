@@ -34,6 +34,9 @@ namespace xpgp.Models
         public bool IsSaved { get; set; }
 
         [NotMapped]
+        public DateTime? SavedAt { get; set; }
+
+        [NotMapped]
         public bool IsPinned
         { 
             get
