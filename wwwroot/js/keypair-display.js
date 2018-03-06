@@ -18,7 +18,21 @@ $(() => {
         e.preventDefault();
 
         if (e.target.className.startsWith("keypair-view-button-icon")) {
-            clickOwnerIcon(e);
+            e.target.displayingOwner = !e.target.displayingOwner;
+
+            e.stopPropagation();
+
+            if (!e.target.displayingOwner) {
+                $(this)
+                    .find(".keypair-view-button-title")
+                    .text($(e.target).parent().parent().attr("data-ownertext"))
+                    .css({ fontStyle: "italic" });
+            } else {
+                $(this)
+                    .find(".keypair-view-button-title")
+                    .text($(this).attr("data-name"))
+                    .css({ fontStyle: "unset" })
+            }
 
             return;
         }
@@ -26,7 +40,9 @@ $(() => {
         selectedKeyPair = this;
 
         if (e.target.className.startsWith("pinned-save-button")) {
-            toggleKeyPairSaved(selectedKeyPair);
+            if (typeof toggleKeyPairSaved == "function") {
+                toggleKeyPairSaved(selectedKeyPair);
+            }
 
             return;
         }
@@ -55,10 +71,12 @@ $(() => {
             $("#keypair-display-button-save").show();
         }
 
-        correctSaveButton(selectedKeyPair);
+        if (typeof correctSaveButton == "function") {
+            correctSaveButton(selectedKeyPair);
+        }
 
         if (!firstClick && $(document.body).width() <= 768) {
-            if (typeof(keyPairViewScrollRight) == Function) {
+            if (typeof keyPairViewScrollRight == "function") {
                 keyPairViewScrollRight();
             }
 
@@ -99,8 +117,10 @@ $(() => {
         }
     });
 
-    $("#keypair-display-button-save").click((e) => {
-        toggleKeyPairSaved(selectedKeyPair);
+    $("#keypair-display-button-save").click((e) => {        
+        if (typeof(toggleKeyPairSaved) == "function") {
+            toggleKeyPairSaved(selectedKeyPair);
+        }
     });
 
     $("#keypair-display-button-pin").click((e) => {
@@ -135,7 +155,7 @@ $(() => {
 
     $("#content-panel-header-back").click(function () {
         $(this).fadeOut(() => {
-            if (typeof(keyPairViewScrollLeft) == Function) {
+            if (typeof keyPairViewScrollLeft == "function") {
                 keyPairViewScrollLeft();
             }
 
@@ -147,21 +167,3 @@ $(() => {
         });
     });
 });
-
-function clickOwnerIcon(e) {
-    e.target.displayingOwner = !e.target.displayingOwner;
-
-    e.stopPropagation();
-
-    if (!e.target.displayingOwner) {
-        $(this)
-            .find(".keypair-view-button-title")
-            .text($(e.target).parent().parent().attr("data-ownertext"))
-            .css({ fontStyle: "italic" });
-    } else {
-        $(this)
-            .find(".keypair-view-button-title")
-            .text($(this).attr("data-name"))
-            .css({ fontStyle: "unset" })
-    }
-}
