@@ -5,7 +5,7 @@ $(() => {
     $(".keypair-view-button-icon-container").hover(function() {
         $(this).parent()
             .find(".keypair-view-button-title")
-            .text($(this).attr("data-ownertext").trim())
+            .text($(this).attr("data-ownertext"))
             .css({ fontStyle: "italic" });
     }, function() {
         $(this).parent()
