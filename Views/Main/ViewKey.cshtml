@@ -1,0 +1,57 @@
+@model xpgp.Models.KeyPair
+
+@section scripts {
+    <script>
+        window.viewOnProfileUrl = document.location.origin + 
+            "@Url.Action("Profile", "Main", new
+            { 
+                UserId = Model.User.UserId,
+                SelectedKeyPairId = Model.KeyPairId
+            })"
+    </script>
+}
+
+<div class="anonymous-header">
+    <a asp-action="Index" asp-controller="Main" id="anonymous-header-title" class="logo noselect">xpgp</a>
+
+    <h3 id="anonymous-header-options">
+        @if (ViewBag.LoggedIn)
+        {
+            <a asp-action="Index" asp-controller="Main">Back to Main Site</a>
+        }
+        else
+        {
+            <a asp-action="Login" asp-controller="Account">Log in</a>
+            @:or
+            <a asp-action="Register" asp-controller="Account">Register</a>   
+        }     
+    </h3>
+</div>
+
+<div id="content">
+    <div class="center" style="flex-flow: column">
+        <div class="content-panel">
+            <div class="content-panel-header">
+                <img src='@(
+                    Url.Action("ProfileImage", "Main", new { UserId = @Model.User.UserId })
+                )' class="anonymous-profile-pic">
+
+                <span style="font-weight: bold">@Model.User.FirstName @(Model.User.LastName)</span>
+                <span style="float: right; margin-right: var(--content-padding)">@Model.Name</span>
+            </div>
+
+            <pre class="anonymous-publickey">@ViewBag.PublicKey</pre>   
+
+            <div class="anonymous-buttons">
+                <button id="keypair-display-button-viewprofile" class="content-panel-button content-panel-button-highlighted"
+                onclick="document.location.href=window.viewOnProfileUrl">
+                    View on @(Model.User.FirstName)'s Profile
+                </button>
+
+                <button id="keypair-display-button-download" class="content-panel-button content-panel-button-highlighted">
+                    Download
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
