@@ -1,7 +1,7 @@
 window.hideKeyPairDisplay = true;
 
 function keyPairClicked(selectedKeyPair) {
-    var publicKeyUrl = document.location.origin + $(selectedKeyPair).attr("data-viewurl");
+    var publicKeyUrl = document.location.origin + $(selectedKeyPair).attr("data-rawurl");
 
     $.ajax({
         type: "GET", url: publicKeyUrl, success: function(response) {

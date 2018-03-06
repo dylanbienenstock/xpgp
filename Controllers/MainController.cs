@@ -106,6 +106,16 @@ namespace xpgp
                 })
             );
 
+
+            Dictionary<int, string> rawUrls = keyPairs.ToDictionary(
+                kp => kp.KeyPairId,
+                kp => this.Url.Action("ViewKeyRaw", "Main", new
+                {
+                    UserId = kp.UserId,
+                    KeyPairId = kp.KeyPairId
+                })
+            );
+
             Dictionary<int, string> downloadUrls = keyPairs.ToDictionary(
                 kp => kp.KeyPairId,
                 kp => this.Url.Action("DownloadKey", "Main", new
@@ -119,6 +129,7 @@ namespace xpgp
             ViewBag.ExpirationTimes = expirationTimes;
             ViewBag.DeleteUrls = deleteUrls;
             ViewBag.ViewUrls = viewUrls;
+            ViewBag.RawUrls = rawUrls;
             ViewBag.DownloadUrls = downloadUrls;
         }
 
@@ -183,7 +194,7 @@ namespace xpgp
 
             if (keyPairs.Count() == 0)
             {
-                return RedirectToAction("NewKeyPair");
+                return RedirectToAction("NewKey");
             }
 
             BagUpKeyPairs(keyPairs, ViewBag);
@@ -435,8 +446,8 @@ namespace xpgp
         }
 
         [HttpGet]
-        [Route("NewKeyPair")]
-        public IActionResult NewKeyPair()
+        [Route("NewKey")]
+        public IActionResult NewKey()
         {
             Identity identity = UserManager.Validate(HttpContext.Session);
 
@@ -467,7 +478,7 @@ namespace xpgp
 
             if (keyPairs.Count() == 0)
             {
-                return RedirectToAction("NewKeyPair");
+                return RedirectToAction("NewKey");
             }
 
             BagUpKeyPairs(keyPairs, ViewBag);
@@ -495,7 +506,7 @@ namespace xpgp
 
             if (keyPairs.Count() == 0)
             {
-                return RedirectToAction("NewKeyPair");
+                return RedirectToAction("NewKey");
             }
 
             BagUpKeyPairs(keyPairs, ViewBag);
@@ -571,16 +582,9 @@ namespace xpgp
         }
 
         [HttpGet]
-        [Route("ViewKey/{UserId}/{KeyPairId}")]
-        public IActionResult ViewKey(int UserId, int KeyPairId)
+        [Route("ViewKey/Raw")]
+        public IActionResult ViewKeyRaw(int UserId, int KeyPairId)
         {
-            // Identity identity = UserManager.Validate(HttpContext.Session);
-
-            // if (!identity.Valid)
-            // {
-            //     return RedirectToAction("Login", "Account");
-            // }
-
             KeyPair keyPair = FindKeyPair(UserId, KeyPairId);
 
             if (keyPair != null)
@@ -592,7 +596,24 @@ namespace xpgp
 
             return Content("Not found.");
         }
-        
+
+        [HttpGet]
+        [Route("ViewKey")]
+        public IActionResult ViewKey(int UserId, int KeyPairId)
+        {
+            KeyPair keyPair = FindKeyPair(UserId, KeyPairId);
+
+            if (keyPair != null)
+            {
+                ViewBag.LoggedIn = UserManager.Validate(HttpContext.Session).Valid;
+                ViewBag.PublicKey = (new AES()).DecryptString(keyPair.PublicKey, AES.Password, keyPair.Salt);
+
+                return View(keyPair);
+            }
+
+            return Content("Not found.");
+        }
+
         [HttpGet]
         [Route("DeleteKey/{UserId}/{KeyPairId}")]
         public IActionResult DeleteKey(int UserId, int KeyPairId)

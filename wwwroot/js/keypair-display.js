@@ -99,7 +99,7 @@ $(() => {
         }
     });
 
-    $(".keypair-view-button").first().click();
+    clickSpecifiedKeyPair();
 
     $("#keypair-display-button-delete").click((e) => {
         var response = prompt("Are you sure? Please type the name of the key:")
@@ -167,3 +167,21 @@ $(() => {
         });
     });
 });
+
+function clickSpecifiedKeyPair()
+{   
+    var regex = /(?:SelectedKeyPairId=)(\d+)/g;
+    var match = regex.exec(location.search);
+
+    if (match) {
+        $selectedKeyPair = $(`.keypair-view-button[data-keypairid=${match[0].split("=")[1]}]`);
+
+        if ($selectedKeyPair.length == 1) {
+            $selectedKeyPair.click();
+        } else {
+            $(".keypair-view-button").first().click();            
+        }
+    } else {
+        $(".keypair-view-button").first().click();
+    }
+}

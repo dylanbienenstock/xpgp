@@ -82,8 +82,16 @@ namespace xpgp
                 UpdatedAt = DateTime.Now
             };
 
-            _context.Add(keyPair);
-            _context.SaveChanges();
+            try
+            {
+                _context.Add(keyPair);
+                _context.SaveChanges();
+            } 
+            catch
+            {
+                // TODO: MAKE THIS LESS DANGEROUS 
+                GenerateKeyPair(userId, name, emailAddress, password, expiration, expirationUnits);
+            }
 
             return keyPair;
         }
