@@ -9,5 +9,7 @@ $(() => {
 
             return;
         }
+
+        document.location.href = $(this).parent().parent().attr("data-profileurl");        
     });
 });
