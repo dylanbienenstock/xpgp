@@ -1,3 +1,5 @@
+// TODO: Make this file less redundant
+
 var accountMenuOpen = false;
 var mobileMenuOpen = false;
 var notificationMenuOpen = false;
