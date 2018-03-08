@@ -6,9 +6,7 @@
 } 
 
 <div id="navbar-mobile-menu">    
-    <div id="navbar-mobile-menu-pointer">
-
-    </div>
+    <div id="navbar-mobile-menu-pointer"></div>
 
     <div id="navbar-mobile-menu-inner">
         <a class="optionbar-option" asp-controller="Main" asp-action="Index">
@@ -39,9 +37,7 @@
 </div>
 
 <div id="navbar-account-menu">
-    <div id="navbar-account-menu-pointer">
-
-    </div>
+    <div id="navbar-account-menu-pointer"></div>
     
     <div id="navbar-account-menu-inner">
         <a class="optionbar-option" asp-controller="Main" asp-action="Profile" asp-route-UserId="@ViewBag.UserId" style="display: block;">
@@ -58,6 +54,14 @@
             <img class="optionbar-option-icon noselect" src="~/img/logout.svg">                        
             Log Out
         </a>
+    </div>
+</div>
+
+<div id="navbar-notification-menu">
+    <div id="navbar-notification-menu-pointer"></div>
+
+    <div id="navbar-notification-menu-inner">
+        Notifications go here
     </div>
 </div>
 
@@ -83,9 +87,9 @@
         </div>
 
         <div id="navbar-right">
-            <div id="navbar-notifications">
-                <div id="navbar-notifications-inner" class="center noselect">
-                    <img id="navbar-notifications-icon" src="~/img/notifications.svg">
+            <div id="navbar-bell">
+                <div id="navbar-bell-inner" class="center noselect">
+                    <img id="navbar-bell-icon" src="~/img/notifications.svg">
                 </div>
             </div>
 

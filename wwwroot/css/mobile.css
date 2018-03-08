@@ -1,8 +1,13 @@
+@media only screen and (max-width: 425px) {
+	:root {
+		--navbar-title-transform: translate(0px, calc(var(--navbar-title-font-size) * -0.1));
+	}
+}
+
 @media only screen and (max-width: 768px) {
 	::-webkit-scrollbar {
 		width: 0px;
 	}
-
 
 	#optionbar, #navbar-searchbar {
 		display: none;
@@ -67,9 +72,21 @@
 		min-width: 152px;
 	}
 
+	#navbar-account-menu-inner {
+		min-width: 160px;
+	}
+
 	#navbar-account-menu-pointer {
 		left: 100%;
 		transform: translateX(-209%);
+	}
+
+	#navbar-notification-menu-inner {
+		width: 100vw;
+	}
+
+	#navbar-notification-menu-pointer {
+		left: calc(100vw - 97px);
 	}
 
 	#keypair-display-publickey {
