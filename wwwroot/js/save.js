@@ -2,7 +2,7 @@ function correctSaveButton(keyPair) {
     var saved = $(keyPair).attr("data-issaved") == "True";
     var $saveButton = $("#keypair-display-button-save");
 
-    var $pinned = $(".keypair-view-button[data-ispinned=True]");
+    var $pinned = $(keyPair);
     var pinnedSaved = $pinned.attr("data-issaved") == "True";
     var $pinnedSaveButton = $pinned.find(".pinned-save-button");
 
