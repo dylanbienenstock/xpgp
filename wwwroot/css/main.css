@@ -225,14 +225,41 @@ textarea {
 	font-size: 0;
 }
 
-#navbar-userinfo {
+#navbar-right {
 	float: right;
 	font-size: 0;
 	cursor: pointer;
-	padding: 0 16px;
 }
 
-#navbar-userinfo:hover {
+#navbar-right > * {
+	display: inline-block;
+	vertical-align: top;
+	font-size: 0;
+}
+
+#navbar-notifications-inner {
+    position: absolute;
+    transform: translate(-100%, -50%);
+	top: 50%;
+    width: var(--navbar-height);	
+    height: var(--navbar-height);
+}
+
+#navbar-notifications-icon {
+	width: 26px;
+}
+
+#navbar-userinfo {
+	padding: 0 16px;	
+}
+
+#navbar-userinfo > * {
+	display: inline-block;
+	vertical-align: top;
+	font-size: 0;
+}
+
+#navbar-userinfo:hover, #navbar-notifications-inner:hover {
 	background-color: rgba(255, 255, 255, 0.15);
 }
 
@@ -242,12 +269,6 @@ textarea {
 
 #navbar-userinfo-name {
 	font-size: 16px;
-}
-
-#navbar-userinfo > * {
-	display: inline-block;
-	vertical-align: top;
-	font-size: 0;
 }
 
 #navbar-menu-icon {

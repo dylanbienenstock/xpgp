@@ -82,15 +82,23 @@
             </form>
         </div>
 
-        <div id="navbar-userinfo">
-            <img src='@(
-                Url.Action("ProfileImage", "Main", new { UserId = ViewBag.UserId })
-            )' id="navbar-userinfo-icon" class="noselect">
+        <div id="navbar-right">
+            <div id="navbar-notifications">
+                <div id="navbar-notifications-inner" class="center noselect">
+                    <img id="navbar-notifications-icon" src="~/img/notifications.svg">
+                </div>
+            </div>
 
-            <div id="navbar-userinfo-name-container">
-                <p id="navbar-userinfo-name" class="noselect">
-                    @ViewBag.UserFirstName @ViewBag.UserLastName
-                </p>
+            <div id="navbar-userinfo">
+                <img src='@(
+                    Url.Action("ProfileImage", "Main", new { UserId = ViewBag.UserId })
+                )' id="navbar-userinfo-icon" class="noselect">
+
+                <div id="navbar-userinfo-name-container">
+                    <p id="navbar-userinfo-name" class="noselect">
+                        @ViewBag.UserFirstName @ViewBag.UserLastName
+                    </p>
+                </div>
             </div>
         </div>
     </div>
