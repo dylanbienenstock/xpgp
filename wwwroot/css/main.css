@@ -259,7 +259,7 @@ textarea {
 	font-size: 0;
 }
 
-#navbar-userinfo:hover, #navbar-notification-inner:hover {
+#navbar-userinfo:hover, #navbar-bell-inner:hover {
 	background-color: rgba(255, 255, 255, 0.15);
 }
 
