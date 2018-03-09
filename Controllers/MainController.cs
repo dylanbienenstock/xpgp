@@ -536,12 +536,22 @@ namespace xpgp
 
                     if (keyPair != null)
                     {
+                        Notification notification = new Notification
+                        {
+                            UserId = keyPair.UserId,
+                            AssociatedUserId = identity.UserId,
+                            NotificationType = NotificationType.KeySaved,
+                            Text = "@ saved your key: " + keyPair.Name
+                        };
+
                         SavedKeyPair savedKeyPair = new SavedKeyPair
                         {
                             UserId = identity.UserId,
-                            KeyPairId = KeyPairId
+                            KeyPairId = KeyPairId,
+                            Notification = notification
                         };
 
+                        _context.Notifications.Add(notification);
                         _context.SavedKeyPairs.Add(savedKeyPair);
                         _context.SaveChanges();
 
@@ -571,6 +581,7 @@ namespace xpgp
 
                 if (existingSavedKeyPair != null)
                 {
+                    _context.Notifications.Remove(existingSavedKeyPair.Notification);
                     _context.SavedKeyPairs.Remove(existingSavedKeyPair);
                     _context.SaveChanges();
                 }

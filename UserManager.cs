@@ -152,6 +152,10 @@ namespace xpgp
             ViewBag.UserFirstName = identity.FirstName;
             ViewBag.UserLastName = identity.LastName;
             ViewBag.UserEmailAddress = identity.EmailAddress;
+
+            ViewBag.Notifications = _context.Notifications.Where(
+                u => u.UserId == identity.UserId
+            );
         }
     }
 }

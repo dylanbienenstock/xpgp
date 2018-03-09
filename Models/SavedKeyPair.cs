@@ -17,5 +17,9 @@ namespace xpgp.Models
         public KeyPair KeyPair { get; set; }
 
         public int KeyPairId { get; set; }
+
+        public Notification Notification { get; set; }
+
+        public int NotificationId { get; set; }
     }
 }

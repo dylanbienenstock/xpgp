@@ -61,7 +61,10 @@
     <div id="navbar-notification-menu-pointer"></div>
 
     <div id="navbar-notification-menu-inner">
-        Notifications go here
+        @foreach (var Notification in ViewBag.Notifications)
+        {
+            @Notification.Text
+        }
     </div>
 </div>
 

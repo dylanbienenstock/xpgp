@@ -32,7 +32,13 @@ namespace xpgp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NotificationId { get; set; }
 
+        public User User { get; set; }
+
         public int UserId { get; set; }
+
+        public User AssociatedUser { get; set; }
+        
+        public int AssociatedUserId { get; set; }
 
         public NotificationType NotificationType { get; set; }
 

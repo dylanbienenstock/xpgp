@@ -27,6 +27,15 @@ namespace xpgp
 
             modelBuilder.Entity<SavedKeyPair>()
                 .HasOne(skp => skp.KeyPair);
+
+            modelBuilder.Entity<SavedKeyPair>()
+                .HasOne(skp => skp.Notification);
+
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.User);
+
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.AssociatedUser);
         }
     }
 }
