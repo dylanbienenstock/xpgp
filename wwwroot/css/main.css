@@ -696,6 +696,27 @@ textarea {
 
 #navbar-notification-menu-inner {
 	width: 300px;
+	padding: 0 !important;
+}
+
+#navbar-notification-menu-notification-container {
+	padding: 16px;
+	height: 200px;
+	overflow-y: auto;
+}
+
+#navbar-notification-menu-notification-container::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+#navbar-notification-menu-viewall {
+	cursor: pointer;
+	padding: 8px;
+	text-align: center;
+}
+
+#navbar-notification-menu-viewall:hover {
+	background-color: rgba(255, 255, 255, 0.15);	
 }
 
 #navbar-account-menu-pointer,
