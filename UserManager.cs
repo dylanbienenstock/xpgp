@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using xpgp.Models;
 using xpgp.ViewModels;
 
@@ -153,9 +154,11 @@ namespace xpgp
             ViewBag.UserLastName = identity.LastName;
             ViewBag.UserEmailAddress = identity.EmailAddress;
 
-            ViewBag.Notifications = _context.Notifications.Where(
-                u => u.UserId == identity.UserId
-            );
+            var notifications = _context.Notifications.Where(
+                n => n.UserId == identity.UserId
+            ).Include(n => n.AssociatedUser);
+
+            ViewBag.Notifications = notifications;
         }
     }
 }
