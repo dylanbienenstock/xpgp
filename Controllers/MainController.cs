@@ -24,6 +24,8 @@ namespace xpgp
             _context = context;
 
             UserManager.SetDatabaseContext(_context);
+
+            NotificationHelpers.SetUrlHelper(this.Url);
         }
 
         public string FormatTimeSpan(TimeSpan span)
@@ -542,14 +544,18 @@ namespace xpgp
                             AssociatedUserId = identity.UserId,
                             AssociatedModelId = keyPair.KeyPairId,
                             NotificationType = NotificationType.KeySaved,
-                            Text = $"{identity.FirstName} {identity.LastName} saved your key: {keyPair.Name}"
+                            Text = $"{identity.FirstName} {identity.LastName} saved your key: {keyPair.Name}",
+                            CreatedAt = DateTime.Now,
+                            UpdatedAt = DateTime.Now
                         };
 
                         SavedKeyPair savedKeyPair = new SavedKeyPair
                         {
                             UserId = identity.UserId,
                             KeyPairId = KeyPairId,
-                            Notification = notification
+                            Notification = notification,
+                            CreatedAt = DateTime.Now,
+                            UpdatedAt = DateTime.Now
                         };
 
                         _context.Notifications.Add(notification);
