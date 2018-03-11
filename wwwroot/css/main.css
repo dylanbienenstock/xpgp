@@ -231,7 +231,23 @@ textarea {
     height: var(--navbar-height);
 }
 
-#navbar-bell-icon {
+#navbar-bell-inner[data-blip="True"] > #navbar-bell-icon-blip {
+	display: inline-block !important;
+}
+
+#navbar-bell-inner[data-blip="True"] > #navbar-bell-icon-noblip {
+	display: none !important;
+}
+
+#navbar-bell-icon-blip {
+	display: none;
+}
+
+#navbar-bell-icon-noblip {
+	display: inline-block;
+}
+
+.navbar-bell-icon {
 	width: 26px;
 }
 
@@ -700,6 +716,7 @@ textarea {
 }
 
 #navbar-notification-menu-notification-container-fade-top {
+	pointer-events: none;
     position: absolute;
 	top: 20px; /* Height of the pointer */
 	height: 16px;
@@ -712,11 +729,12 @@ textarea {
 }
 
 #navbar-notification-menu-notification-container-fade-bottom {
+	pointer-events: none;	
     position: absolute;
     left: 8px;
     transform: translateY(-16px);
     height: 16px;
-	width: calc(300px - 20px);
+	width: 338px;
 	
 	background: -moz-linear-gradient(top, rgba(36,36,36,0) 0%, rgba(36,36,36,1) 90%, rgba(36,36,36,1) 100%);
 	background: -webkit-linear-gradient(top, rgba(36,36,36,0) 0%,rgba(36,36,36,1) 90%,rgba(36,36,36,1) 100%);
@@ -731,7 +749,7 @@ textarea {
 }
 
 #navbar-notification-menu-viewall:hover {
-	background-color: rgba(255, 255, 255, 0.15);	
+	background-color: rgba(255, 255, 255, 0.1);	
 }
 
 #navbar-account-menu-pointer,
@@ -945,6 +963,10 @@ textarea {
 	-webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
+}
+
+#navbar-notification-menu-notifications-old {
+	padding: 8px;
 }
 
 .notification-content-datetime {

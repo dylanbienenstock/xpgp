@@ -54,6 +54,7 @@ $(() => {
             $("#navbar-notification-menu").slideDown(150);
             $("#navbar-mobile-menu").hide();
             $("#navbar-account-menu").hide();
+            $("#navbar-bell-inner").attr("data-blip", "False");
             positionNotificationMenu();
             notificationMenuOpen = true;            
             mobileMenuOpen = false;
@@ -73,8 +74,22 @@ $(() => {
         }
 
         if (!e.target.id.startsWith("navbar-notification")) {
-            $("#navbar-notification-menu").slideUp(150);
-            notificationMenuOpen = false;
+            if (notificationMenuOpen) {
+                $("#navbar-notification-menu").slideUp(150, () => {
+                    // "Merge" notification sections
+                    $("#navbar-notification-menu-notifications-new-title").remove();
+                    $("#navbar-notification-menu-notifications-new").css({ 
+                        border: "none",
+                        padding: "8px 8px 0px 8px"
+                    });
+
+                    $("#navbar-notification-menu-notifications-old").css({
+                        padding: "0px 8px 8px 8px"
+                    });
+                });
+
+                notificationMenuOpen = false;
+            }
         }
     });
 });
