@@ -681,12 +681,12 @@ textarea {
 }
 
 #navbar-notification-menu-inner {
-	width: 300px;
+	width: 360px;
 	padding: 0 !important;
 }
 
 #navbar-notification-menu-notification-container {
-	padding: 16px;
+	padding: 16px 8px 16px 8px;
 	height: 200px;
 	overflow-y: auto;
 }
@@ -713,11 +713,11 @@ textarea {
 
 #navbar-notification-menu-notification-container-fade-bottom {
     position: absolute;
-    left: 16px;
+    left: 8px;
     transform: translateY(-16px);
-	height: 16px;
-	width: calc(300px - 32px);	
-
+    height: 16px;
+	width: calc(300px - 20px);
+	
 	background: -moz-linear-gradient(top, rgba(36,36,36,0) 0%, rgba(36,36,36,1) 90%, rgba(36,36,36,1) 100%);
 	background: -webkit-linear-gradient(top, rgba(36,36,36,0) 0%,rgba(36,36,36,1) 90%,rgba(36,36,36,1) 100%);
 	background: linear-gradient(to bottom, rgba(36,36,36,0) 0%,rgba(36,36,36,1) 90%,rgba(36,36,36,1) 100%);
@@ -884,4 +884,72 @@ textarea {
 
 #anonymous-header-options > * {
 	color: white;
+}
+
+.notification {
+	cursor: pointer;
+	display: flex;
+	flex-flow: row nowrap;
+	padding: 10px;
+
+	-webkit-border-radius: var(--optionbar-border-radius);
+    -moz-border-radius: var(--optionbar-border-radius);
+    border-radius: var(--optionbar-border-radius);
+}
+
+.notification:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.notification-icon {
+	width: 50px;
+	height: 100%;
+}
+
+.notification-content {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: space-around;
+	flex: 1;
+	margin-left: 8px;
+}
+
+.notification-content-inner > a {
+	padding-left: 4px;
+	padding-right: 4px;
+	line-height: 1.4;
+
+	text-decoration: none;
+	color: white !important;
+	background-color: rgba(255, 255, 255, 0.1);
+
+	-webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#navbar-notification-menu-notifications-new-title {
+    margin-left: 8px;
+	margin-bottom: 2px;
+    text-align: center;
+	font-size: 14px;
+
+	color: rgba(255, 255, 255, 0.5);
+}
+
+#navbar-notification-menu-notifications-new {
+	padding: 8px;
+
+	border: 1px solid rgba(255, 255, 255, 0.35);	
+
+	-webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+
+.notification-content-datetime {
+	text-decoration: none !important;
+	margin-top: 4px;
+    opacity: 0.5;
+    font-size: 12px;
 }
