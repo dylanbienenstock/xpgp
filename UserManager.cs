@@ -28,6 +28,9 @@ namespace xpgp
         public static void SetDatabaseContext(DatabaseContext context)
         { 
             _context = context;
+
+            // I'm lazy
+            NotificationHelpers.SetDatabaseContext(context);
         }
 
         public static void CreateAccount(RegisterViewModel model)

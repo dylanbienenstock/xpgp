@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace xpgp.Models
 {
@@ -15,19 +19,68 @@ namespace xpgp.Models
         QAndAVerification, // Someone wants to verify it's you with a secret question
     }
 
-    public class Notification : BaseModel
-    {
-        private static Dictionary<NotificationType, string> Titles = 
-        new Dictionary<NotificationType, string>()
+    public static class NotificationHelpers {
+        private static DatabaseContext _context = null;
+
+        public static void SetDatabaseContext(DatabaseContext context)
         {
-            { NotificationType.Account, "Account" },
-            { NotificationType.AccountSetup, "Set up your account" },
-            { NotificationType.KeySaved, "Key saved" },
-            { NotificationType.KeyExpired, "Key expired" },
-            { NotificationType.EmailRequested, "Email address requested" },
-            { NotificationType.QAndAVerification, "Verification requested" },
+            _context = context;
+        }
+
+        public static Dictionary<NotificationType, string> Formats =
+        new Dictionary<NotificationType, string>
+        {
+            { NotificationType.Account, "" },
+            { NotificationType.AccountSetup, "" },
+            { NotificationType.KeySaved, "%User has saved your key: %Key" },
+            { NotificationType.KeyExpired, "%User's key has expired: %Key" },
+            { NotificationType.EmailRequested, "" },
+            { NotificationType.QAndAVerification, "" },
         };
 
+        public static IHtmlContent NotificationContent(this IHtmlHelper htmlHelper, Notification notification)
+        {
+            string html = Formats[notification.NotificationType];
+
+            if (html.Contains("%User"))
+            {
+                string name = $"{notification.AssociatedUser.FirstName} {notification.AssociatedUser.LastName}";
+                string url = $"/Profile/{notification.AssociatedUser.UserId}";
+                string href = '\"' + url + '\"';
+
+                html = html.Replace("%User", $@"<a href={href}>{name}</a>");
+            }
+
+            if (html.Contains("%Key"))
+            {
+                if (notification.NotificationType != NotificationType.KeyExpired)
+                {
+                    try
+                    {
+                        KeyPair keyPair = _context.KeyPairs.Single(
+                            kp => kp.KeyPairId == notification.AssociatedModelId
+                        );
+
+                        html = html.Replace("%Key", $@"<b>{keyPair.Name}</b>");
+                    }
+                    catch // Remove notification if key is expired
+                    {
+                        _context.Notifications.Remove(notification);
+                        _context.SaveChanges();
+                    }
+                }
+                else // Key doesn't exist in database, so find its name in ExpiredKeyNames table
+                {
+
+                }
+            }
+            
+            return new HtmlString(html);
+        }
+    }
+
+    public class Notification : BaseModel
+    {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NotificationId { get; set; }
@@ -40,14 +93,9 @@ namespace xpgp.Models
         
         public int AssociatedUserId { get; set; }
 
-        public NotificationType NotificationType { get; set; }
+        public int AssociatedModelId { get; set; }
 
-        [NotMapped]
-        public string Title {
-            get {
-                return Titles[this.NotificationType];
-            }
-        }
+        public NotificationType NotificationType { get; set; }
 
         public string Text { get; set; }
     }

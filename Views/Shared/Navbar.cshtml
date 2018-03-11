@@ -61,10 +61,23 @@
     <div id="navbar-notification-menu-pointer"></div>
 
     <div id="navbar-notification-menu-inner">
-        @foreach (var Notification in ViewBag.Notifications)
-        {
-            @Notification.Text
-        }
+        <div id="navbar-notification-menu-notification-container">
+            <div id="navbar-notification-menu-notification-container-fade-top"></div>
+
+            @if (ViewBag.Notifications != null)
+            {
+                @foreach (var Notification in ViewBag.Notifications)
+                {
+                    @Html.NotificationContent((Notification)Notification)
+                }
+            }
+        </div>
+
+        <div id="navbar-notification-menu-notification-container-fade-bottom"></div>        
+
+        <div id="navbar-notification-menu-viewall">
+            All Notifications
+        </div>
     </div>
 </div>
 

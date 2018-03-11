@@ -540,8 +540,9 @@ namespace xpgp
                         {
                             UserId = keyPair.UserId,
                             AssociatedUserId = identity.UserId,
+                            AssociatedModelId = keyPair.KeyPairId,
                             NotificationType = NotificationType.KeySaved,
-                            Text = "@ saved your key: " + keyPair.Name
+                            Text = $"{identity.FirstName} {identity.LastName} saved your key: {keyPair.Name}"
                         };
 
                         SavedKeyPair savedKeyPair = new SavedKeyPair
@@ -574,6 +575,7 @@ namespace xpgp
             if (identity.Valid)
             {
                 SavedKeyPair existingSavedKeyPair = _context.SavedKeyPairs
+                    .Include(skp => skp.Notification)
                     .SingleOrDefault(skp => 
                         skp.UserId == identity.UserId &&
                         skp.KeyPairId == KeyPairId
