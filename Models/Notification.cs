@@ -21,10 +21,16 @@ namespace xpgp.Models
 
     public static class NotificationHelpers {
         private static DatabaseContext _context = null;
+        private static IUrlHelper _urlHelper = null;
 
         public static void SetDatabaseContext(DatabaseContext context)
         {
             _context = context;
+        }
+
+        public static void SetUrlHelper(IUrlHelper urlHelper)
+        {
+            _urlHelper = urlHelper;
         }
 
         public static Dictionary<NotificationType, string> Formats =
@@ -45,7 +51,7 @@ namespace xpgp.Models
             if (html.Contains("%User"))
             {
                 string name = $"{notification.AssociatedUser.FirstName} {notification.AssociatedUser.LastName}";
-                string url = $"/Profile/{notification.AssociatedUser.UserId}";
+                string url = $"/Profile/{notification.AssociatedUser.UserId}"; // TODO: Do this dynamically
                 string href = '\"' + url + '\"';
 
                 html = html.Replace("%User", $@"<a href={href}>{name}</a>");
@@ -61,7 +67,10 @@ namespace xpgp.Models
                             kp => kp.KeyPairId == notification.AssociatedModelId
                         );
 
-                        html = html.Replace("%Key", $@"<b>{keyPair.Name}</b>");
+                        string url = $"/Profile/{keyPair.UserId}?SelectedKeyPairId={keyPair.KeyPairId}";
+                        string href = '\"' + url + '\"';
+
+                        html = html.Replace("%Key", $@"<a href={href}>{keyPair.Name}</a>");
                     }
                     catch // Remove notification if key is expired
                     {
