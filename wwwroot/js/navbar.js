@@ -5,6 +5,8 @@ var mobileMenuOpen = false;
 var notificationMenuOpen = false;
 
 $(() => {
+    $(".notification-content-datetime").timeago();
+
     $("html, body").resize(() => {
         if (accountMenuOpen) {
             positionAccountMenu();
