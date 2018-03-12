@@ -1,6 +1,6 @@
 window.xpgpExampleModal = {
     title: "Confirm credentials",
-    transitionTime: 400, // How long it takes for the modal to appear / disappear.
+    transitionTime: 550, // How long it takes for the modal to appear / disappear.
     text: "Enter your email address and password.",
     inputs: {
         // (OPTIONAL)
@@ -36,11 +36,11 @@ window.xpgpExampleModal = {
         Confirm: (inputs) => {
             inputs.password = inputs.password.trim();
 
-            if (inputs.password.length >= 8) { // Valid password length
-                // Do something with password
+            xpgpModalLoading(true);
 
-                return true; // Close the modal
-            }
+            setTimeout(() => { // Pretend to wait a bit
+                xpgpModalClose();
+            }, 2000);
 
             return false; // Don't close the modal
         }
@@ -64,6 +64,9 @@ const xpgpModalDefaultClasses = {
     input: "xpgp-modal-input",
     buttonContainer: "xpgp-modal-button-container",
     button: "content-panel-button content-panel-button-highlighted",
+    containerHidden: "xpgp-modal-container-hidden",
+    loadingSpinner: "xpgp-modal-loading",
+    loadingSpinnerVisible: "xpgp-modal-loading-visible"
 };
 
 $(() => {
@@ -142,6 +145,8 @@ $(() => {
                     <div class="${modalClasses.title}">${modalTemplate.title}</div>
 
                     <div class="${modalClasses.modalContent}">
+                        <img class="${modalClasses.loadingSpinner}" src="/img/loading.svg">
+
                         ${
                             modalTemplate.text ?
                             `
@@ -177,7 +182,7 @@ $(() => {
             curtain.addClass(modalClasses.curtainVisible);
             modalContainer.addClass(modalClasses.modalContainerVisible);
 
-            window.xpgpModelClose = function () {
+            window.xpgpModalClose = function() {
                 curtain.removeClass(modalClasses.curtainVisible);
                 modalContainer.removeClass(modalClasses.modalContainerVisible);
 
@@ -186,6 +191,21 @@ $(() => {
                     modalContainer.remove();
                     xpgpModalOpen = false;
                 }, modalTemplate.transitionTime + 100);
+            }
+
+            window.xpgpModalLoading = function(loading) {
+                if (loading) {
+                    $(`[class="${modalClasses.textContainer}"], [class="${modalClasses.inputContainer}"], [class="${modalClasses.buttonContainer}"]`)
+                        .addClass(modalClasses.containerHidden);
+
+                    $(`[class="${modalClasses.loadingSpinner}"]`).addClass(modalClasses.loadingSpinnerVisible);
+                } else {
+                    $(`[class*="${modalClasses.containerHidden}"]`)
+                        .removeClass(modalClasses.containerHidden);
+
+                    $(`[class*="${modalClasses.loadingSpinnerVisible}"]`)
+                        .removeClass(modalClasses.loadingSpinnerVisible);
+                }
             }
 
             $(`[class="${modalClasses.button}"]`).click(function() {
@@ -202,7 +222,7 @@ $(() => {
                     let shouldClose = modalTemplate.buttons[buttonKey](inputs);
 
                     if (shouldClose) {
-                        window.xpgpModelClose();
+                        window.xpgpModalClose();
                     }
                 }
             });

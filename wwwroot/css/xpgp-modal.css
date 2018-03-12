@@ -7,11 +7,11 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0);
 
-    -webkit-transition: background-color 400ms ease;
-    -moz-transition: background-color 400ms ease;
-    -ms-transition: background-color 400ms ease;
-    -o-transition: background-color 400ms ease;
-    transition: background-color 400ms ease;
+    -webkit-transition: background-color 550ms ease;
+    -moz-transition: background-color 550ms ease;
+    -ms-transition: background-color 550ms ease;
+    -o-transition: background-color 550ms ease;
+    transition: background-color 550ms ease;
 }
 
 .xpgp-modal-curtain-visible {
@@ -32,11 +32,11 @@
     -moz-border-radius: var(--navbar-searchbar-border-radius);
     border-radius: var(--navbar-searchbar-border-radius);
 
-    -webkit-transition: transform 400ms ease;
-    -moz-transition: transform 400ms ease;
-    -ms-transition: transform 400ms ease;
-    -o-transition: transform 400ms ease;
-    transition: transform 400ms ease;
+    -webkit-transition: transform 550ms ease;
+    -moz-transition: transform 550ms ease;
+    -ms-transition: transform 550ms ease;
+    -o-transition: transform 550ms ease;
+    transition: transform 550ms ease;
 }
 
 .xpgp-modal-container-visible {
@@ -89,13 +89,48 @@
     
     box-sizing: border-box;
 
-    -webkit-transition: all 400ms ease-out;
-    -moz-transition: all 400ms ease-out;
-    -ms-transition: all 400ms ease-out;
-    -o-transition: all 400ms ease-out;
-    transition: all 400ms ease-out;
+    -webkit-transition: all 550ms ease-out;
+    -moz-transition: all 550ms ease-out;
+    -ms-transition: all 550ms ease-out;
+    -o-transition: all 550ms ease-out;
+    transition: all 550ms ease-out;
 }
 
 .xpgp-modal-button-container {
     text-align: right;
+}
+
+.xpgp-modal-text-container,
+.xpgp-modal-input-container,
+.xpgp-modal-button-container {
+    opacity: 1;
+
+    -webkit-transition: opacity 200ms ease-out;
+    -moz-transition: opacity 200ms ease-out;
+    -ms-transition: opacity 200ms ease-out;
+    -o-transition: opacity 200ms ease-out;
+    transition: opacity 200ms ease-out;
+}
+
+.xpgp-modal-container-hidden {
+    opacity: 0 !important;
+}
+
+.xpgp-modal-loading {
+    position: absolute;
+    width: 75px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+
+    -webkit-transition: opacity 200ms ease-out;
+    -moz-transition: opacity 200ms ease-out;
+    -ms-transition: opacity 200ms ease-out;
+    -o-transition: opacity 200ms ease-out;
+    transition: opacity 200ms ease-out;
+}
+
+.xpgp-modal-loading-visible {
+    opacity: 1 !important;
 }
