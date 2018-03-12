@@ -101,7 +101,7 @@ $(() => {
     $.xpgpModal = function(modalTemplate, modalOverrideClasses) {
         if (xpgpModalOpen) {
             console.error("Only one modal can be open at a time.");
-            
+
             return;
         }
         
@@ -183,25 +183,6 @@ $(() => {
                         }
                     }
             });
-
-            // for (let buttonKey in modalTemplate.buttons) {
-            //     if (!modalTemplate.buttons.hasOwnProperty(buttonKey)) continue;
-
-            //     $(`.${modalClasses.button}[data-name="${buttonKey}"]`).click(() => {
-            //         console.log("shit")
-            //         if (typeof modalTemplate.buttons[buttonKey] == "function") {
-            //             let inputs = {};
-
-            //             $(`.${modalClasses.inputContainer}`).each((input) => {
-            //                 inputs[input.attr("name")] = input.val();
-            //             });
-
-            //             console.log(inputs);
-
-            //             let shouldClose = modalTemplate.buttons[buttonKey]();
-            //         }
-            //     });              
-            // }
         }, 100);
     }
 });
