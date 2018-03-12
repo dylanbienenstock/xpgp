@@ -177,30 +177,34 @@ $(() => {
             curtain.addClass(modalClasses.curtainVisible);
             modalContainer.addClass(modalClasses.modalContainerVisible);
 
+            window.xpgpModelClose = function () {
+                curtain.removeClass(modalClasses.curtainVisible);
+                modalContainer.removeClass(modalClasses.modalContainerVisible);
+
+                setTimeout(() => {
+                    curtain.remove();
+                    modalContainer.remove();
+                    xpgpModalOpen = false;
+                }, modalTemplate.transitionTime + 100);
+            }
+
             $(`[class="${modalClasses.button}"]`).click(function() {
                 let buttonKey = $(this).attr("data-name");
 
-                    if (typeof modalTemplate.buttons[buttonKey] == "function") {
-                        let inputs = {};
+                if (typeof modalTemplate.buttons[buttonKey] == "function") {
+                    let inputs = {};
 
-                        $(`[class="${modalClasses.inputContainer}"]`).children()
-                        .each(function() {
-                            inputs[$(this).attr("name")] = $(this).val();
-                        });
+                    $(`[class="${modalClasses.inputContainer}"]`).children()
+                    .each(function() {
+                        inputs[$(this).attr("name")] = $(this).val();
+                    });
 
-                        let shouldClose = modalTemplate.buttons[buttonKey](inputs);
+                    let shouldClose = modalTemplate.buttons[buttonKey](inputs);
 
-                        if (shouldClose) {
-                            curtain.removeClass(modalClasses.curtainVisible);
-                            modalContainer.removeClass(modalClasses.modalContainerVisible);
-
-                            setTimeout(() => {
-                                curtain.remove();
-                                modalContainer.remove();
-                                xpgpModalOpen = false;
-                            }, modalTemplate.transitionTime + 100);
-                        }
+                    if (shouldClose) {
+                        window.xpgpModelClose();
                     }
+                }
             });
         }, 100);
     }
