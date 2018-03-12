@@ -1,8 +1,9 @@
 window.xpgpExampleModal = {
     title: "Confirm credentials",
-    mandatory: true, // Does the modal have an X button in the corner?
-    transitionTime: 400, // How long it takes for the modal to appear / disappear
+    transitionTime: 400, // How long it takes for the modal to appear / disappear.
+    text: "Enter your email address and password.",
     inputs: {
+        // (OPTIONAL)
         // Creates input element. The objects key (password)
         // sets the name attribute, and the keys/values
         // within the object specify the other attributes
@@ -11,7 +12,8 @@ window.xpgpExampleModal = {
         // <input name="password" type="password" placeholder="Password">
         email: {
             type: "text",
-            placeholder: "Email address"
+            placeholder: "Email address",
+            autocomplete: "off"
         },
         password: {
             type: "password",
@@ -19,15 +21,17 @@ window.xpgpExampleModal = {
         }
     },
     buttons: {
+        // (OPTIONAL)
         // Creates button element. The object's key (Confirm)
         // sets the inner html. The function's parameter (inputs)
         // is an objects where the keys are the keys from the inputs object
         // defined above, and the values are the input elements' values.
         // If you type "password12345" into the password input,
         // the inputs object would look like this:
-        // { password: "password12345" }
-        // The generated button element would look like this:
-        // <button>Confirm</button>
+        // { email: "...", password: "password12345" }
+        // The generated button elements would look like this:
+        // <button data-name="Cancel">Cancel</button>
+        // <button data-name="Confirm">Confirm</button>
         Cancel: () => { return true; },
         Confirm: (inputs) => {
             inputs.password = inputs.password.trim();
@@ -54,9 +58,10 @@ const xpgpModalDefaultClasses = {
     modal: "xpgp-modal",
     modalContent: "xpgp-modal-content",
     title: "xpgp-modal-title",
-    closeButton: "xpgp-modal-closebutton",
+    textContainer: "xpgp-modal-text-container",
+    text: "xpgp-modal-text",
     inputContainer: "xpgp-modal-input-container",
-    input: "content-input",
+    input: "xpgp-modal-input",
     buttonContainer: "xpgp-modal-button-container",
     button: "content-panel-button content-panel-button-highlighted",
 };
@@ -104,6 +109,11 @@ $(() => {
 
             return;
         }
+
+        // If there are no buttons specified, make one
+        modalTemplate.buttons = modalTemplate.buttons || {
+            Okay: () => { return true; }
+        }
         
         xpgpModalOpen = true;
         let modalClasses = xpgpModalDefaultClasses;
@@ -129,17 +139,26 @@ $(() => {
 
             <div class="${modalClasses.modalContainer}">
                 <div class="${modalClasses.modal}">      
-                    ${
-                        modalTemplate.mandatory ?
-                        `<div class="${modalClasses.closeButton}">&times;</div>` : ""
-                    }      
-
-                    <h1 class="${modalClasses.title}">${modalTemplate.title}</h1>
+                    <div class="${modalClasses.title}">${modalTemplate.title}</div>
 
                     <div class="${modalClasses.modalContent}">
-                        <div class="${modalClasses.inputContainer}">
-                            ${xpgpModalCreateInputs(modalTemplate.inputs, modalClasses)}
-                        </div>
+                        ${
+                            modalTemplate.text ?
+                            `
+                                <div class="${modalClasses.textContainer}">
+                                    <p class="${modalClasses.text}">${modalTemplate.text}</p>
+                                </div>
+                            ` : ""
+                        }
+
+                        ${
+                            modalTemplate.inputs ? 
+                            `
+                                <div class="${modalClasses.inputContainer}">
+                                    ${xpgpModalCreateInputs(modalTemplate.inputs, modalClasses)}
+                                </div>
+                            `: ""
+                        }
 
                         <div class="${modalClasses.buttonContainer}">
                             ${xpgpModalCreateButtons(modalTemplate.buttons, modalClasses)}                
