@@ -1,12 +1,18 @@
 window.xpgpExampleModal = {
-    title: "Confirm your password",
+    title: "Confirm credentials",
     mandatory: true, // Does the modal have an X button in the corner?
+    transitionTime: 400, // How long it takes for the modal to appear / disappear
     inputs: {
         // Creates input element. The objects key (password)
         // sets the name attribute, and the keys/values
         // within the object specify the other attributes
-        // This would create the following element:
+        // This would create the following elements:
+        // <input name="email" type="text" placeholder="Email address">
         // <input name="password" type="password" placeholder="Password">
+        email: {
+            type: "text",
+            placeholder: "Email address"
+        },
         password: {
             type: "password",
             placeholder: "Password"
@@ -22,6 +28,7 @@ window.xpgpExampleModal = {
         // { password: "password12345" }
         // The generated button element would look like this:
         // <button>Confirm</button>
+        Cancel: () => { return true; },
         Confirm: (inputs) => {
             inputs.password = inputs.password.trim();
 
@@ -36,10 +43,16 @@ window.xpgpExampleModal = {
     }
 };
 
+let xpgpModalOpen = false;
 const xpgpModalDefaultClasses = {
-    curtain: "xpgp-modal-curtain", // Darkens the screen to increase contrast
+    // Darkens the screen to increase contrast
+    curtain: "xpgp-modal-curtain",
+    // Applies after creation, used for transitions
+    curtainVisible: "xpgp-modal-curtain-visible",
     modalContainer: "xpgp-modal-container",
+    modalContainerVisible: "xpgp-modal-container-visible",
     modal: "xpgp-modal",
+    modalContent: "xpgp-modal-content",
     title: "xpgp-modal-title",
     closeButton: "xpgp-modal-closebutton",
     inputContainer: "xpgp-modal-input-container",
@@ -68,8 +81,6 @@ $(() => {
             html += `>`;
         }
 
-        html += `</div>`;
-
         return html;
     }
 
@@ -81,13 +92,20 @@ $(() => {
 
             let button = buttons[buttonKey];
 
-            html += `<button class="${modalClasses.button}">${buttonKey}</button>`;
+            html += `<button class="${modalClasses.button}" data-name="${buttonKey}">${buttonKey}</button>`;
         }
 
         return html;
     }
 
-    $.xpgpModal = function (modalTemplate, modalOverrideClasses) {
+    $.xpgpModal = function(modalTemplate, modalOverrideClasses) {
+        if (xpgpModalOpen) {
+            console.error("Only one modal can be open at a time.");
+            
+            return;
+        }
+        
+        xpgpModalOpen = true;
         let modalClasses = xpgpModalDefaultClasses;
 
         if (modalOverrideClasses) {
@@ -106,29 +124,84 @@ $(() => {
             }
         }
 
-        let modal = `
+        let html = `
             <div class="${modalClasses.curtain}">&nbsp</div>
 
             <div class="${modalClasses.modalContainer}">
-                ${
-                    modalTemplate.mandatory ?
-                    `<div class="${modalClasses.closeButton}">&times;</div>` : ""
-                }
+                <div class="${modalClasses.modal}">      
+                    ${
+                        modalTemplate.mandatory ?
+                        `<div class="${modalClasses.closeButton}">&times;</div>` : ""
+                    }      
 
-                <div class="${modalClasses.modal}">            
-                    <h1 class="${modalClasses.title}"></h1>
+                    <h1 class="${modalClasses.title}">${modalTemplate.title}</h1>
 
-                    <div class="${modalClasses.inputContainer}">
-                        ${xpgpModalCreateInputs(modalTemplate.inputs, modalClasses)}
-                    </div>
+                    <div class="${modalClasses.modalContent}">
+                        <div class="${modalClasses.inputContainer}">
+                            ${xpgpModalCreateInputs(modalTemplate.inputs, modalClasses)}
+                        </div>
 
-                    <div class="${modalClasses.buttonContainer}">
-                        ${xpgpModalCreateButtons(modalTemplate.buttons, modalClasses)}                
+                        <div class="${modalClasses.buttonContainer}">
+                            ${xpgpModalCreateButtons(modalTemplate.buttons, modalClasses)}                
+                        </div>
                     </div>
                 </div>
             </div>
         `;
 
-        console.log(modal);
+        let modal = $(html).prependTo($("body"));
+
+        setTimeout(() => { // Do this after the DOM operation is finished
+            let curtain = $(`[class="${modalClasses.curtain}"]`);
+            let modalContainer = $(`[class="${modalClasses.modalContainer}"]`);
+
+            curtain.addClass(modalClasses.curtainVisible);
+            modalContainer.addClass(modalClasses.modalContainerVisible);
+
+            $(`[class="${modalClasses.button}"]`).click(function() {
+                let buttonKey = $(this).attr("data-name");
+
+                    if (typeof modalTemplate.buttons[buttonKey] == "function") {
+                        let inputs = {};
+
+                        $(`[class="${modalClasses.inputContainer}"]`).children()
+                        .each(function() {
+                            inputs[$(this).attr("name")] = $(this).val();
+                        });
+
+                        let shouldClose = modalTemplate.buttons[buttonKey](inputs);
+
+                        if (shouldClose) {
+                            curtain.removeClass(modalClasses.curtainVisible);
+                            modalContainer.removeClass(modalClasses.modalContainerVisible);
+
+                            setTimeout(() => {
+                                curtain.remove();
+                                modalContainer.remove();
+                                xpgpModalOpen = false;
+                            }, modalTemplate.transitionTime + 100);
+                        }
+                    }
+            });
+
+            // for (let buttonKey in modalTemplate.buttons) {
+            //     if (!modalTemplate.buttons.hasOwnProperty(buttonKey)) continue;
+
+            //     $(`.${modalClasses.button}[data-name="${buttonKey}"]`).click(() => {
+            //         console.log("shit")
+            //         if (typeof modalTemplate.buttons[buttonKey] == "function") {
+            //             let inputs = {};
+
+            //             $(`.${modalClasses.inputContainer}`).each((input) => {
+            //                 inputs[input.attr("name")] = input.val();
+            //             });
+
+            //             console.log(inputs);
+
+            //             let shouldClose = modalTemplate.buttons[buttonKey]();
+            //         }
+            //     });              
+            // }
+        }, 100);
     }
 });
