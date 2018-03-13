@@ -1,6 +1,7 @@
 window.xpgpExampleModal = {
     title: "Confirm credentials",
     text: "Enter your email address and password.",
+    width: 455,
     inputs: {
         // (OPTIONAL)
         // Creates input element. The objects key (password)
@@ -118,7 +119,7 @@ $(() => {
 
             return;
         }
-
+        
         // If there are no buttons specified, make one
         modalTemplate.buttons = modalTemplate.buttons || {
             Okay: () => { return true; }
@@ -179,11 +180,15 @@ $(() => {
             </div>
         `;
 
-        let modal = $(html).prependTo($("body"));  
+        let modal = $(html).prependTo($("body"));
+        let modalContainer = $(`[class="${modalClasses.modalContainer}"]`);        
+
+        if (modalTemplate.width) {
+            modalContainer.css({ width: modalTemplate.width })
+        }
 
         setTimeout(() => { // Do this after the DOM operation is finished
             let curtain = $(`[class="${modalClasses.curtain}"]`);
-            let modalContainer = $(`[class="${modalClasses.modalContainer}"]`);
 
             curtain.addClass(modalClasses.curtainVisible);
             modalContainer.addClass(modalClasses.modalContainerVisible);
