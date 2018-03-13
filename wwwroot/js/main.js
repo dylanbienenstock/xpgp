@@ -43,6 +43,7 @@ function generateKeyPair() {
 
                 $.xpgpModal({
                     title: "Notice",
+                    width: 400,
                     text: `
                         Public key requested. If the download 
                         takes longer than 5 seconds to begin,
