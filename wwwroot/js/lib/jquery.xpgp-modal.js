@@ -1,6 +1,5 @@
 window.xpgpExampleModal = {
     title: "Confirm credentials",
-    transitionTime: 550, // How long it takes for the modal to appear / disappear.
     text: "Enter your email address and password.",
     inputs: {
         // (OPTIONAL)
@@ -34,8 +33,6 @@ window.xpgpExampleModal = {
         // <button data-name="Confirm">Confirm</button>
         Cancel: () => { return true; },
         Confirm: (inputs) => {
-            inputs.password = inputs.password.trim();
-
             xpgpModalLoading(true);
 
             setTimeout(() => { // Pretend to wait a bit
@@ -47,7 +44,6 @@ window.xpgpExampleModal = {
     }
 };
 
-let xpgpModalOpen = false;
 const xpgpModalDefaultClasses = {
     // Darkens the screen to increase contrast
     curtain: "xpgp-modal-curtain",
@@ -69,7 +65,9 @@ const xpgpModalDefaultClasses = {
     loadingSpinnerVisible: "xpgp-modal-loading-visible"
 };
 
-$(() => {
+$(() => { 
+    var xpgpModalOpen = false;
+    
     function xpgpModalCreateInputs(inputs, modalClasses) {
         let html = "";
 
@@ -106,7 +104,17 @@ $(() => {
         return html;
     }
 
+    $("html, body").keydown((e) => {
+        if (e.key == "Escape") {
+            e.preventDefault();
+            e.stopPropagation();
+            $.xpgpModal(window.xpgpExampleModal);
+        }
+    });  
+
     $.xpgpModal = function(modalTemplate, modalOverrideClasses) {
+        console.log(xpgpModalOpen);
+
         if (xpgpModalOpen) {
             console.error("Only one modal can be open at a time.");
 
@@ -119,7 +127,7 @@ $(() => {
         }
         
         xpgpModalOpen = true;
-        let modalClasses = xpgpModalDefaultClasses;
+        var modalClasses = xpgpModalDefaultClasses;
 
         if (modalOverrideClasses) {
             modalClasses = {};
@@ -173,7 +181,7 @@ $(() => {
             </div>
         `;
 
-        let modal = $(html).prependTo($("body"));
+        let modal = $(html).prependTo($("body"));  
 
         setTimeout(() => { // Do this after the DOM operation is finished
             let curtain = $(`[class="${modalClasses.curtain}"]`);
@@ -186,11 +194,22 @@ $(() => {
                 curtain.removeClass(modalClasses.curtainVisible);
                 modalContainer.removeClass(modalClasses.modalContainerVisible);
 
-                setTimeout(() => {
+                let transitionend = `
+                    transitionend
+                    webkitTransitionEnd
+                    oTransitionEnd
+                    otransitionend
+                    MSTransitionEnd
+                `;
+                
+                modalContainer.on(transitionend, function(e) {
+                    if (e.target.className != modalContainer.attr("class")) return;
+                    
                     curtain.remove();
+                    modalContainer.unbind(transitionend);
                     modalContainer.remove();
                     xpgpModalOpen = false;
-                }, modalTemplate.transitionTime + 100);
+                });
             }
 
             window.xpgpModalLoading = function(loading) {
