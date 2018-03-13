@@ -38,13 +38,24 @@ function generateKeyPair() {
                 text: document.location.origin + response.viewUrl
             });
 
-            $("#content-panel-newkeypair-button-download").click(function (e) {
+            $("#content-panel-newkeypair-button-download").click((e) => {
                 e.preventDefault();
+
+                $.xpgpModal({
+                    title: "Notice",
+                    text: `
+                        Public key requested. If the download 
+                        takes longer than 5 seconds to begin,
+                        <a href="${response.downloadUrl}">click here</a>.
+                    `
+                });
+
                 window.location.href = response.downloadUrl;
             });
 
-            $("#content-panel-newkeypair-button-share").click(function (e) {
+            $("#content-panel-newkeypair-button-share").click((e) => {
                 copyToClipboard(document.location.origin + response.viewUrl);
+
                 $.xpgpModal({
                     title: "Notice",
                     text: "Link has been copied to clipboard."
