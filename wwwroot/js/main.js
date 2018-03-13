@@ -17,7 +17,8 @@ $(function () {
 });
 
 function generateKeyPair() {
-    $("#content-panel-qrcode-loading").animate({ opacity: 1 });
+    console.log("asda")
+    $("#content-panel-qrcode-loading").show().animate({ opacity: 1 });
 
     $("#content-panel-newkeypair-button-generate")
         .addClass("content-panel-button-disabled")
@@ -27,7 +28,7 @@ function generateKeyPair() {
 
     var $form = $("#content-panel-newkeypair-form");
 
-    $form.ajaxSubmit(function(response) {        
+    $form.ajaxSubmit(function(response) {
         $("#content-panel-qrcode-loading").hide();     
 
         if (response.success) {
@@ -60,8 +61,37 @@ function generateKeyPair() {
         }
         else
         {
-            alert(response.errors.join("\n"));
-            location.reload();
+            $.xpgpModal({
+                title: "Error",
+                text: `
+                    The following errors occurred:
+
+                    <ul>
+                        ${
+                            (() => {
+                                let str = "";
+
+                                for (let i = 0; i < response.errors.length; i++) {
+                                    str += `<li>${response.errors[i]}</li>`;
+                                }
+                                
+                                return str;
+                            })()
+                        }
+                    </ul>
+                `,
+                buttons: {
+                    Okay: () => {
+                        $("#content-panel-newkeypair-button-generate")
+                            .removeClass("content-panel-button-disabled")
+                            .removeClass("content-panel-button-unhighlighted")
+                            .addClass("content-panel-button-highlighted")
+                            .prop("disabled", false);
+
+                        return true;
+                    }
+                }
+            });
         }
     });
 }
