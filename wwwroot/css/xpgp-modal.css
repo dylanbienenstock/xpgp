@@ -23,6 +23,7 @@
     position: fixed;
     left: 50%;
     top: 0;
+    min-width: 425px;    
     transform: translate(-50%, -100%);
 
     background-color: var(--optionbar-background-color);
@@ -44,7 +45,7 @@
 }
 
 .xpgp-modal {
-    min-width: 450px;
+    display: inline;
 }
 
 .xpgp-modal-title {
@@ -68,6 +69,10 @@
     margin-bottom: var(--content-padding);
     color: white;
     font-size: 16;
+}
+
+.xpgp-modal-text > a {
+    color: white;
 }
 
 .xpgp-modal-input {
