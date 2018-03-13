@@ -113,8 +113,6 @@ $(() => {
     });  
 
     $.xpgpModal = function(modalTemplate, modalOverrideClasses) {
-        console.log(xpgpModalOpen);
-
         if (xpgpModalOpen) {
             console.error("Only one modal can be open at a time.");
 
