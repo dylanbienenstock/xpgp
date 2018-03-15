@@ -143,14 +143,28 @@ $(() => {
         $("#keypair-display-button-unpin-form").submit();
     });
 
-    $("#keypair-display-button-download").click((e) => {
-        e.preventDefault();
+    $("#keypair-display-button-download").click((e) => {        
+        $.xpgpModal({
+            title: "Notice",
+            width: 400,
+            text: `
+                    Public key requested. If the download 
+                    takes longer than 5 seconds to begin,
+                    <a href="${$(selectedKeyPair).attr("data-downloadurl")}">click here</a>.
+                `
+        });
+
+        e.preventDefault();        
         window.location.href = $(selectedKeyPair).attr("data-downloadurl");
     });
 
     $("#keypair-display-button-share").click(() => {
         copyToClipboard(document.location.origin + $(selectedKeyPair).attr("data-viewurl"));
-        alert("Link copied to clipboard.")
+        
+        $.xpgpModal({
+            title: "Notice",
+            text: "Link has been copied to clipboard."
+        });
     });
 
     $("#content-panel-header-back").click(function () {
