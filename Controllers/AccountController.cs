@@ -47,7 +47,7 @@ namespace xpgp
             if (ModelState.IsValid)
             {
                 // Successful registration
-                UserManager.CreateAccount(model);
+                User user = UserManager.CreateAccount(model);
                 UserManager.Login(model.EmailAddress, model.Password, HttpContext.Session);
 
                 return RedirectToAction("Index", "Main");

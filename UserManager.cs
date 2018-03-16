@@ -33,7 +33,7 @@ namespace xpgp
             NotificationHelpers.SetDatabaseContext(context);
         }
 
-        public static void CreateAccount(RegisterViewModel model)
+        public static User CreateAccount(RegisterViewModel model)
         {
             User user = new User
             {
@@ -47,6 +47,8 @@ namespace xpgp
 
             _context.Add(user);
             _context.SaveChanges();
+
+            return user;
         }
 
         public static void CreateLoginToken(User user)
