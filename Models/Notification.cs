@@ -37,7 +37,7 @@ namespace xpgp.Models
         new Dictionary<NotificationType, string>
         {
             { NotificationType.Account, "" },
-            { NotificationType.AccountSetup, "" },
+            { NotificationType.AccountSetup, "Finish setting up your account" },
             { NotificationType.KeySaved, "%User has saved your key: %Key" },
             { NotificationType.KeyExpired, "%User's key has expired: %Key" },
             { NotificationType.EmailRequested, "" },
@@ -100,9 +100,9 @@ namespace xpgp.Models
 
         public User AssociatedUser { get; set; }
         
-        public int AssociatedUserId { get; set; }
+        public int? AssociatedUserId { get; set; }
 
-        public int AssociatedModelId { get; set; }
+        public int? AssociatedModelId { get; set; }
 
         public NotificationType NotificationType { get; set; }
 
