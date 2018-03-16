@@ -3,6 +3,7 @@
 var accountMenuOpen = false;
 var mobileMenuOpen = false;
 var notificationMenuOpen = false;
+var notificationMenuEverOpened = false;
 
 $(() => {
     $(".notification-content-datetime").timeago();
@@ -51,6 +52,12 @@ $(() => {
             e.stopPropagation();
             e.preventDefault();
 
+            if (notificationMenuEverOpened) {
+                $.post(document.location.origin + "/NotificationsSeen")
+            }
+
+            notificationMenuEverOpened = true;
+
             $("#navbar-notification-menu").slideDown(150);
             $("#navbar-mobile-menu").hide();
             $("#navbar-account-menu").hide();
@@ -58,7 +65,7 @@ $(() => {
             positionNotificationMenu();
             notificationMenuOpen = true;            
             mobileMenuOpen = false;
-            accountMenuOpen = false;            
+            accountMenuOpen = false;     
         }
     });
 

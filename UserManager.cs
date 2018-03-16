@@ -163,7 +163,8 @@ namespace xpgp
                 n => n.UserId == identity.UserId
             ).Include(n => n.AssociatedUser);
 
-            ViewBag.Notifications = notifications;
+            ViewBag.NewNotifications = notifications.Where(n => !n.Seen);
+            ViewBag.OldNotifications = notifications.Where(n => n.Seen);
         }
     }
 }
