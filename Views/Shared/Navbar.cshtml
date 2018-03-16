@@ -75,59 +75,12 @@
                 <div id="navbar-notification-menu-notifications-new">
                     @foreach (var Notification in ViewBag.Notifications)
                     {
-                        <div class="notification">
-                            <div class="notification-icon-container">
-                                <img class="notification-icon" src="/ProfileImage/1">
-                            </div>
-
-                            <div class="notification-content">
-                                <div class="notification-content-inner">
-                                    @Html.NotificationContent((Notification)Notification)                        
-                                </div>
-
-                                <abbr class="notification-content-datetime"
-                                title="@Notification.CreatedAt.ToString()"></abbr>
-                            </div>
-                        </div>
+                        @Html.Partial("Notification", (Notification)Notification);
                     }
                 </div>
 
                 <div id="navbar-notification-menu-notifications-old">
-                    @foreach (var Notification in ViewBag.Notifications)
-                    {
-                        <div class="notification">
-                            <div class="notification-icon-container">
-                                <img class="notification-icon" src="/ProfileImage/1">
-                            </div>
 
-                            <div class="notification-content">
-                                <div class="notification-content-inner">
-                                    @Html.NotificationContent((Notification)Notification)                        
-                                </div>
-
-                                <abbr class="notification-content-datetime"
-                                title="@Notification.CreatedAt.ToString()"></abbr>
-                            </div>
-                        </div>
-                    }
-
-                    @foreach (var Notification in ViewBag.Notifications)
-                    {
-                        <div class="notification">
-                            <div class="notification-icon-container">
-                                <img class="notification-icon" src="/ProfileImage/1">
-                            </div>
-
-                            <div class="notification-content">
-                                <div class="notification-content-inner">
-                                    @Html.NotificationContent((Notification)Notification)                        
-                                </div>
-
-                                <abbr class="notification-content-datetime"
-                                title="@Notification.CreatedAt.ToString()"></abbr>
-                            </div>
-                        </div>
-                    }
                 </div>
             }
         </div>

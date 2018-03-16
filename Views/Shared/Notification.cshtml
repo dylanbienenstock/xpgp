@@ -1,0 +1,20 @@
+@model xpgp.Models.Notification
+
+<div class="notification">
+    <div class="notification-icon-container">
+        <img class="notification-icon" 
+        src="@(Url.Action("NotificationImage", new
+        {
+            NotificationId = @Model.NotificationId 
+        }))">
+    </div>
+
+    <div class="notification-content">
+        <div class="notification-content-inner">
+            @Html.NotificationContent((Notification)Model)                        
+        </div>
+
+        <abbr class="notification-content-datetime"
+        title="@Model.CreatedAt.ToString()"></abbr>
+    </div>
+</div>
