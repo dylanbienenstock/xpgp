@@ -353,6 +353,29 @@ namespace xpgp
         }
 
         [HttpGet]
+        [Route("NotificationImage/{NotificationId}")]
+        public IActionResult NotificationImage(int NotificationId)
+        {
+            Notification notification = _context.Notifications.SingleOrDefault(
+                n => n.NotificationId == NotificationId
+            );
+
+            switch (notification.NotificationType)
+            {
+                case NotificationType.EmailRequested:
+                case NotificationType.KeyExpired:
+                case NotificationType.KeySaved:
+                case NotificationType.QAndAVerification:
+                    return RedirectToAction("ProfileImage", new { UserId = notification.AssociatedUserId });
+            }
+
+            var file = Path.Combine(Directory.GetCurrentDirectory(),
+               "wwwroot", "img", "profile.svg");
+
+            return PhysicalFile(file, "image/svg+xml");
+        }
+
+        [HttpGet]
         [Route("Search")]
         public IActionResult Search(string query)
         {
