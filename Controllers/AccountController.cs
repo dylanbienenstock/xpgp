@@ -50,6 +50,17 @@ namespace xpgp
                 User user = UserManager.CreateAccount(model);
                 UserManager.Login(model.EmailAddress, model.Password, HttpContext.Session);
 
+                Notification notification = new Notification
+                {
+                    UserId = user.UserId,
+                    NotificationType = NotificationType.AccountSetup,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                };
+
+                _context.Notifications.Add(notification);
+                _context.SaveChanges();
+
                 return RedirectToAction("Index", "Main");
             }
 
