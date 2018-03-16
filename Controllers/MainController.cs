@@ -544,7 +544,6 @@ namespace xpgp
                             AssociatedUserId = identity.UserId,
                             AssociatedModelId = keyPair.KeyPairId,
                             NotificationType = NotificationType.KeySaved,
-                            Text = $"{identity.FirstName} {identity.LastName} saved your key: {keyPair.Name}",
                             CreatedAt = DateTime.Now,
                             UpdatedAt = DateTime.Now
                         };
