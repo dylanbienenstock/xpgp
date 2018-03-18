@@ -37,7 +37,7 @@ namespace xpgp.Models
         new Dictionary<NotificationType, string>
         {
             { NotificationType.Account, "" },
-            { NotificationType.AccountSetup, "Finish setting up your account" },
+            { NotificationType.AccountSetup, "Additional action is required to complete your account. %Settings" },
             { NotificationType.KeySaved, "%User has saved your key: %Key" },
             { NotificationType.KeyExpired, "%User's key has expired: %Key" },
             { NotificationType.EmailRequested, "" },
@@ -47,6 +47,15 @@ namespace xpgp.Models
         public static IHtmlContent NotificationContent(this IHtmlHelper htmlHelper, Notification notification)
         {
             string html = Formats[notification.NotificationType];
+
+            if (html.Contains("%Settings"))
+            {
+                string text = "&rarr;&nbsp;Settings";
+                string url = $"/Profile/Settings";
+                string href = '\"' + url + '\"';
+
+                html = html.Replace("%Settings", $@"<a href={href}>{text}</a>");
+            }
 
             if (html.Contains("%User"))
             {
