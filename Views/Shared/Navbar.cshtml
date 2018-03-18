@@ -66,18 +66,25 @@
 
             @if (ViewBag.NewNotifications != null && ViewBag.OldNotifications != null)
             {
-                <p id="navbar-notification-menu-notifications-new-title">
-                    @(((IEnumerable<Notification>)ViewBag.NewNotifications).Count())
-                    @(((IEnumerable<Notification>)ViewBag.NewNotifications).Count() > 1 ? 
-                    "NEW NOTIFICATIONS" : "NEW NOTIFICATION")
-                </p>
+                <script>
+                    window.notificationsSeenUrl = "@(Url.Action("NotificationsSeen", "Main"))";
+                </script>
 
-                <div id="navbar-notification-menu-notifications-new">
-                    @foreach (var Notification in ViewBag.NewNotifications)
-                    {
-                        @Html.Partial("Notification", (Notification)Notification);
-                    }
-                </div>
+                @if (((IEnumerable<Notification>)ViewBag.NewNotifications).Count() > 0)
+                {
+                    <p id="navbar-notification-menu-notifications-new-title">
+                        @(((IEnumerable<Notification>)ViewBag.NewNotifications).Count())
+                        @(((IEnumerable<Notification>)ViewBag.NewNotifications).Count() > 1 ? 
+                        "NEW NOTIFICATIONS" : "NEW NOTIFICATION")
+                    </p>
+                
+                    <div id="navbar-notification-menu-notifications-new">
+                        @foreach (var Notification in ViewBag.NewNotifications)
+                        {
+                            @Html.Partial("Notification", (Notification)Notification);
+                        }
+                    </div>
+                }
 
                 <div id="navbar-notification-menu-notifications-old">
                     @foreach (var Notification in ViewBag.OldNotifications)

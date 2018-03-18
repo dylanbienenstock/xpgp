@@ -52,8 +52,23 @@ $(() => {
             e.stopPropagation();
             e.preventDefault();
 
-            if (notificationMenuEverOpened) {
-                $.post(document.location.origin + "/NotificationsSeen")
+            if (!notificationMenuEverOpened) {
+                let notificationIds = [];
+                let notifications = $(`.notification[data-seen="False"]`);
+
+                if (notifications.length) {
+                    notifications.each(function() {
+                        notificationIds.push($(this).attr("data-id"));
+                    })
+
+                    $.post(
+                        document.location.origin + "/NotificationsSeen",
+                        { NotificationIdsRaw: notificationIds.join() },
+                        (res) => {
+                            console.error(res);
+                        }
+                    );
+                }
             }
 
             notificationMenuEverOpened = true;

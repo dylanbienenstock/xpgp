@@ -1,6 +1,8 @@
 @model xpgp.Models.Notification
 
-<div class="notification">
+<div class="notification"
+data-id="@Model.NotificationId"
+data-seen="@Model.Seen">
     <div class="notification-icon-container">
         <img class="notification-icon" 
         src="@(Url.Action("NotificationImage", new

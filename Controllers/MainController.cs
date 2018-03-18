@@ -375,6 +375,34 @@ namespace xpgp
             return PhysicalFile(file, "image/svg+xml");
         }
 
+        [HttpPost]
+        [Route("NotificationsSeen")]
+        public IActionResult NotificationsSeen(string NotificationIdsRaw) {
+            List<int> NotificationIds = new List<int>();
+
+            foreach (string str in NotificationIdsRaw.Split(',')) {
+                int id;
+
+                if (int.TryParse(str, out id)) {
+                    NotificationIds.Add(id);
+                }
+            }
+
+            var notifications = _context.Notifications.Where(
+                n => NotificationIds.Contains(n.NotificationId)
+            );
+
+            foreach (Notification notification in notifications)
+            {
+                notification.Seen = true;
+                _context.Entry(notification).Property(n => n.Seen).IsModified = true;
+            }
+
+            _context.SaveChanges();
+
+            return Content("OK");
+        }
+
         [HttpGet]
         [Route("Search")]
         public IActionResult Search(string query)
